@@ -20,9 +20,10 @@ devtools::install_github("swhitCBR/failCompare")
 Model fitting routine used to fit one or a set of failure time models. If a single model is specified a "fc_obj" is created, which can be used to adjust a CJS model in the forthcoming "ATLAS" package. If multiple models are specified a "failmod_list" is created containing output from all model fits. 
 
 ```r
+# Fitting a 3-parameter Weibull model
 mod_obj <- fc_fit(time, model="weibull3")
 
-# Defining list of three models to rank
+# Defining list of three models to rank: [1] Gompertz; [2] 3-parameter Weibull model; [3] Vitality (Li and Anderson 2013)
 mod_list <- fc_fit(time, model=c("gompertz","weibull3,"vitality.4p"))
 
 ```
@@ -36,9 +37,8 @@ fc_rank(mod_list)
 
 ### Additional resources
 
-Vitality model information<br>
+General Vitality model information<br>
 http://www.cbr.washington.edu/analysis/vitality
 
 GOF measure definition<br>
 [Skalski and Whitlock (2020)](http://animalbiotelemetry.biomedcentral.com/articles/10.1186/s40317-020-00213-z)
-
