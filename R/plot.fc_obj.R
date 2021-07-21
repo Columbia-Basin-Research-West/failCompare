@@ -22,16 +22,17 @@ plot.fc_obj <- function(x,km=FALSE,km.ci=FALSE,res=100,type="data",...){
   stopifnot(type %in% c("data","resid"))
 
   if(x$mod_choice=="kaplan-meier"){
+    km.ci=TRUE # automatically add
     if(type=="resid"){stop("residual plot not available for kaplan-meier model")}
-    t_rng=x$times$time
+    t_rng=x$fit_vals$time
     ts=seq(max(min(t_rng*.95),0),(max(t_rng)*1.05),length.out = res)
     plot(surv_frac~time,x$times,pch=3,col=NA,xlab="t",ylab=expression(hat("F")(t)),xlim=c(min(ts),max(ts)),...)
-    lines(est~time,x$KM_DF,type="s",col=8,lty=2)
-    legend(legend=c(x$mod_choice,"kaplan-meier (Est)"),"bottomleft",col=c(2,8),lwd=c(4,1),lty=c(1,2))
+    lines(est~time,x$KM_DF,type="s",col=2,lty=1,lwd=4)
+    legend(legend=c("kaplan-meier (Est)"),"bottomleft",col=c(2),lwd=c(4),lty=c(1))
     if(km.ci){
       lines(lcl~time,x$KM_DF,type="s",col=8,lty=3)
       lines(ucl~time,x$KM_DF,type="s",col=8,lty=3)
-      legend(legend=c(x$mod_choice,"kaplan-meier (Est)","kaplan-meier (95% CI)"),"bottomleft",col=c(2,8,8),lwd=c(4,1,1),lty=c(1,2,3))
+      legend(legend=c("kaplan-meier (Est)","kaplan-meier (95% CI)"),"bottomleft",col=c(2,8),lwd=c(4,1),lty=c(1,3))
     }
       points(surv_frac~time,x$times,pch=3,col=1)
     # lines(est~time,x$KM_DF,type="s",col=8,lty=2)
