@@ -13,7 +13,7 @@
 #' @importFrom vitality vitality.4p
 #' @export fc_pred
 #'
-fail_pred <- function(times,pars,model="gompertz"){
+fc_pred <- function(times,pars,model="gompertz"){
   if(model=="weibull"){
     tmp=1-stats::pweibull(times,shape = pars[1],scale=pars[2])
   }

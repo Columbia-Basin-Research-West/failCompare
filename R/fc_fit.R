@@ -31,10 +31,10 @@
 #' @importFrom flexsurv flexsurvreg
 #' @importFrom vitality vitality.ku
 #' @importFrom vitality vitality.4p
-#' @export fc_fit
+#' @export fc_fit 
 #'
 #'
-fail_fit=function(time,model,rc.value=NULL,rt.value=NULL,...){
+fc_fit=function(time,model,rc.value=NULL,rt.value=NULL,...){
   rc=FALSE #temp def
   rt=FALSE #temp def
   if(!is.vector(time)|!is.numeric(time)){stop("A numeric vector is expected for the 'time' argument")}

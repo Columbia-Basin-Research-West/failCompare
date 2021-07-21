@@ -16,7 +16,7 @@
 #' @importFrom graphics plot lines legend points
 #'
 #' @export
-plot.failmod_obj <- function(x,km=FALSE,km.ci=FALSE,res=100,type="data",...){
+plot.fc_obj <- function(x,km=FALSE,km.ci=FALSE,res=100,type="data",...){
   stopifnot(is.logical(km))
   stopifnot(is.logical(km.ci))
   stopifnot(type %in% c("data","resid"))
@@ -45,7 +45,7 @@ plot.failmod_obj <- function(x,km=FALSE,km.ci=FALSE,res=100,type="data",...){
   t_rng=x$fit_vals$time
   ts=seq(max(min(t_rng*.95),0),(max(t_rng)*1.05),length.out = res)
   # survival preds.
-  spred=fail_pred(times=ts,model=x$mod_choice,pars = x$par_tab[,1])
+  spred=fc_pred(times=ts,model=x$mod_choice,pars = x$par_tab[,1])
 
   # Data plot
   if(type=="data"){

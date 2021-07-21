@@ -9,7 +9,7 @@
 #'
 #' @return plot and a message
 #' @export
-plot.failmod_list <- function(x,model=NULL,km=F,res=100,...){
+plot.fc_list <- function(x,model=NULL,km=F,res=100,...){
   # validation
   stopifnot(all(model %in% c("weibull", "gompertz", "gamma", "lognormal", "llogis", "gengamma","vitality.ku","vitality.4p","weibull3")))
   # time increment def.
@@ -61,7 +61,7 @@ plot.failmod_list <- function(x,model=NULL,km=F,res=100,...){
   for(i in 1:length(mod_plts)){
     # survival preds.
     tmp=x$par_tab[x$par_tab$model==mod_plts[i],"est"]
-    spred[[i]]=fail_pred(times=ts,model=mod_plts[i],pars = tmp)
+    spred[[i]]=fc_pred(times=ts,model=mod_plts[i],pars = tmp)
     lines(ts,spred[[i]],col=i+1,lwd=3,lty=i)
   }
 
