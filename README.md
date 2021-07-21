@@ -28,7 +28,9 @@ Ranks the performance of the model using the Skalski and Whitlock (2020) GOF mea
 
 ### Additional resources
 
+Vitality model information
 http://www.cbr.washington.edu/analysis/vitality
 
-*[Skalski and Whitlock (2020)](http://animalbiotelemetry.biomedcentral.com/articles/10.1186/s40317-020-00213-z)*
+GOF measure definition
+[Skalski and Whitlock (2020)](http://animalbiotelemetry.biomedcentral.com/articles/10.1186/s40317-020-00213-z)
 
