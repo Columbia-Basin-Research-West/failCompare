@@ -1,4 +1,4 @@
-Package: failmod
+Package: failCompare
 Title: Failure Time Model Fitting and Goodness of Fit Comparison
 Version: 0.0.4
 Authors@R: 
@@ -15,7 +15,6 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 Imports: 
     flexsurv,
-    ggplot2,
     survival,
     vitality
 Depends: 

@@ -11,6 +11,8 @@
 
 \item{model}{surival model}
 
+\item{km}{Show kaplan-meier estimates}
+
 \item{res}{fineness of survival function preds}
 
 \item{...}{ignore}
