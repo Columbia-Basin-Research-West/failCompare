@@ -1,41 +1,33 @@
-# failmod package
+# failCompare (Failure Time Model Fitting and Goodness of Fit Comparison)
+
+(This package is still in a pre-release phase)
 
 ### Description 
 
-This repository contains the intial attempt to build and publish an R package for fitting and comparing the fit of failure time models.
+A package for fitting and comparing among failure-time/survival models from the F distribution and vitality families, which facilitates visualizing andranking the performance of the model using the Skalski and Whitlock (2020) GOF measure.
 
-### PENDING 
-
-#### Workhorse functions
+### Installation
 
 ```r
-fail_select(fmods,model)
+devtools::install_github("swhitCBR/failCompare")
 ```
-input failmod_list, select one of the models from a failmod_list
-returns a failmod_obj for correcting.
-DONE!!!
+
+*Rtools required for building package from source
+
+#### Main functions
 
 ```r
-fail_compare(obj,group,test)
+fc_fit(fmods,model)
 ```
-Helper function that use log-rank. F dist tests? to determine lots should be modeled separately.
-
-
-#### Generic functions
+Model fitting routine used to fit one or a set of failure time models. If a single model is specified a "fc_obj" is created, which can be used to adjust a CJS model in the forthcoming "ATLAS" package. If multiple models are specified a "failmod_list" is created containing output from all model fits. 
 
 ```r
-predict.failmod_obj(x,newdata,shift)
+fail_rank(obj,group,test)
 ```
-Input failmod_obj.Predict survival probability given new "times" data depending on the model. A temporal shift arguement also a good idea
+Ranks the performance of the model using the Skalski and Whitlock (2020) GOF measure.
 
-```r
-plot.failmod_obj()
-```
+### Additional resources
 
-Quick visualization of parmeteric model vs. the KM estimates
-DONE!!!
-```r
-plot.failmod_list()
-```
-Quick visualization of up to three parmeteric model vs. the KM estimates. If rank table present, then default to displaying 3 top ranking models
-DONE!!!
+http://www.cbr.washington.edu/analysis/vitality
+
+\href{http://animalbiotelemetry.biomedcentral.com/articles/10.1186/s40317-020-00213-z}{Skalski and Whitlock (2020)}
