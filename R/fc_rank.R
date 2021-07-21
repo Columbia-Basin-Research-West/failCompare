@@ -52,7 +52,7 @@ fc_rank <- function(x){
 
   if(is.null(x$"GOF_tab")){
     out1=c(x,list("GOF_tab"=sumDF))
-    out2=structure(out1,class="failmod_list")}
+    out2=structure(out1,class="fc_list")}
   cat("Candidate models ranked by goodness of fit measure:\n\n")
   return(out2)
 }

@@ -18,7 +18,7 @@
 #'
 #' If multiple models are specified a "fc_list" is created containing
 #' output from all model fits. This object serves as an input in the
-#' fail_rank() function, which ranks the performance of the model using
+#' fc_rank() function, which ranks the performance of the model using
 #' the \href{http://animalbiotelemetry.biomedcentral.com/articles/10.1186/s40317-020-00213-z}{Skalski and Whitlock (2020)} GOF measure.
 #'
 #'  (named list)
@@ -233,7 +233,7 @@ return(out)
 print.fc_list <- function(x,...){
   cat("Failure model list object\n\n")
   cat("Contains the following",length(x[["mod_choice"]]),"models: \n",paste(x[["mod_choice"]],collapse = " ; "))
-  if(is.null(x$"GOF_tab")){ cat("\n\n*this object can used to compare model fit using the function: fail_rank()\n")}
+  if(is.null(x$"GOF_tab")){ cat("\n\n*this object can used to compare model fit using the function: fc_rank()\n")}
   if(!is.null(x$"GOF_tab")){cat("\n\nRanked list\n")
     print(x$"GOF_tab")}
   invisible(x)
@@ -292,7 +292,7 @@ summary.fc_list <- function(object,...){
   cat("Summary failure model list \n\n")
   cat("Contains the following",length(object[["mod_choice"]]),"models: \n",paste(object[["mod_choice"]],collapse = " ; "),"\n\n")
   print(object$"mod_obj")
-  if(is.null(object$"GOF_tab")){ cat("\n\n*this object can used to compare model fit using the function: fail_rank()\n")}
+  if(is.null(object$"GOF_tab")){ cat("\n\n*this object can used to compare model fit using the function: fc_rank()\n")}
   if(!is.null(object$"GOF_tab")){cat("\n\nRanked list\n")
     print(object$"GOF_tab")}
   invisible(object)

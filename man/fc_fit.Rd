@@ -31,7 +31,7 @@ used to adjust a CJS model in the "ATLAS" package.
 
 If multiple models are specified a "fc_list" is created containing
 output from all model fits. This object serves as an input in the
-fail_rank() function, which ranks the performance of the model using
+fc_rank() function, which ranks the performance of the model using
 the \href{http://animalbiotelemetry.biomedcentral.com/articles/10.1186/s40317-020-00213-z}{Skalski and Whitlock (2020)} GOF measure.
 
 (named list)
