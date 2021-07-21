@@ -9,7 +9,7 @@
 #' @export
 #'
 fc_rank <- function(x){
-  stopifnot(class(x)=="failmod_list")
+  stopifnot(class(x)=="fc_list")
 
   # Estimating Kaplan Meier values for the data
   KM_mod=survival::survfit(survival::Surv(x[["times"]]$time)~1)
