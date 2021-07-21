@@ -11,7 +11,7 @@
 #' @importFrom flexsurv pgompertz
 #' @importFrom vitality vitality.ku
 #' @importFrom vitality vitality.4p
-#' @export fail_pred
+#' @export fc_pred
 #'
 fail_pred <- function(times,pars,model="gompertz"){
   if(model=="weibull"){

@@ -6,6 +6,7 @@
 #' @param model character vector of specified model(s)
 #' @param rc.value right-censoring cutoff value; only observations with times > rc.value are considered to have failed prematurely.
 #' @param rt.value right-truncation cutoff value; only observations with times < rt.value will be included in the model fitting
+#' @param ... additional arguments passed
 #'
 #' @return A failure model object, if one model specified OR a failure model list object if multiple models are specified
 #'
@@ -30,7 +31,7 @@
 #' @importFrom flexsurv flexsurvreg
 #' @importFrom vitality vitality.ku
 #' @importFrom vitality vitality.4p
-#' @export fail_fit
+#' @export fc_fit
 #'
 #'
 fail_fit=function(time,model,rc.value=NULL,rt.value=NULL,...){

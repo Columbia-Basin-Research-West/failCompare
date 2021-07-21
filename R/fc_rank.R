@@ -1,7 +1,7 @@
 
 #' @title Ranking failure time models based on goodness of fit (GOF)
 #'
-#' @param x an object of class "failmod_list"
+#' @param x an object of class "fc_list"
 #'
 #' @details Goodness of fit measure from Skalski and Whitlock (2020)
 #'

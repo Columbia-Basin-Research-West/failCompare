@@ -1,10 +1,10 @@
 #' @title Selecting a failure time model from a list
-#' @description Select a failure time model from predefined list of candidate models produced by the function "fail_fit()"
+#' @description Select a failure time model from predefined list of candidate models produced by the function "fc_fit()"
 #'
-#' @param mod_ls failmod_list
+#' @param mod_ls fc_list
 #' @param model model selected from my list
 #'
-#' @return failmod_obj that may be used for taglife correction using the "ATLAS" R package.
+#' @return fc_obj that may be used for taglife correction using the "ATLAS" R package.
 #' @export
 #'
 fail_select <- function(mod_ls,model){
