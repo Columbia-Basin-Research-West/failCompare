@@ -12,10 +12,10 @@
 #' @details
 #' Model fitting routine used to fit one or a set of failure time models
 #'
-#' If a single model is specified a "failmod_obj" is created, which can be
+#' If a single model is specified a "fc_obj" is created, which can be
 #' used to adjust a CJS model in the "ATLAS" package.
 #'
-#' If multiple models are specified a "failmod_list" is created containing
+#' If multiple models are specified a "fc_list" is created containing
 #' output from all model fits. This object serves as an input in the
 #' fail_rank() function, which ranks the performance of the model using
 #' the \href{http://animalbiotelemetry.biomedcentral.com/articles/10.1186/s40317-020-00213-z}{Skalski and Whitlock (2020)} GOF measure.
@@ -80,7 +80,7 @@ fail_fit=function(time,model,rc.value=NULL,rt.value=NULL,...){
 
   if("kaplan-meier" %in% model & length(model)>1){
     model=model[model!="kaplan-meier"]
-    message("'kaplan-meier' cannot be included in a failmod_list with parametric models, and will be removed")
+    message("'kaplan-meier' cannot be included in a fc_list with parametric models, and will be removed")
   }
 
   fit=list()
@@ -149,7 +149,7 @@ fail_fit=function(time,model,rc.value=NULL,rt.value=NULL,...){
     }
   }
 
-  # Combined table of parameter estimates for all fitted models (Associated with failmod_list)
+  # Combined table of parameter estimates for all fitted models (Associated with fc_list)
   if(length(model)>1){
     par_ls=sapply(seq_along(fit),function(i){
       tmp_mod_nm=names(fit)[i]
@@ -175,11 +175,11 @@ fail_fit=function(time,model,rc.value=NULL,rt.value=NULL,...){
                 "mod_objs"=fit,
                 "par_tab"=par_tab,
                 "KM_DF"=KM_DF)
-    out=structure(out_ls,class="failmod_list")
+    out=structure(out_ls,class="fc_list")
 
     }
 
-  # Table of parameter estimates for the single-model case (Associated with failmod_obj)
+  # Table of parameter estimates for the single-model case (Associated with fc_obj)
   else{
     # if only K-M specified
     if(model=="kaplan-meier"){
@@ -207,7 +207,7 @@ fail_fit=function(time,model,rc.value=NULL,rt.value=NULL,...){
                 "par_tab"=par_tab,
                 "KM_DF"=KM_DF)
 
-    out=structure(out_ls,class="failmod_obj")
+    out=structure(out_ls,class="fc_obj")
   }
 
 return(out)
@@ -217,19 +217,19 @@ return(out)
 }
 
 # function that limits the amount of output displayed when
-# a failmod_obj or a failmod_list is called
-#' @title print.failmod_list()
+# a fc_obj or a fc_list is called
+#' @title print.fc_list()
 #'
-#' @description Printed output for class "failmod_list"
+#' @description Printed output for class "fc_list"
 #'
-#' @param x an object of class "failmod_list"
+#' @param x an object of class "fc_list"
 #' @param ... ignored
 #'
 #' @return description of list of models
 #'
 #' @export
 #'
-print.failmod_list <- function(x,...){
+print.fc_list <- function(x,...){
   cat("Failure model list object\n\n")
   cat("Contains the following",length(x[["mod_choice"]]),"models: \n",paste(x[["mod_choice"]],collapse = " ; "))
   if(is.null(x$"GOF_tab")){ cat("\n\n*this object can used to compare model fit using the function: fail_rank()\n")}
@@ -238,16 +238,16 @@ print.failmod_list <- function(x,...){
   invisible(x)
 }
 
-#' @title print.failmod_obj()
+#' @title print.fc_obj()
 #'
-#' @description Printed output for class "failmod_obj"
+#' @description Printed output for class "fc_obj"
 #'
-#' @param x an object of class "failmod_obj"
+#' @param x an object of class "fc_obj"
 #' @param ... ignored
 #'
 #' @export
 #'
-print.failmod_obj <- function(x,...){
+print.fc_obj <- function(x,...){
   if(x[["mod_choice"]]=="kaplan-meier"){
     cat("Kaplan-Meier estimates for increments between failure times\n")
     print(x[["KM_DF"]][,-c(1)])
@@ -263,31 +263,31 @@ print.failmod_obj <- function(x,...){
 }
 
 
-#' @title Summary of failmod object
-#' @details Detailed summary of model objects in failmod object
+#' @title Summary of fc object
+#' @details Detailed summary of model objects in fc object
 #'
-#' @param object object of class failmod_obj
+#' @param object object of class fc_obj
 #' @param ... ignore
 #'
-#' @return Summary of failmod_obj model fit calls
+#' @return Summary of fc_obj model fit calls
 #' @export
 #'
-summary.failmod_obj <- function(object,...){
+summary.fc_obj <- function(object,...){
   cat("Summary of",paste(object[["mod_choice"]],"failure model object \n\n"))
   print(object$"mod_obj")
   cat("\n*This object can be used to adjust survival estimates using the 'ATLAS' package\n")
   invisible(object)
 }
 
-#' @title Sumary of failmod list
-#' @details Detailed summary of model objects in failmod list object
+#' @title Sumary of fc list
+#' @details Detailed summary of model objects in fc list object
 #'
-#' @param object object of class failmod_list
+#' @param object object of class fc_list
 #' @param ... ignore
 #'
 #' @return Summary of model fitting calls and GOF rankings (if available)
 #' @export
-summary.failmod_list <- function(object,...){
+summary.fc_list <- function(object,...){
   cat("Summary failure model list \n\n")
   cat("Contains the following",length(object[["mod_choice"]]),"models: \n",paste(object[["mod_choice"]],collapse = " ; "),"\n\n")
   print(object$"mod_obj")

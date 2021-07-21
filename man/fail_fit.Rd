@@ -24,10 +24,10 @@ Code for fitting a particular tag-life model or models
 \details{
 Model fitting routine used to fit one or a set of failure time models
 
-If a single model is specified a "failmod_obj" is created, which can be
+If a single model is specified a "fc_obj" is created, which can be
 used to adjust a CJS model in the "ATLAS" package.
 
-If multiple models are specified a "failmod_list" is created containing
+If multiple models are specified a "fc_list" is created containing
 output from all model fits. This object serves as an input in the
 fail_rank() function, which ranks the performance of the model using
 the \href{http://animalbiotelemetry.biomedcentral.com/articles/10.1186/s40317-020-00213-z}{Skalski and Whitlock (2020)} GOF measure.

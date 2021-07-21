@@ -35,10 +35,10 @@ taglife
 
 ```{r single_mod,warning=FALSE}
 
-weib_mod=fail_fit(time=taglife,model="weibull")
+weib_mod=fc_fit(time=taglife,model="weibull")
 weib_mod
 
-vit13_mod=fail_fit(time=taglife,model="vitality.4p")
+vit13_mod=fc_fit(time=taglife,model="vitality.4p")
 vit13_mod
 
 ```
@@ -55,18 +55,18 @@ vit13_mod
 
 ```{r mod sets,warning=FALSE,fig.width=5, fig.height=5}
 
-fmods=fail_fit(taglife,c("weibull","gompertz","gamma","lognormal"))
+fmods=fc_fit(taglife,c("weibull","gompertz","gamma","lognormal"))
 fmods
 par(mfrow=c(1,1))
 plot(fmods)
-fail_rank(fmods)
+fc_rank(fmods)
 ```
 
 ### Ranking models
 ```{r mod rank,warning=FALSE,fig.width=5, fig.height=5}
-fmods_all=fail_fit(taglife,"all")
+fmods_all=fc_fit(taglife,"all")
 fmods_all
-fmods_all_ranked=fail_rank(fmods_all)
+fmods_all_ranked=fc_rank(fmods_all)
 par(mfrow=c(1,1))
 plot(fmods_all_ranked)
 
