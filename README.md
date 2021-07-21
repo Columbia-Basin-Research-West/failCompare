@@ -30,4 +30,5 @@ Ranks the performance of the model using the Skalski and Whitlock (2020) GOF mea
 
 http://www.cbr.washington.edu/analysis/vitality
 
-\href{http://animalbiotelemetry.biomedcentral.com/articles/10.1186/s40317-020-00213-z}{Skalski and Whitlock (2020)}
+*[Skalski and Whitlock (2020)](http://animalbiotelemetry.biomedcentral.com/articles/10.1186/s40317-020-00213-z)*
+
