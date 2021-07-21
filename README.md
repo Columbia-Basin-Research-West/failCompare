@@ -1,4 +1,4 @@
-# failCompare (Failure Time Model Fitting and Goodness of Fit Comparison)
+# failCompare (Failure-Time Model Fitting and Goodness of Fit Comparison)
 
 (This package is still in a pre-release phase)
 
