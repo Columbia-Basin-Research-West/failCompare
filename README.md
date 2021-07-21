@@ -22,7 +22,7 @@ fc_fit(time, model,...)
 Model fitting routine used to fit one or a set of failure time models. If a single model is specified a "fc_obj" is created, which can be used to adjust a CJS model in the forthcoming "ATLAS" package. If multiple models are specified a "failmod_list" is created containing output from all model fits. 
 
 ```r
-# Defining list of three models to rankkkkkk
+# Defining list of three models to rank
 mod_list = fc_fit(time, model=c("gompertz","weibull3,"vitality.ku"))
 
 # Ranking the list of model
