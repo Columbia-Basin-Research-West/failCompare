@@ -12,7 +12,7 @@ A package for fitting and comparing among failure-time/survival models from the 
 devtools::install_github("swhitCBR/failCompare")
 ```
 
-*Rtools required for building package from source
+*Rtools required for building package from source*
 
 ### Main functions
 
