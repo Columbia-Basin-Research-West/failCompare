@@ -1,0 +1,78 @@
+---
+title: "Failure model comparison"
+author: Steve Whitlock
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Taglife_failure_model_comparison}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(failmod)
+```
+
+### loading data
+
+load the example data set from Rocky Reach Dam, Washigton State.
+
+```{r load}
+data(rocky04)
+taglife=rocky04$days   # vector of tag failure times
+
+taglife
+
+```
+
+### Creating a failure model object
+
+```{r single_mod,warning=FALSE}
+
+weib_mod=fail_fit(time=taglife,model="weibull")
+weib_mod
+
+vit13_mod=fail_fit(time=taglife,model="vitality.4p")
+vit13_mod
+
+```
+### Plotting separate model objects
+
+```{r fig, fig.width=11, fig.height=5,echo=TRUE,warning=FALSE,fig.width=5, fig.height=5}
+
+  par(mfrow=c(1,2))
+  plot(weib_mod)
+  plot(vit13_mod)
+```
+
+### Creating alternate model sets
+
+```{r mod sets,warning=FALSE,fig.width=5, fig.height=5}
+
+fmods=fail_fit(taglife,c("weibull","gompertz","gamma","lognormal"))
+fmods
+par(mfrow=c(1,1))
+plot(fmods)
+fail_rank(fmods)
+```
+
+### Ranking models
+```{r mod rank,warning=FALSE,fig.width=5, fig.height=5}
+fmods_all=fail_fit(taglife,"all")
+fmods_all
+fmods_all_ranked=fail_rank(fmods_all)
+par(mfrow=c(1,1))
+plot(fmods_all_ranked)
+
+plot(fmods_all_ranked,c("vitality.ku","vitality.4p"))
+
+plot(fmods_all_ranked,c("gamma","weibull"))
+
+```
+
