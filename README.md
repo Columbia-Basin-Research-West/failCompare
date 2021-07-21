@@ -16,7 +16,7 @@ devtools::install_github("swhitCBR/failCompare")
 
 ### Main functions
 
-#### fc_fit
+#### fc_fit()
 Model fitting routine used to fit one or a set of failure time models. If a single model is specified a "fc_obj" is created, which can be used to adjust a CJS model in the forthcoming "ATLAS" package. If multiple models are specified a "failmod_list" is created containing output from all model fits. 
 
 ```r
@@ -26,7 +26,7 @@ mod_obj <- fc_fit(time, model="weibull3")
 mod_list <- fc_fit(time, model=c("gompertz","weibull3,"vitality.4p"))
 
 ```
-#### fc_rank
+#### fc_rank()
 Ranks the performance of the model using the Skalski and Whitlock (2020) GOF measure.
 
 ```r
