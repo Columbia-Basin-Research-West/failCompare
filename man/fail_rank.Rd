@@ -7,7 +7,7 @@
 fail_rank(x)
 }
 \arguments{
-\item{x}{an object of class "failmod_list"}
+\item{x}{an object of class "fc_list"}
 }
 \value{
 Table of models ranked according to GOF measure

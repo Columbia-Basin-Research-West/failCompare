@@ -7,13 +7,13 @@
 fail_select(mod_ls, model)
 }
 \arguments{
-\item{mod_ls}{failmod_list}
+\item{mod_ls}{fc_list}
 
 \item{model}{model selected from my list}
 }
 \value{
-failmod_obj that may be used for taglife correction using the "ATLAS" R package.
+fc_obj that may be used for taglife correction using the "ATLAS" R package.
 }
 \description{
-Select a failure time model from predefined list of candidate models produced by the function "fail_fit()"
+Select a failure time model from predefined list of candidate models produced by the function "fc_fit()"
 }

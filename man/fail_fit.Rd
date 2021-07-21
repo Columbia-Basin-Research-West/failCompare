@@ -14,6 +14,8 @@ fail_fit(time, model, rc.value = NULL, rt.value = NULL, ...)
 \item{rc.value}{right-censoring cutoff value; only observations with times > rc.value are considered to have failed prematurely.}
 
 \item{rt.value}{right-truncation cutoff value; only observations with times < rt.value will be included in the model fitting}
+
+\item{...}{additional arguments passed}
 }
 \value{
 A failure model object, if one model specified OR a failure model list object if multiple models are specified
