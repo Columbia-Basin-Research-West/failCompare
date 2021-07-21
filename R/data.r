@@ -5,9 +5,9 @@
 #'   \item{days}{life span of acoustic tag, in days}
 #'   ...
 #' }
-"rocky04"
+"sockeye"
 
-#' Lifespans of microacoustic tags uses as part of a juvenile salmon survival studies conducted during two seasons at Little Goose Dam, WA, USA in 2012
+#' Lifespans of microacoustic tags uses as part of a juvenile salmon survival studies conducted during two seasons
 #'
 #' @format A data frame with 150 rows and 2 variables:
 #' \describe{
@@ -15,5 +15,15 @@
 #'   \item{season}{spring or summer study}
 #'   ...
 #' }
-"goose12"
+"chinook"
+
+#' Lifespans of microacoustic tags uses as part of a juvenile steelhead survival study with premature tag failures that require censoring at 79 days.
+#'
+#' @format A data frame with 82 rows and 1 variables:
+#' \describe{
+#'   \item{Day}{life span of acoustic tag, in days}
+#'
+#'   ...
+#' }
+"steelhead"
 

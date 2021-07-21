@@ -24,8 +24,8 @@ library(failCompare)
 load the example data set from Rocky Reach Dam, Washigton State.
 
 ```{r load}
-data(rocky04)
-taglife=rocky04$days   # vector of tag failure times
+data(sockeye)
+taglife=sockeye$days   # vector of tag failure times
 
 taglife
 
