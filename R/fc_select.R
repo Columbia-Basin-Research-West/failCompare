@@ -7,7 +7,7 @@
 #' @return fc_obj that may be used for taglife correction using the "ATLAS" R package.
 #' @export
 #'
-fail_select <- function(mod_ls,model){
+fc_select <- function(mod_ls,model){
   # validation
   stopifnot(is.character(model) & length(model)==1)
   if(!model %in% c(mod_ls$mod_choice,"kaplan-meier")){
