@@ -2,7 +2,7 @@ Package: failCompare
 Title: Failure Time Model Fitting and Goodness of Fit Comparison
 Version: 0.1
 Authors@R: 
-    person(given = "Steven L.",
+    c(person(given = "Steven L.",
            family = "Whitlock",
            role = c("aut", "cre"),
            email = "swhit@uw.edu"),
@@ -13,8 +13,7 @@ Authors@R:
    person(given = "Richard L.",
            family = "Townsend",
            role = c("ctb"),
-           email = "rich@uw.edu")
-
+           email = "rich@uw.edu"))
 Description: Tools for fitting and comparing the performance of failure-time models from the F distribution and Vitality family of models. 
 License: GPL (>= 3)
 Encoding: UTF-8
