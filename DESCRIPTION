@@ -1,10 +1,9 @@
 Package: failCompare
 Title: Failure Time Model Fitting and Goodness of Fit Comparison
 Version: 0.1
-Authors@R: 
-    c(person(given = "Steven L.",
+Authors@R: c(person(given = "Steven L.",
            family = "Whitlock",
-           role = c("aut", "cre"),
+           role = c("aut","cre"),
            email = "swhit@uw.edu"),
    person(given = "Rebecca A.",
            family = "Buchanan",
