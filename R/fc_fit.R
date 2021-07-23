@@ -235,7 +235,7 @@ print.fc_list <- function(x,...){
   cat("Contains the following",length(x[["mod_choice"]]),"models: \n",paste(x[["mod_choice"]],collapse = " ; "))
   if(is.null(x$"GOF_tab")){ cat("\n\n*this object can used to compare model fit using the function: fc_rank()\n")}
   if(!is.null(x$"GOF_tab")){cat("\n\nRanked list\n")
-    print(x$"GOF_tab")}
+    print(x$"GOF_tab")} # and comment too!
   invisible(x)
 }
 
