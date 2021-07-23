@@ -28,18 +28,12 @@ plot.fc_obj <- function(x,km=FALSE,km.ci=FALSE,res=100,type="data",...){
     ts=seq(max(min(t_rng*.95),0),(max(t_rng)*1.05),length.out = res)
     plot(surv_frac~time,x$times,pch=3,col=NA,xlab="t",ylab=expression(hat("F")(t)),xlim=c(min(ts),max(ts)),...)
     lines(est~time,x$KM_DF,type="s",col=2,lty=1,lwd=4)
-    legend(legend=c("kaplan-meier (Est)"),"bottomleft",col=c(2),lwd=c(4),lty=c(1))
     if(km.ci){
       lines(lcl~time,x$KM_DF,type="s",col=8,lty=3)
       lines(ucl~time,x$KM_DF,type="s",col=8,lty=3)
-      legend(legend=c("kaplan-meier (Est)","kaplan-meier (95% CI)"),"bottomleft",col=c(2,8),lwd=c(4,1),lty=c(1,3))
-    }
+      legend(legend=c("kaplan-meier (Est)","kaplan-meier (95% CI)"),"bottomleft",col=c(2,8),lwd=c(4,1),lty=c(1,3))}
+    else{legend(legend=c("kaplan-meier (Est)"),"bottomleft",col=c(2),lwd=c(4),lty=c(1))} # smaller legend if km.ci=F
       points(surv_frac~time,x$times,pch=3,col=1)
-    # lines(est~time,x$KM_DF,type="s",col=8,lty=2)
-    # lines(lcl~time,x$KM_DF,type="s",col=8,lty=3)
-    # lines(ucl~time,x$KM_DF,type="s",col=8,lty=3)
-    # points(surv_frac~time,x$times,pch=3,...)
-    # legend(legend=c("kaplan-meier (Est)","kaplan-meier (95% CI)"),"bottomleft",col=8,lty=c(2,3))
   }
   else{  # Any model other than KM
   # time increment def.
