@@ -68,21 +68,21 @@ plot.fc_list <- function(x,model=NULL,km=F,res=100,...){
   #plotting survival functions
   if(!is.null(x$GOF_tab)){
     if(is.null(model)){
-      legend(legend=paste(mod_plts," (",1:length(mod_plts),")",sep=""),"bottomleft",col=(1:length(mod_plts))+1,lwd=3,lty=1:length(mod_plts),title = "Ranked models")
+      legend(legend=paste(mod_plts," (",1:length(mod_plts),")",sep=""),"bottomleft",col=(1:length(mod_plts))+1,lwd=3,lty=1:length(mod_plts),title = "Ranked models",bty = "n")
       if(km){
         lines(est~time,x$KM_DF,type="s",col=8,lty=2)
-        legend(legend=c("kaplan-meier (Est)",paste(mod_plts," (",1:length(mod_plts),")",sep="")),"bottomleft",col=c(8,(1:length(mod_plts))+1),lwd=3,lty=1:length(mod_plts),title = "Ranked models")}
+        legend(legend=c("kaplan-meier (Est)",paste(mod_plts," (",1:length(mod_plts),")",sep="")),"bottomleft",col=c(8,(1:length(mod_plts))+1),lwd=3,lty=1:length(mod_plts),title = "Ranked models",bty = "n")}
     }
     else{
       sel_rnk=which(as.character(x$GOF_tab[,"model"]) %in% mod_plts)
-      legend(legend=paste(mod_plts," (",sel_rnk,")",sep=""),"bottomleft",col=(1:length(mod_plts))+1,lwd=3,lty=1:length(mod_plts),title = "Ranked models")
+      legend(legend=paste(mod_plts," (",sel_rnk,")",sep=""),"bottomleft",col=(1:length(mod_plts))+1,lwd=3,lty=1:length(mod_plts),title = "Ranked models",bty = "n")
     }
   }
   else{
-    legend(legend=mod_plts,"bottomleft",col=(1:length(mod_plts))+1,lwd=3,lty=1:length(mod_plts),title = "Models")
+    legend(legend=mod_plts,"bottomleft",col=(1:length(mod_plts))+1,lwd=3,lty=1:length(mod_plts),title = "Models",bty = "n")
     if(km){
       lines(est~time,x$KM_DF,type="s",col=8,lty=2)
-      legend(legend=c("kaplan-meier (Est)",mod_plts),"bottomleft",col=c(8,(1:length(mod_plts))+1),lwd=3,lty=1:length(mod_plts),title = "Models")}
+      legend(legend=c("kaplan-meier (Est)",mod_plts),"bottomleft",col=c(8,(1:length(mod_plts))+1),lwd=3,lty=1:length(mod_plts),title = "Models",bty = "n")}
   }
   points(surv_frac~time,x$times,pch=3)
 }

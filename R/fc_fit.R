@@ -21,11 +21,11 @@
 #' fc_rank() function, which ranks the performance of the model using
 #' the \href{http://animalbiotelemetry.biomedcentral.com/articles/10.1186/s40317-020-00213-z}{Skalski and Whitlock (2020)} GOF measure.
 #'
-#'  (named list)
-#' "mod_choice" = character object of model name or vector of model names,
-#' "fit_vals" = data frame with fitted values for each time and 95% confidence interval
-#' "mod_objs" = model objects from various packages: kaplan-meiser ("surival"), vitality models ("vitality")
-#' "par_tab" = dataframe of one or more model's parameter estimates
+#'  (named list) \cr
+#' "mod_choice" = character object of model name or vector of model names \cr
+#' "fit_vals" = data frame with fitted values for each time and 95% confidence interval \cr
+#' "mod_objs" = model objects from various packages: kaplan-meier ("surival"), vitality models ("vitality") \cr
+#' "par_tab" = dataframe of one or more model's parameter estimates \cr
 #'
 #' @importFrom survival Surv
 #' @importFrom flexsurv flexsurvreg
@@ -235,7 +235,7 @@ print.fc_list <- function(x,...){
   cat("Contains the following",length(x[["mod_choice"]]),"models: \n",paste(x[["mod_choice"]],collapse = " ; "))
   if(is.null(x$"GOF_tab")){ cat("\n\n*this object can used to compare model fit using the function: fc_rank()\n")}
   if(!is.null(x$"GOF_tab")){cat("\n\nRanked list\n")
-    print(x$"GOF_tab")}
+    print(x$"GOF_tab")} # and comment too!
   invisible(x)
 }
 

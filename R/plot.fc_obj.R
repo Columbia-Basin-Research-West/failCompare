@@ -28,18 +28,12 @@ plot.fc_obj <- function(x,km=FALSE,km.ci=FALSE,res=100,type="data",...){
     ts=seq(max(min(t_rng*.95),0),(max(t_rng)*1.05),length.out = res)
     plot(surv_frac~time,x$times,pch=3,col=NA,xlab="t",ylab=expression(hat("F")(t)),xlim=c(min(ts),max(ts)),...)
     lines(est~time,x$KM_DF,type="s",col=2,lty=1,lwd=4)
-    legend(legend=c("kaplan-meier (Est)"),"bottomleft",col=c(2),lwd=c(4),lty=c(1))
     if(km.ci){
       lines(lcl~time,x$KM_DF,type="s",col=8,lty=3)
       lines(ucl~time,x$KM_DF,type="s",col=8,lty=3)
-      legend(legend=c("kaplan-meier (Est)","kaplan-meier (95% CI)"),"bottomleft",col=c(2,8),lwd=c(4,1),lty=c(1,3))
-    }
+      legend(legend=c("kaplan-meier (Est)","kaplan-meier (95% CI)"),"bottomleft",col=c(2,8),lwd=c(4,1),lty=c(1,3))}
+    else{legend(legend=c("kaplan-meier (Est)"),"bottomleft",col=c(2),lwd=c(4),lty=c(1))} # smaller legend if km.ci=F
       points(surv_frac~time,x$times,pch=3,col=1)
-    # lines(est~time,x$KM_DF,type="s",col=8,lty=2)
-    # lines(lcl~time,x$KM_DF,type="s",col=8,lty=3)
-    # lines(ucl~time,x$KM_DF,type="s",col=8,lty=3)
-    # points(surv_frac~time,x$times,pch=3,...)
-    # legend(legend=c("kaplan-meier (Est)","kaplan-meier (95% CI)"),"bottomleft",col=8,lty=c(2,3))
   }
   else{  # Any model other than KM
   # time increment def.
@@ -51,16 +45,24 @@ plot.fc_obj <- function(x,km=FALSE,km.ci=FALSE,res=100,type="data",...){
   # Data plot
   if(type=="data"){
   plot(surv_frac~time,x$times,pch=3,col=NA,xlab="t",ylab=expression(hat("F")(t)),xlim=c(min(ts),max(ts)),...) #empty plot
-  legend(legend=x$mod_choice,"bottomleft",col=2,lwd=4) # legend covered up if km==T
+  # legend(legend=x$mod_choice,"bottomleft",col=2,lwd=4) # legend covered up if km==T
   lines(ts,spred,col=2,lwd=4)
   if(km){
     lines(est~time,x$KM_DF,type="s",col=8,lty=2)
-    legend(legend=c(x$mod_choice,"kaplan-meier (Est)"),"bottomleft",col=c(2,8),lwd=c(4,1),lty=c(1,2))
+    # legend(legend=c(x$mod_choice,"kaplan-meier (Est)"),"bottomleft",col=c(2,8),lwd=c(4,1),lty=c(1,2))
     if(km.ci){
       lines(lcl~time,x$KM_DF,type="s",col=8,lty=3)
       lines(ucl~time,x$KM_DF,type="s",col=8,lty=3)
-      legend(legend=c(x$mod_choice,"kaplan-meier (Est)","kaplan-meier (95% CI)"),"bottomleft",col=c(2,8,8),lwd=c(4,1,1),lty=c(1,2,3))
+      # legend(legend=c(x$mod_choice,"kaplan-meier (Est)","kaplan-meier (95% CI)"),"bottomleft",col=c(2,8,8),lwd=c(4,1,1),lty=c(1,2,3))
     }}
+  
+  if(km+km.ci==2)  legend(legend=c(x$mod_choice,"kaplan-meier (Est)","kaplan-meier (95% CI)"),"bottomleft",col=c(2,8,8),lwd=c(4,1,1),lty=c(1,2,3),bty = "n")
+  else{
+    if(km+km.ci==1)  legend(legend=c(x$mod_choice,"kaplan-meier (Est)"),"bottomleft",col=c(2,8),lwd=c(4,1),lty=c(1,2),bty = "n")
+    else legend(legend=x$mod_choice,"bottomleft",col=2,lwd=4,bty = "n")    }
+  
+  
+  
   points(surv_frac~time,x$times,pch=3,col=1,xlab="t",ylab=expression(hat("F")(t)))
   }
   # Residual plot
@@ -74,13 +76,14 @@ plot.fc_obj <- function(x,km=FALSE,km.ci=FALSE,res=100,type="data",...){
   plot(x$fit_vals$time,c(1,x$times$surv_frac)-x$fit_vals$est,col=NA,ylim=c(min_bnds,max_bnds),xlim=c(min(ts),max(ts)),xlab="t",ylab="Residual(KM-Fitted)",...)
   lines(y=rep(0,length(ts)),x=ts,col=2,lwd=4)
   points(x$fit_vals$time,c(1,x$times$surv_frac)-x$fit_vals$est,pch=3)
-  legend(legend=c(x$mod_choice,"kaplan-meier (Est)"),"bottomleft",col=c(2,8),lwd=c(4,1),lty=c(1,2))
+
   lines(x$fit_vals$time,c(1,x$times$surv_frac)-x$fit_vals$est,lty=2,col=8)
   if(km.ci){
     lines(x=x$KM_DF$time,est_lcl,col=8,lty=3)
     lines(x=x$KM_DF$time,est_ucl,col=8,lty=3)
-    legend(legend=c(x$mod_choice,"kaplan-meier (Est)","kaplan-meier (95% CI)"),"bottomleft",col=c(2,8,8),lwd=c(4,1,1),lty=c(1,2,3))
-    }
+    legend(legend=c(x$mod_choice,"kaplan-meier (Est)","kaplan-meier (95% CI)"),"bottomleft",col=c(2,8,8),lwd=c(4,1,1),lty=c(1,2,3),bty = "n")}
+  else{legend(legend=c(x$mod_choice,"kaplan-meier (Est)"),"bottomleft",col=c(2,8),lwd=c(4,1),lty=c(1,2),bty = "n")}
+
   }
   }
 }
