@@ -31,8 +31,8 @@ plot.fc_obj <- function(x,km=FALSE,km.ci=FALSE,res=100,type="data",...){
     if(km.ci){
       lines(lcl~time,x$KM_DF,type="s",col=8,lty=3)
       lines(ucl~time,x$KM_DF,type="s",col=8,lty=3)
-      legend(legend=c("kaplan-meier (Est)","kaplan-meier (95% CI)"),"bottomleft",col=c(2,8),lwd=c(4,1),lty=c(1,3))}
-    else{legend(legend=c("kaplan-meier (Est)"),"bottomleft",col=c(2),lwd=c(4),lty=c(1))} # smaller legend if km.ci=F
+      legend(legend=c("observation","kaplan-meier (Est)","kaplan-meier (95% CI)"),"bottomleft",col=c(1,2,8),lwd=c(NA,4,1),lty=c(NA,1,3),pch=c(3,NA,NA))}
+    else{legend(legend=c("observation","kaplan-meier (Est)"),"bottomleft",col=c(1,2),lwd=c(NA,4),lty=c(NA,1),pch=c(3,NA))} # smaller legend if km.ci=F
       points(surv_frac~time,x$times,pch=3,col=1)
   }
   else{  # Any model other than KM
@@ -44,25 +44,20 @@ plot.fc_obj <- function(x,km=FALSE,km.ci=FALSE,res=100,type="data",...){
 
   # Data plot
   if(type=="data"){
-  plot(surv_frac~time,x$times,pch=3,col=NA,xlab="t",ylab=expression(hat("F")(t)),xlim=c(min(ts),max(ts)),...) #empty plot
-  # legend(legend=x$mod_choice,"bottomleft",col=2,lwd=4) # legend covered up if km==T
+  plot(surv_frac~time,x$times,pch=3,col=NA,xlab="t",ylab=expression(hat("F")(t)),xlim=c(min(ts),max(ts)),...)
   lines(ts,spred,col=2,lwd=4)
   if(km){
     lines(est~time,x$KM_DF,type="s",col=8,lty=2)
-    # legend(legend=c(x$mod_choice,"kaplan-meier (Est)"),"bottomleft",col=c(2,8),lwd=c(4,1),lty=c(1,2))
     if(km.ci){
       lines(lcl~time,x$KM_DF,type="s",col=8,lty=3)
       lines(ucl~time,x$KM_DF,type="s",col=8,lty=3)
-      # legend(legend=c(x$mod_choice,"kaplan-meier (Est)","kaplan-meier (95% CI)"),"bottomleft",col=c(2,8,8),lwd=c(4,1,1),lty=c(1,2,3))
     }}
   
-  if(km+km.ci==2)  legend(legend=c(x$mod_choice,"kaplan-meier (Est)","kaplan-meier (95% CI)"),"bottomleft",col=c(2,8,8),lwd=c(4,1,1),lty=c(1,2,3),bty = "n")
+  if(km+km.ci==2)  legend(legend=c("observation",x$mod_choice,"kaplan-meier (Est)","kaplan-meier (95% CI)"),"bottomleft",col=c(1,2,8,8),lwd=c(NA,4,1,1),lty=c(NA,1,2,3),bty = "n")
   else{
-    if(km+km.ci==1)  legend(legend=c(x$mod_choice,"kaplan-meier (Est)"),"bottomleft",col=c(2,8),lwd=c(4,1),lty=c(1,2),bty = "n")
-    else legend(legend=x$mod_choice,"bottomleft",col=2,lwd=4,bty = "n")    }
-  
-  
-  
+    if(km+km.ci==1)  legend(legend=c("observation",x$mod_choice,"kaplan-meier (Est)"),"bottomleft",col=c(1,2,8),lwd=c(NA,4,1),lty=c(NA,1,2),pch=c(3,NA,NA),bty = "n")
+    else legend(legend=c("observation",x$mod_choice),"bottomleft",col=c(1,2),lwd=c(NA,4),pch=c(3,NA),bty = "n")    }
+
   points(surv_frac~time,x$times,pch=3,col=1,xlab="t",ylab=expression(hat("F")(t)))
   }
   # Residual plot
@@ -81,8 +76,8 @@ plot.fc_obj <- function(x,km=FALSE,km.ci=FALSE,res=100,type="data",...){
   if(km.ci){
     lines(x=x$KM_DF$time,est_lcl,col=8,lty=3)
     lines(x=x$KM_DF$time,est_ucl,col=8,lty=3)
-    legend(legend=c(x$mod_choice,"kaplan-meier (Est)","kaplan-meier (95% CI)"),"bottomleft",col=c(2,8,8),lwd=c(4,1,1),lty=c(1,2,3),bty = "n")}
-  else{legend(legend=c(x$mod_choice,"kaplan-meier (Est)"),"bottomleft",col=c(2,8),lwd=c(4,1),lty=c(1,2),bty = "n")}
+    legend(legend=c("observation",x$mod_choice,"kaplan-meier (Est)","kaplan-meier (95% CI)"),"bottomleft",col=c(1,2,8,8),lwd=c(NA,4,1,1),lty=c(NA,1,2,3),bty = "n")}
+  else{legend(legend=c("observation",x$mod_choice,"kaplan-meier (Est)"),"bottomleft",col=c(1,2,8),lwd=c(NA,4,1),lty=c(NA,1,2),pch=c(3,NA,NA),bty = "n")}
 
   }
   }
