@@ -25,7 +25,7 @@ fc_select <- function(mod_ls,model){
                   mod_objs = mod_ls$mod_objs[[model]],
                   par_tab = NULL,
                   KM_DF=mod_ls$KM_DF)
-    out = structure(out_ls, class = "failmod_obj")
+    out = structure(out_ls, class = "fc_obj")
   }
   else{
   out_ls = list(mod_choice = model,
@@ -37,7 +37,7 @@ fc_select <- function(mod_ls,model){
   # reorder rownames from 1
   rownames(out_ls$fit_vals)=1:nrow(out_ls$fit_vals)
   rownames(out_ls$par_tab)=1:nrow(out_ls$par_tab)
-  out = structure(out_ls, class = "failmod_obj")}
+  out = structure(out_ls, class = "fc_obj")}
 
   return(out)
 }
