@@ -26,7 +26,7 @@ plot.fc_obj <- function(x,km=FALSE,km.ci=FALSE,res=100,type="data",...){
     if(type=="resid"){stop("residual plot not available for kaplan-meier model")}
     t_rng=x$fit_vals$time
     ts=seq(max(min(t_rng*.95),0),(max(t_rng)*1.05),length.out = res)
-    plot(surv_frac~time,x$times,pch=3,col=NA,xlab="t",ylab=expression(hat("F")(t)),xlim=c(min(ts),max(ts)),...)
+    plot(surv_frac~time,x$times,pch=3,col=NA,xlab="t",ylab=expression(hat("S")(t)),xlim=c(min(ts),max(ts)),...)
     lines(est~time,x$KM_DF,type="s",col=2,lty=1,lwd=4)
     if(km.ci){
       lines(lcl~time,x$KM_DF,type="s",col=8,lty=3)
@@ -44,7 +44,7 @@ plot.fc_obj <- function(x,km=FALSE,km.ci=FALSE,res=100,type="data",...){
 
   # Data plot
   if(type=="data"){
-  plot(surv_frac~time,x$times,pch=3,col=NA,xlab="t",ylab=expression(hat("F")(t)),xlim=c(min(ts),max(ts)),...)
+  plot(surv_frac~time,x$times,pch=3,col=NA,xlab="t",ylab=expression(hat("S")(t)),xlim=c(min(ts),max(ts)),...)
   lines(ts,spred,col=2,lwd=4)
   if(km){
     lines(est~time,x$KM_DF,type="s",col=8,lty=2)
@@ -58,7 +58,7 @@ plot.fc_obj <- function(x,km=FALSE,km.ci=FALSE,res=100,type="data",...){
     if(km+km.ci==1)  legend(legend=c("observation",x$mod_choice,"kaplan-meier (Est)"),"bottomleft",col=c(1,2,8),lwd=c(NA,4,1),lty=c(NA,1,2),pch=c(3,NA,NA),bty = "n")
     else legend(legend=c("observation",x$mod_choice),"bottomleft",col=c(1,2),lwd=c(NA,4),pch=c(3,NA),bty = "n")    }
 
-  points(surv_frac~time,x$times,pch=3,col=1,xlab="t",ylab=expression(hat("F")(t)))
+  points(surv_frac~time,x$times,pch=3,col=1)
   }
   # Residual plot
   if(type=="resid"){
