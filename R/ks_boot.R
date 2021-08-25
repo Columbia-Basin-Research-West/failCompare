@@ -5,10 +5,8 @@
 #' @param dist distribution
 #' @param label optional argument for labeling plots
 #'
-#' @return
-#' @export
-#'
-#' @examples
+#' @return P-value and plot of sample distribution of D statistic.
+
 ks_boot <- function(
   times, # vectors of values
   reps=50000,
