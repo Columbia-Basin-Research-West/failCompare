@@ -1,5 +1,4 @@
-ks_boot
-#' Title
+#' @title Simulated Kolmogorov-Smirnov Test
 #'
 #' @param times numeric vector of failure times
 #' @param reps replicates for bootstrap (default to 50k)
@@ -10,7 +9,7 @@ ks_boot
 #' @export
 #'
 #' @examples
-function(
+ks_boot <- function(
   times, # vectors of values
   reps=50000,
   dist="gompertz",
