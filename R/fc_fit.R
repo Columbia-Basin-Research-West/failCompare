@@ -258,7 +258,7 @@ print.fc_obj <- function(x,...){
   cat("Parameter estimates:\n")
   print(x[["par_tab"]])
   }
-  cat("\n*This object can be used to adjust survival estimates using the 'ATLAS' package\n")
+  #cat("\n*This object can be used to adjust survival estimates using the 'ATLAS' package\n")
 
   invisible(x)
 }
