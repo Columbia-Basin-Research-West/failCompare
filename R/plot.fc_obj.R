@@ -53,7 +53,7 @@ plot.fc_obj <- function(x,km=FALSE,km.ci=FALSE,res=100,type="data",...){
       lines(ucl~time,x$KM_DF,type="s",col=8,lty=3)
     }}
   
-  if(km+km.ci==2)  legend(legend=c("observation",x$mod_choice,"kaplan-meier (Est)","kaplan-meier (95% CI)"),"bottomleft",col=c(1,2,8,8),lwd=c(NA,4,1,1),lty=c(NA,1,2,3),bty = "n")
+  if(km+km.ci==2)  legend(legend=c("observation",x$mod_choice,"kaplan-meier (Est)","kaplan-meier (95% CI)"),"bottomleft",col=c(1,2,8,8),lwd=c(NA,4,1,1),lty=c(NA,1,2,3),pch=c(3,NA,NA,NA),bty = "n")
   else{
     if(km+km.ci==1)  legend(legend=c("observation",x$mod_choice,"kaplan-meier (Est)"),"bottomleft",col=c(1,2,8),lwd=c(NA,4,1),lty=c(NA,1,2),pch=c(3,NA,NA),bty = "n")
     else legend(legend=c("observation",x$mod_choice),"bottomleft",col=c(1,2),lwd=c(NA,4),pch=c(3,NA),bty = "n")    }
@@ -68,7 +68,7 @@ plot.fc_obj <- function(x,km=FALSE,km.ci=FALSE,res=100,type="data",...){
   tmpDF=data.frame(x$KM_DF$time,est_offset,x$KM_DF$lcl,x$KM_DF$ucl,est_lcl,est_ucl)
   bnds=unlist(tmpDF[,c("est_lcl","est_ucl")])
   min_bnds=min(bnds);max_bnds=max(bnds)
-  plot(x$fit_vals$time,c(1,x$times$surv_frac)-x$fit_vals$est,col=NA,ylim=c(min_bnds,max_bnds),xlim=c(min(ts),max(ts)),xlab="t",ylab="Residual(KM-Fitted)",...)
+  plot(x$fit_vals$time,c(1,x$times$surv_frac)-x$fit_vals$est,col=NA,ylim=c(min_bnds,max_bnds),xlim=c(min(ts),max(ts)),xlab="t",ylab="Residual \n (Kaplan-Meier - Fitted)",...)
   lines(y=rep(0,length(ts)),x=ts,col=2,lwd=4)
   points(x$fit_vals$time,c(1,x$times$surv_frac)-x$fit_vals$est,pch=3)
 
@@ -76,7 +76,7 @@ plot.fc_obj <- function(x,km=FALSE,km.ci=FALSE,res=100,type="data",...){
   if(km.ci){
     lines(x=x$KM_DF$time,est_lcl,col=8,lty=3)
     lines(x=x$KM_DF$time,est_ucl,col=8,lty=3)
-    legend(legend=c("observation",x$mod_choice,"kaplan-meier (Est)","kaplan-meier (95% CI)"),"bottomleft",col=c(1,2,8,8),lwd=c(NA,4,1,1),lty=c(NA,1,2,3),bty = "n")}
+    legend(legend=c("observation",x$mod_choice,"kaplan-meier (Est)","kaplan-meier (95% CI)"),"bottomleft",col=c(1,2,8,8),lwd=c(NA,4,1,1),pch=c(3,NA,NA,NA),lty=c(NA,1,2,3),bty = "n")}
   else{legend(legend=c("observation",x$mod_choice,"kaplan-meier (Est)"),"bottomleft",col=c(1,2,8),lwd=c(NA,4,1),lty=c(NA,1,2),pch=c(3,NA,NA),bty = "n")}
 
   }

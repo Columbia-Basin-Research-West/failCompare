@@ -24,7 +24,19 @@ A failure model object, if one model specified OR a failure model list object if
 Code for fitting a particular tag-life model or models
 }
 \details{
-Model fitting routine used to fit one or a set of failure time models
+Model fitting routine used to fit one or a set of failure time models.
+
+The following nine model options include
+\code{weibull} = 2-parameter Weibull
+\code{weibull3} = 3-parameter Weibull
+\code{gompertz} = Gompertz
+\code{lognormal} = lognormal
+\code{llogis} = log-logistic
+\code{gamma} = gamma (2-parameter)
+\code{gengamma} = generalized gamma (3-parameter)
+\code{vitality.ku} = vitality (2009)
+\code{vitality.4p} = vitality (2013)
+\code{kaplan-meier} = Kaplan-Meier nonparametric estimate (NOTE: this model cannot be specified in a list with any other model)
 
 If a single model is specified a "fc_obj" is created, which can be
 used to adjust a CJS model in the "ATLAS" package.
@@ -34,7 +46,7 @@ output from all model fits. This object serves as an input in the
 fc_rank() function, which ranks the performance of the model using
 the \href{http://animalbiotelemetry.biomedcentral.com/articles/10.1186/s40317-020-00213-z}{Skalski and Whitlock (2020)} GOF measure.
 
-(named list) \cr
+The raw output from the function is a named list with the following objects \cr
 "mod_choice" = character object of model name or vector of model names \cr
 "fit_vals" = data frame with fitted values for each time and 95\% confidence interval \cr
 "mod_objs" = model objects from various packages: kaplan-meier ("surival"), vitality models ("vitality") \cr

@@ -11,7 +11,19 @@
 #' @return A failure model object, if one model specified OR a failure model list object if multiple models are specified
 #'
 #' @details
-#' Model fitting routine used to fit one or a set of failure time models
+#' Model fitting routine used to fit one or a set of failure time models.
+#' 
+#' The following nine model options include
+#' `weibull` = 2-parameter Weibull 
+#' `weibull3` = 3-parameter Weibull
+#' `gompertz` = Gompertz
+#' `lognormal` = lognormal
+#' `llogis` = log-logistic
+#' `gamma` = gamma (2-parameter)
+#' `gengamma` = generalized gamma (3-parameter)
+#' `vitality.ku` = vitality (2009)
+#' `vitality.4p` = vitality (2013)
+#' `kaplan-meier` = Kaplan-Meier nonparametric estimate (NOTE: this model cannot be specified in a list with any other model)
 #'
 #' If a single model is specified a "fc_obj" is created, which can be
 #' used to adjust a CJS model in the "ATLAS" package.
@@ -21,7 +33,7 @@
 #' fc_rank() function, which ranks the performance of the model using
 #' the \href{http://animalbiotelemetry.biomedcentral.com/articles/10.1186/s40317-020-00213-z}{Skalski and Whitlock (2020)} GOF measure.
 #'
-#'  (named list) \cr
+#'  The raw output from the function is a named list with the following objects \cr
 #' "mod_choice" = character object of model name or vector of model names \cr
 #' "fit_vals" = data frame with fitted values for each time and 95% confidence interval \cr
 #' "mod_objs" = model objects from various packages: kaplan-meier ("surival"), vitality models ("vitality") \cr
