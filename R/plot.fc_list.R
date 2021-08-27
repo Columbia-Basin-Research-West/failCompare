@@ -9,8 +9,9 @@
 #'
 #' @return plot and a message
 #' @export
-plot.fc_list <- function(x,model=NULL,km=F,res=100,...){
+plot.fc_list <- function(x,model=NULL,type="data",km=F,res=100,...){
   # validation
+  if(type!="data"){stop("Only 'data' type plot allowed for model lists")}
   stopifnot(all(model %in% c("weibull", "gompertz", "gamma", "lognormal", "llogis", "gengamma","vitality.ku","vitality.4p","weibull3")))
   # time increment def.
   t_rng=x$fit_vals$time

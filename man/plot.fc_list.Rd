@@ -4,7 +4,7 @@
 \alias{plot.fc_list}
 \title{Title}
 \usage{
-\method{plot}{fc_list}(x, model = NULL, km = F, res = 100, ...)
+\method{plot}{fc_list}(x, model = NULL, type = "data", km = F, res = 100, ...)
 }
 \arguments{
 \item{x}{failmod_list objects (ranked or not)}
