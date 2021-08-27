@@ -80,10 +80,10 @@ plot.fc_list <- function(x,model=NULL,type="data",km=F,res=100,...){
     }
   }
   else{
-    legend(legend=mod_plts,"bottomleft",col=(1:length(mod_plts))+1,lwd=3,lty=1:length(mod_plts),title = "Models",bty = "n")
     if(km){
       lines(est~time,x$KM_DF,type="s",col=8,lty=2)
-      legend(legend=c("kaplan-meier (Est)",mod_plts),"bottomleft",col=c(8,(1:length(mod_plts))+1),lwd=3,lty=1:length(mod_plts),title = "Models",bty = "n")}
+      legend(legend=c("kaplan-meier (Est)",mod_plts),"bottomleft",col=c(8,(1:length(mod_plts))+1),lwd=c(1,3,3),lty=c(2,1:length(mod_plts)),title = "Models",bty = "n")}
+    else{legend(legend=mod_plts,"bottomleft",col=(1:length(mod_plts))+1,lwd=3,lty=1:length(mod_plts),title = "Models",bty = "n")}
   }
   points(surv_frac~time,x$times,pch=3)
 }
