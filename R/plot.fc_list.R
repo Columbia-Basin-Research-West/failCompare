@@ -56,7 +56,7 @@ plot.fc_list <- function(x,model=NULL,type="data",km=F,res=100,...){
   }
 
   # plotting k-m
-  plot(surv_frac~time,x$times,pch=3,col=NA,xlab="t",ylab=S(t),xlim=c(min(ts),max(ts)),...) #empty plot
+  plot(surv_frac~time,x$times,pch=3,col=NA,xlab="t",ylab="S(t)",xlim=c(min(ts),max(ts)),...) #empty plot
 
   spred=list()
   for(i in 1:length(mod_plts)){

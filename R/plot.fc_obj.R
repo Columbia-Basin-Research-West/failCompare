@@ -26,7 +26,7 @@ plot.fc_obj <- function(x,km=FALSE,km.ci=FALSE,res=100,type="data",...){
     if(type=="resid"){stop("residual plot not available for kaplan-meier model")}
     t_rng=x$fit_vals$time
     ts=seq(max(min(t_rng*.95),0),(max(t_rng)*1.05),length.out = res)
-    plot(surv_frac~time,x$times,pch=3,col=NA,xlab="t",ylab=S(t),xlim=c(min(ts),max(ts)),...)
+    plot(surv_frac~time,x$times,pch=3,col=NA,xlab="t",ylab="S(t)",xlim=c(min(ts),max(ts)),...)
     lines(est~time,x$KM_DF,type="s",col=2,lty=1,lwd=4)
     if(km.ci){
       lines(lcl~time,x$KM_DF,type="s",col=8,lty=3)
@@ -44,7 +44,7 @@ plot.fc_obj <- function(x,km=FALSE,km.ci=FALSE,res=100,type="data",...){
 
   # Data plot
   if(type=="data"){
-  plot(surv_frac~time,x$times,pch=3,col=NA,xlab="t",ylab=S(t),xlim=c(min(ts),max(ts)),...)
+  plot(surv_frac~time,x$times,pch=3,col=NA,xlab="t",ylab="S(t)",xlim=c(min(ts),max(ts)),...)
   lines(ts,spred,col=2,lwd=4)
   if(km){
     lines(est~time,x$KM_DF,type="s",col=8,lty=2)
