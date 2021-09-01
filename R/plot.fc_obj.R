@@ -70,7 +70,7 @@ plot.fc_obj <- function(x,km=FALSE,km.ci=FALSE,res=100,type="data",...){
   min_bnds=min(bnds);max_bnds=max(bnds)
   plot(x$fit_vals$time,c(1,x$times$surv_frac)-x$fit_vals$est,col=NA,ylim=c(min_bnds,max_bnds),xlim=c(min(ts),max(ts)),xlab="t",ylab="Residual \n (Kaplan-Meier - Fitted)",...)
   lines(y=rep(0,length(ts)),x=ts,col=2,lwd=4)
-  points(x$fit_vals$time,c(1,x$times$surv_frac)-x$fit_vals$est,pch=3)
+  points(x$fit_vals$time[-1],c(1,x$times$surv_frac[-1])-x$fit_vals$est[-1],pch=3) # adding -1 removes default point placed at zero
 
   lines(x$fit_vals$time,c(1,x$times$surv_frac)-x$fit_vals$est,lty=2,col=8)
   if(km.ci){
