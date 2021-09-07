@@ -81,7 +81,7 @@ ks_boot <- function(
   if(dist=="Vitality09"){
     s_y=sort(times) #sorting taglife values
     y_sfrac=sapply(s_y,function(x){1-length(which(s_y<=x))/length(s_y)})
-    est_pars=vitality.sa(time = sort(s_y),sdata = y_sfrac,se=F,pplot =F,lplot = T, silent = T)
+    est_pars=vitality::vitality.ku(time = sort(s_y),sdata = y_sfrac,se=F,pplot =F,lplot = T, silent = T)
     lines(sort(times),SurvFn(sort(times),est_pars[1],est_pars[2],est_pars[3],est_pars[4]),col=2)
     D0=ks.test(times,"pvit09",est_pars[1],est_pars[2],est_pars[3],est_pars[4])$statistic
     MAT=replicate(reps,rvitality(
@@ -99,7 +99,7 @@ ks_boot <- function(
     y_sfrac=sapply(s_y,function(x){1-length(which(s_y<=x))/length(s_y)})
     # est_pars=vitality.4p(time = sort(s_y),sdata = y_sfrac,se=F,pplot =F, silent = T)
     
-    est_pars=vitality.4p(time = s_y,sdata =  y_sfrac,se=F,init.params=c(0.012, 0.01, 0.1, 0.1),
+    est_pars=vitality::vitality.4p(time = s_y,sdata =  y_sfrac,se=F,init.params=c(0.012, 0.01, 0.1, 0.1),
                          lower = c(0, 0, 0, 0), upper = c(100,50,1,50),rc.data = F,
                          datatype = "CUM",ttol = 1e-06,silent = T,pplot = F,Iplot = F,Mplot = F)
     
@@ -128,3 +128,52 @@ ks_boot <- function(
   names(out)=c("pval","Dsim","D0")
   out
 }
+
+#' @title Generating  samples from 2009 and 2013 Vitality models
+#'
+#' @param parms vector of parameters, Vitality 2009 (r,s,k,u), Vitality 2013 (r,s,lambda,beta)
+#' @param times_dat  survival times used for determining # samples to generate and range of slices
+#' @param t_seq_fineness time increments to with which to slice up the survival curve
+#' @param quant_seq bins in which to place simulated times
+#' @param model either "Vitality09" ot "Vitality13"
+#'
+#' @return
+#' @export
+rvitality=function(
+  parms, # four vitality parameters
+  times_dat,  # survival times used for determining # samples to generate and range of slices
+  t_seq_fineness=0.005, # time increments to with which to slice up the survival curve
+  quant_seq=seq(0,1,0.005), # bins in which to place simulated times
+  model="Vitality09"
+){
+  out=list()
+  stopifnot(any(model %in% c("Vitality09","Vitality13")))
+  # fineness of slices accross x axis (time)
+  # vit_pred_seq=seq(ifelse(min(times_dat)*.8>0,min(times_dat)*.8,0),max(times_dat)*1.2,t_seq_fineness) # span of slices across the x axis
+  vit_pred_seq=seq(min(times_dat)*0.8,max(times_dat)*1.2,t_seq_fineness) # span of slices across the x axis
+  # evaluates survival curve at slice
+  ts=seq(min(times_dat),min(times_dat),.5)
+  
+  if(model=="Vitality09"){
+    pred_survs=vitality::SurvFn.ku(vit_pred_seq,parms[1],parms[2],parms[3],parms[4])}
+  
+  if(model=="Vitality13"){
+    pred_survs=vitality::SurvFn.4p(vit_pred_seq,parms[1],parms[2],parms[3],parms[4])}
+  
+  # place sequence of times and predicted survival in a dataframe
+  vit_sliceDF=data.frame(vit_pred_seq,pred_survs)
+  # identify the survival increment that each time interval is in
+  vit_sliceDF$bin=cut(vit_sliceDF$pred_survs,breaks=quant_seq)
+  # convert bin same to an index
+  vit_sliceDF$binID=as.numeric(vit_sliceDF$bin)
+  vit_sliceDF$binID[is.na(vit_sliceDF$binID)]=length(quant_seq)+1
+  nsamp=length(times_dat)
+  bin_samp=sample(unique(vit_sliceDF$binID),nsamp,replace = T)
+  bin_samp
+  vit_sliceDF
+  # sample(subset(vit_sliceDF,binID==bin_samp[1])$vit_pred_seq,1,replace = T)
+  # ind_t_samp=sapply(bin_samp,function(x){sample(subset(vit_sliceDF,binID==x)$vit_pred_seq,1,replace = T)})
+  # ind_t_samp
+}
+
+

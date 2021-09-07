@@ -1,11 +1,11 @@
 
 #' @title Log-rank test of two data sets
 #'
-#' @param data 
-#' @param time 
-#' @param group 
+#' @param data dataframe containing all variables
+#' @param time failure times
+#' @param group grouping variable
 #'
-#' @return
+#' @return Results of a log-rank test for comparing two survival distributions
 #' @export
 fc_test <- function(data,time,group,non_cen=NULL){
   if(is.null(non_cen)){non_cen=rep(1,length(time))

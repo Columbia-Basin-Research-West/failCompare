@@ -14,7 +14,7 @@ fc_plot(time, surv, group = NULL)
 \item{group}{}
 }
 \value{
-
+histogram of failure times and scatter plot of sample survival function
 }
 \description{
 Ploting failure time and sample survival function

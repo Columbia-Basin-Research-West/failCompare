@@ -4,10 +4,8 @@
 #' @param surv 
 #' @param group 
 #'
-#' @return
+#' @return histogram of failure times and scatter plot of sample survival function
 #' @export
-#'
-#' @examples
 fc_plot=function(time,surv,group=NULL){
   
   tmx=max(round(time))

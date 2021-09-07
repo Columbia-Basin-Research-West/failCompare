@@ -7,14 +7,14 @@
 fc_test(data, time, group, non_cen = NULL)
 }
 \arguments{
-\item{data}{}
+\item{data}{dataframe containing all variables}
 
-\item{time}{}
+\item{time}{failure times}
 
-\item{group}{}
+\item{group}{grouping variable}
 }
 \value{
-
+Results of a log-rank test for comparing two survival distributions
 }
 \description{
 Log-rank test of two data sets
