@@ -144,7 +144,7 @@ fc_fit=function(time,model,rc.value=NULL,rt.value=NULL,...){
                                     lcl=0,ucl=0))
         }
         else{
-          fit[[model[i]]] = vitality::vitality.4p(time = sort(y),sdata = y_sfrac,se=T,pplot =F,silent = T)
+          fit[[model[i]]] = vitality::vitality.4p(time = sort(y),sdata = y_sfrac,se=T,pplot =F,silent = T,init.params=c(0.012, 0.01, 0.1, 0.1),...)
         pars_tmp=fit[[model[i]]][,"params"]
         fit_vals=rbind(fit_vals,
                        data.frame(model="vitality.4p",
