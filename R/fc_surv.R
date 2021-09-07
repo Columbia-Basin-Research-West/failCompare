@@ -10,8 +10,8 @@
 #' @export
 #'
 fc_surv <- function(time,non_cen=NULL,rt.value=NULL,rc.value=NULL){
-  
-  y=sort(time)  # sorted data necessary for Vitality package functions
+  org_time_ord=order(time)
+  y=time
   y_sfrac=sapply(y,function(x){1-length(which(y<=x))/length(y)}) # survival fraction calc
   
   if(is.null(non_cen)){non_cen=rep(1,length(y))}
@@ -41,9 +41,13 @@ fc_surv <- function(time,non_cen=NULL,rt.value=NULL,rc.value=NULL){
   #             data.frame(model="kaplan-meier",time=KM_sls$time,est=KM_sls$surv,lcl=KM_sls$lower,ucl=KM_sls$upper))
   # KM_DF[nrow(KM_DF),c("lcl","ucl")]=c(0,0) # replacing last two NAs wih 0s
   
-  # data.frame(time=KM_sls$time,est=KM_sls$surv)
   S_est=KM_sls$surv[match(y,KM_sls$time)]
-  
-  return(S_est)
 
+  return(S_est)
 }
+
+data(chinook)
+fc_surv(chinook$days)
+
+
+sapply(y,function(x){1-length(which(y<=x))/length(y)})
