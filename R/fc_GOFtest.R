@@ -1,7 +1,7 @@
 #' @title Simulated Kolmogorov-Smirnov Test
 #'
 #' @param times numeric vector of failure times
-#' @param reps replicates for bootstrap (default to 50k)
+#' @param iters replicates for bootstrap (default to 50k)
 #' @param dist distribution
 #' @param label optional argument for labeling plots
 #'
@@ -10,82 +10,74 @@
 #' @export
 #' 
 
-ks_boot <- function(
+fc_GOFtest <- function(
   times, # vectors of values
-  reps=50000,
-  dist="gompertz",
+  iters=50000,
+  model="gompertz",
   label=""
 ){
   n=length(times)
   
   # TWO-PARAMETER MODELS
-  if(dist=="gompertz"){
-    fit=flexsurv::flexsurvreg(survival::Surv(times)~1,dist = dist)
+  if(model=="gompertz"){
+    fit=flexsurv::flexsurvreg(survival::Surv(times)~1,dist = model)
     est_pars=fit$res[,1]
-    lines(x=summary(fit)[[1]][,1],y=summary(fit)[[1]][,2],col=2)
     D0=ks.test(times,"pgompertz",est_pars[1],est_pars[2])$statistic
-    MAT=replicate(reps,rgompertz(n,est_pars[1],est_pars[2]))
+    MAT=replicate(iters,rgompertz(n,est_pars[1],est_pars[2]))
     Dsim=apply(MAT,2,function(x){ks.test(x,"pgompertz",shape=est_pars[1],rate=est_pars[2])$statistic})}
   
-  if(dist=="llogis"){
-    fit=flexsurv::flexsurvreg(survival::Surv(times)~1,dist = dist)
+  if(model=="llogis"){
+    fit=flexsurv::flexsurvreg(survival::Surv(times)~1,dist = model)
     est_pars=fit$res[,1]
-    lines(x=summary(fit)[[1]][,1],y=summary(fit)[[1]][,2],col=2)
     D0=ks.test(times,"pllogis",est_pars[1],est_pars[2])$statistic
-    MAT=replicate(reps,rllogis(n,est_pars[1],est_pars[2]))
+    MAT=replicate(iters,rllogis(n,est_pars[1],est_pars[2]))
     Dsim=apply(MAT,2,function(x){ks.test(x,"pllogis",est_pars[1],est_pars[2])$statistic})}
   
-  if(dist=="lnorm"){
-    fit=flexsurv::flexsurvreg(survival::Surv(times)~1,dist = dist)
+  if(model=="lnorm"){
+    fit=flexsurv::flexsurvreg(survival::Surv(times)~1,dist = model)
     est_pars=fit$res[,1]
-    lines(x=summary(fit)[[1]][,1],y=summary(fit)[[1]][,2],col=2)
     D0=ks.test(times,"plnorm",est_pars[1],est_pars[2])$statistic
-    MAT=replicate(reps,rlnorm(n,est_pars[1],est_pars[2]))
+    MAT=replicate(iters,rlnorm(n,est_pars[1],est_pars[2]))
     Dsim=apply(MAT,2,function(x){ks.test(x,"plnorm",est_pars[1],est_pars[2])$statistic})}
   
-  if(dist=="gamma"){
-    fit=flexsurv::flexsurvreg(survival::Surv(times)~1,dist = dist)
+  if(model=="gamma"){
+    fit=flexsurv::flexsurvreg(survival::Surv(times)~1,dist = model)
     est_pars=fit$res[,1]
-    lines(x=summary(fit)[[1]][,1],y=summary(fit)[[1]][,2],col=2)
     D0=ks.test(times,"pgamma",est_pars[1],est_pars[2])$statistic
-    MAT=replicate(reps,rgamma(n,est_pars[1],est_pars[2]))
+    MAT=replicate(iters,rgamma(n,est_pars[1],est_pars[2]))
     Dsim=apply(MAT,2,function(x){ks.test(x,"pgamma",est_pars[1],est_pars[2])$statistic})}
   
-  if(dist=="weibull(2)"){
+  if(model=="weibull(2)"){
     fit=flexsurv::flexsurvreg(survival::Surv(times)~1,dist = "weibull")
     est_pars=fit$res[,1]
-    lines(x=summary(fit)[[1]][,1],y=summary(fit)[[1]][,2],col=2)
     D0=ks.test(times,"pweibull",est_pars[1],est_pars[2])$statistic
-    MAT=replicate(reps,rweibull(n,est_pars[1],est_pars[2]))
+    MAT=replicate(iters,rweibull(n,est_pars[1],est_pars[2]))
     Dsim=apply(MAT,2,function(x){ks.test(x,"pweibull",est_pars[1],est_pars[2])$statistic})}
   
   # THREE-PARAMETER MODELS
   
-  if(dist=="gengamma"){
-    fit=flexsurv::flexsurvreg(survival::Surv(times)~1,dist = dist)
+  if(model=="gengamma"){
+    fit=flexsurv::flexsurvreg(survival::Surv(times)~1,dist = model)
     est_pars=fit$res[,1]
-    lines(x=summary(fit)[[1]][,1],y=summary(fit)[[1]][,2],col=2)
     D0=ks.test(times,"pgengamma",est_pars[1],est_pars[2],est_pars[3])$statistic
-    MAT=replicate(reps,rgengamma(n,est_pars[1],est_pars[2],est_pars[3]))
+    MAT=replicate(iters,rgengamma(n,est_pars[1],est_pars[2],est_pars[3]))
     Dsim=apply(MAT,2,function(x){ks.test(x,"pgengamma",est_pars[1],est_pars[2],est_pars[3])$statistic})}
   
-  if(dist=="weibull(3)"){
+  if(model=="weibull(3)"){
     weib3_res=weibull3_NOSE(times,plots=F)
     est_pars=weib3_res[[1]][,2]
-    lines(x=sort(times),y=sort(weib3_res[[3]]$S,decreasing = T),col=2)
     D0=ks.test(times,"pweibull3",est_pars[1],est_pars[2],est_pars[3])$statistic
-    MAT=replicate(reps,rweibull3(n,est_pars[1],est_pars[2],est_pars[3]))
+    MAT=replicate(iters,rweibull3(n,est_pars[1],est_pars[2],est_pars[3]))
     Dsim=apply(MAT,2,function(x){ks.test(x,"pweibull3",est_pars[1],est_pars[2],est_pars[3])$statistic})
   }
   
   # FOUR-PARAMETER MODELS
-  if(dist=="Vitality09"){
+  if(model=="Vitality09"){
     s_y=sort(times) #sorting taglife values
     y_sfrac=sapply(s_y,function(x){1-length(which(s_y<=x))/length(s_y)})
     est_pars=vitality::vitality.ku(time = sort(s_y),sdata = y_sfrac,se=F,pplot =F,lplot = T, silent = T)
-    lines(sort(times),vitality::SurvFn.ku(sort(times),est_pars[1],est_pars[2],est_pars[3],est_pars[4]),col=2)
     D0=ks.test(times,"pvit09",est_pars[1],est_pars[2],est_pars[3],est_pars[4])$statistic
-    MAT=replicate(reps,rvitality(
+    MAT=replicate(iters,rvitality(
       parms=est_pars, # four vitality parameters
       times_dat=times,  # survival times used for determining # samples to generate and range of slices
       t_seq_fineness=0.001, # time increments to with which to slice up the survival curve
@@ -95,7 +87,7 @@ ks_boot <- function(
     # print(str(Dsim))
   }
   
-  if(dist=="Vitality13"){
+  if(model=="Vitality13"){
     s_y=sort(times) #sorting taglife values
     y_sfrac=sapply(s_y,function(x){1-length(which(s_y<=x))/length(s_y)})
     # est_pars=vitality.4p(time = sort(s_y),sdata = y_sfrac,se=F,pplot =F, silent = T)
@@ -104,10 +96,9 @@ ks_boot <- function(
                                    lower = c(0, 0, 0, 0), upper = c(100,50,1,50),rc.data = F,
                                    datatype = "CUM",ttol = 1e-06,silent = T,pplot = F,Iplot = F,Mplot = F)
     
-    lines(sort(times),SurvFn.4p(sort(times),est_pars[1],est_pars[2],est_pars[3],est_pars[4]),col=2)
     # print(ks.test(times,"pvit13",est_pars[1],est_pars[2],est_pars[3],est_pars[4]))
     D0=ks.test(times,"pvit13",exact=T,est_pars[1],est_pars[2],est_pars[3],est_pars[4])$statistic
-    MAT=replicate(reps,rvitality(
+    MAT=replicate(iters,rvitality(
       parms=est_pars, # four vitality parameters
       times_dat=times,  # survival times used for determining # samples to generate and range of slices
       t_seq_fineness=0.001, # time increments to with which to slice up the survival curve
@@ -118,20 +109,19 @@ ks_boot <- function(
   }
   
   # P-VAL CALCULATION
-  # pval=(table(Dsim>D0)/reps)[2]
-  pval=length(which(Dsim>D0))/reps
+  pval=length(which(Dsim>D0))/iters
   
-  hist(Dsim,border = NA,col=8,breaks=seq(0,1,0.01),main="",
+  hist(Dsim,col=8,breaks=seq(0,1,0.01),main="",
        col.main=ifelse(pval<0.05,"red","black"),probability=T)
-  mtext(side=3,text = paste("P-value =",signif(pval,4)),line = 4,adj = 0.8,col=2)
+  mtext(side=3,text = paste("P-value =",signif(pval,4)),line = -2,adj = 0.8,col=2)
   abline(v=D0,col=2,lwd=2)
   
   out=list(pval,Dsim,D0)
   names(out)=c("pval","Dsim","D0")
   
   cat("Results of a one-sample Kolmogorov-Smirnov test based on a simulation\n\n")
-  cat("model = ",dist,"\n\n")
-  cat("iterations = ",reps,"\n\n")
+  cat("model = ",model,"\n\n")
+  cat("iterations = ",iters,"\n\n")
   cat("observed test statistic\n D[obs] =",out$D0,"\n\n")
   cat("p-value = ",pval)
 }
