@@ -6,6 +6,9 @@
 #' @param label optional argument for labeling plots
 #'
 #' @return P-value and plot of sample distribution of D statistic.
+#' 
+#' @export
+#' 
 
 ks_boot <- function(
   times, # vectors of values
@@ -15,11 +18,9 @@ ks_boot <- function(
 ){
   n=length(times)
   
-  plot(Surv(times),xlim=c(min(times)*0.8,max(times)*1.2),main=paste(dist,label,sep="--"))
-  
   # TWO-PARAMETER MODELS
   if(dist=="gompertz"){
-    fit=flexsurvreg(Surv(times)~1,dist = dist)
+    fit=flexsurv::flexsurvreg(survival::Surv(times)~1,dist = dist)
     est_pars=fit$res[,1]
     lines(x=summary(fit)[[1]][,1],y=summary(fit)[[1]][,2],col=2)
     D0=ks.test(times,"pgompertz",est_pars[1],est_pars[2])$statistic
@@ -27,7 +28,7 @@ ks_boot <- function(
     Dsim=apply(MAT,2,function(x){ks.test(x,"pgompertz",shape=est_pars[1],rate=est_pars[2])$statistic})}
   
   if(dist=="llogis"){
-    fit=flexsurvreg(Surv(times)~1,dist = dist)
+    fit=flexsurv::flexsurvreg(survival::Surv(times)~1,dist = dist)
     est_pars=fit$res[,1]
     lines(x=summary(fit)[[1]][,1],y=summary(fit)[[1]][,2],col=2)
     D0=ks.test(times,"pllogis",est_pars[1],est_pars[2])$statistic
@@ -35,7 +36,7 @@ ks_boot <- function(
     Dsim=apply(MAT,2,function(x){ks.test(x,"pllogis",est_pars[1],est_pars[2])$statistic})}
   
   if(dist=="lnorm"){
-    fit=flexsurvreg(Surv(times)~1,dist = dist)
+    fit=flexsurv::flexsurvreg(survival::Surv(times)~1,dist = dist)
     est_pars=fit$res[,1]
     lines(x=summary(fit)[[1]][,1],y=summary(fit)[[1]][,2],col=2)
     D0=ks.test(times,"plnorm",est_pars[1],est_pars[2])$statistic
@@ -43,7 +44,7 @@ ks_boot <- function(
     Dsim=apply(MAT,2,function(x){ks.test(x,"plnorm",est_pars[1],est_pars[2])$statistic})}
   
   if(dist=="gamma"){
-    fit=flexsurvreg(Surv(times)~1,dist = dist)
+    fit=flexsurv::flexsurvreg(survival::Surv(times)~1,dist = dist)
     est_pars=fit$res[,1]
     lines(x=summary(fit)[[1]][,1],y=summary(fit)[[1]][,2],col=2)
     D0=ks.test(times,"pgamma",est_pars[1],est_pars[2])$statistic
@@ -51,7 +52,7 @@ ks_boot <- function(
     Dsim=apply(MAT,2,function(x){ks.test(x,"pgamma",est_pars[1],est_pars[2])$statistic})}
   
   if(dist=="weibull(2)"){
-    fit=flexsurvreg(Surv(times)~1,dist = "weibull")
+    fit=flexsurv::flexsurvreg(survival::Surv(times)~1,dist = "weibull")
     est_pars=fit$res[,1]
     lines(x=summary(fit)[[1]][,1],y=summary(fit)[[1]][,2],col=2)
     D0=ks.test(times,"pweibull",est_pars[1],est_pars[2])$statistic
@@ -61,7 +62,7 @@ ks_boot <- function(
   # THREE-PARAMETER MODELS
   
   if(dist=="gengamma"){
-    fit=flexsurvreg(Surv(times)~1,dist = dist)
+    fit=flexsurv::flexsurvreg(survival::Surv(times)~1,dist = dist)
     est_pars=fit$res[,1]
     lines(x=summary(fit)[[1]][,1],y=summary(fit)[[1]][,2],col=2)
     D0=ks.test(times,"pgengamma",est_pars[1],est_pars[2],est_pars[3])$statistic
@@ -82,7 +83,7 @@ ks_boot <- function(
     s_y=sort(times) #sorting taglife values
     y_sfrac=sapply(s_y,function(x){1-length(which(s_y<=x))/length(s_y)})
     est_pars=vitality::vitality.ku(time = sort(s_y),sdata = y_sfrac,se=F,pplot =F,lplot = T, silent = T)
-    lines(sort(times),SurvFn(sort(times),est_pars[1],est_pars[2],est_pars[3],est_pars[4]),col=2)
+    lines(sort(times),vitality::SurvFn.ku(sort(times),est_pars[1],est_pars[2],est_pars[3],est_pars[4]),col=2)
     D0=ks.test(times,"pvit09",est_pars[1],est_pars[2],est_pars[3],est_pars[4])$statistic
     MAT=replicate(reps,rvitality(
       parms=est_pars, # four vitality parameters
@@ -100,8 +101,8 @@ ks_boot <- function(
     # est_pars=vitality.4p(time = sort(s_y),sdata = y_sfrac,se=F,pplot =F, silent = T)
     
     est_pars=vitality::vitality.4p(time = s_y,sdata =  y_sfrac,se=F,init.params=c(0.012, 0.01, 0.1, 0.1),
-                         lower = c(0, 0, 0, 0), upper = c(100,50,1,50),rc.data = F,
-                         datatype = "CUM",ttol = 1e-06,silent = T,pplot = F,Iplot = F,Mplot = F)
+                                   lower = c(0, 0, 0, 0), upper = c(100,50,1,50),rc.data = F,
+                                   datatype = "CUM",ttol = 1e-06,silent = T,pplot = F,Iplot = F,Mplot = F)
     
     lines(sort(times),SurvFn.4p(sort(times),est_pars[1],est_pars[2],est_pars[3],est_pars[4]),col=2)
     # print(ks.test(times,"pvit13",est_pars[1],est_pars[2],est_pars[3],est_pars[4]))
@@ -120,13 +121,19 @@ ks_boot <- function(
   # pval=(table(Dsim>D0)/reps)[2]
   pval=length(which(Dsim>D0))/reps
   
-  hist(Dsim,border = NA,col=8,breaks=seq(0,1,0.01),main=paste("P-value =",signif(pval,4)),
+  hist(Dsim,border = NA,col=8,breaks=seq(0,1,0.01),main="",
        col.main=ifelse(pval<0.05,"red","black"),probability=T)
+  mtext(side=3,text = paste("P-value =",signif(pval,4)),line = 4,adj = 0.8,col=2)
   abline(v=D0,col=2,lwd=2)
   
   out=list(pval,Dsim,D0)
   names(out)=c("pval","Dsim","D0")
-  out
+  
+  cat("Results of a one-sample Kolmogorov-Smirnov test based on a simulation\n\n")
+  cat("model = ",dist,"\n\n")
+  cat("iterations = ",reps,"\n\n")
+  cat("observed test statistic\n D[obs] =",out$D0,"\n\n")
+  cat("p-value = ",pval)
 }
 
 #' @title Generating  samples from 2009 and 2013 Vitality models
@@ -177,3 +184,27 @@ rvitality=function(
 }
 
 
+#'@title Cumulative distribution function of Vitality 2009 model
+#'
+#' @param x time
+#' @param par1 r
+#' @param par2 s
+#' @param par3 k
+#' @param par4 u
+#'
+#' @return
+pvit09=function(x,par1,par2,par3,par4){1-vitality::SurvFn.ku(x,par1,par2,par3,par4)}
+
+#'@title Cumulative distribution function of Vitality 2013 model
+#'
+#' @param x time
+#' @param par1 r
+#' @param par2 s
+#' @param par3 lambda
+#' @param par4 beta
+#'
+#' @return
+pvit13=function(x,par1,par2,par3,par4){1-vitality::SurvFn.4p(x,par1,par2,par3,par4)}
+
+pllogis=flexsurv::pllogis
+rllogis=flexsurv::rllogis
