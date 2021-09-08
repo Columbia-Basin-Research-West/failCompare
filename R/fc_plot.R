@@ -39,7 +39,7 @@ fc_plot=function(time,surv,group=NULL){
     # overlay histogram of spring failure is red
     for(i in 2:n_grps){
       hist(time[group==unique(group)[i]],breaks=t_brk,add=T,col=i)
-    legend("topleft",legend=unique(group),fill=c(8,2:(n_grps)))
+    legend("topleft",legend=unique(group),fill=c(8,2:(n_grps)),bty="n")
       
     plot(x=time,y=surv,
            xlim=xdim,  
@@ -47,16 +47,9 @@ fc_plot=function(time,surv,group=NULL){
            xlab="Days",ylab="S(t)",cex=1.1)
     for(i in 2:n_grps){
       points(time[group==unique(group)[i]],y=surv[group==unique(group)[i]],col=i,cex=1.1)}
+    legend("bottomleft",legend=unique(group),col=c(1,2:(n_grps)),pch=1,bty="n")
     
     }
-    
-    print(t_brk)
-    
-    
   }
-  
-
-  
-  
 }
 

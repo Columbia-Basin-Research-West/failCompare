@@ -45,9 +45,3 @@ fc_surv <- function(time,non_cen=NULL,rt.value=NULL,rc.value=NULL){
 
   return(S_est)
 }
-
-data(chinook)
-fc_surv(chinook$days)
-
-
-sapply(y,function(x){1-length(which(y<=x))/length(y)})
