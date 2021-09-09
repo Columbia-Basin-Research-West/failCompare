@@ -187,7 +187,8 @@ fc_fit=function(time,model,rc.value=NULL,rt.value=NULL,...){
                 "fit_vals"=fit_vals,
                 "mod_objs"=fit,
                 "par_tab"=par_tab,
-                "KM_DF"=KM_DF)
+                "KM_DF"=KM_DF,
+                "KM_mod"=KM_mod)
     out=structure(out_ls,class="fc_list")
 
     }
@@ -214,11 +215,12 @@ fc_fit=function(time,model,rc.value=NULL,rt.value=NULL,...){
       }
     }
     out_ls=list("mod_choice"=model,
-                "times"=data.frame(time=y,surv_frac=y_sfrac),
+                "times"=data.frame(time=y,surv_frac=y_sfrac,non_cen=non_cen),
                 "fit_vals"=fit_vals,
                 "mod_objs"=fit[[1]],
                 "par_tab"=par_tab,
-                "KM_DF"=KM_DF)
+                "KM_DF"=KM_DF,
+                "KM_mod"=KM_mod)
 
     out=structure(out_ls,class="fc_obj")
   }

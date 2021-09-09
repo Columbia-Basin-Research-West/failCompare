@@ -21,8 +21,8 @@ fc_select <- function(mod_ls,model){
   if(model=="kaplan-meier"){
     out_ls = list(mod_choice = model,
                   times = mod_ls$times,
-                  fit_vals = mod_ls$fit_vals[mod_ls$fit_vals$model==model,],
-                  mod_objs = mod_ls$mod_objs[[model]],
+                  fit_vals = mod_ls$KM_DF,
+                  mod_objs =mod_ls$km_mod,
                   par_tab = NULL,
                   KM_DF=mod_ls$KM_DF)
     out = structure(out_ls, class = "fc_obj")
