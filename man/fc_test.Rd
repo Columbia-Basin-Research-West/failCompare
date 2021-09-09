@@ -2,20 +2,22 @@
 % Please edit documentation in R/fc_test.R
 \name{fc_test}
 \alias{fc_test}
-\title{Log-rank test of two data sets}
+\title{Simulated Kolmogorov-Smirnov Test}
 \usage{
-fc_test(data, time, group, non_cen = NULL)
+fc_test(times, iters = 50000, model = "gompertz", label = "")
 }
 \arguments{
-\item{data}{dataframe containing all variables}
+\item{times}{numeric vector of failure times}
 
-\item{time}{failure times}
+\item{iters}{replicates for bootstrap (default to 50k)}
 
-\item{group}{grouping variable}
+\item{label}{optional argument for labeling plots}
+
+\item{dist}{distribution}
 }
 \value{
-Results of a log-rank test for comparing two survival distributions
+P-value and plot of sample distribution of D statistic.
 }
 \description{
-Log-rank test of two data sets
+Simulated Kolmogorov-Smirnov Test
 }
