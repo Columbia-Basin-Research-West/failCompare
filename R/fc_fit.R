@@ -183,7 +183,7 @@ fc_fit=function(time,model,rc.value=NULL,rt.value=NULL,...){
     par_tab=data.frame(model=rep(model,sapply(par_ls,nrow)),param,tmp_tab,row.names = NULL)
 
     out_ls=list("mod_choice"=model,
-                "times"=data.frame(time=y,surv_frac=y_sfrac),
+                "times"=data.frame(time=y,surv_frac=y_sfrac,non_cen=non_cen),
                 "fit_vals"=fit_vals,
                 "mod_objs"=fit,
                 "par_tab"=par_tab,
