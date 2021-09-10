@@ -113,7 +113,7 @@ fc_fit=function(time,model,rc.value=NULL,rt.value=NULL,...){
         if(rc){
           dTmp=vitality::dataPrep(c(0,y_cen),(n_cen:(n_cen-length(y_cen)))/n_cen,datatype="CUM",rc.data=(n_cen>length(y_cen)))
           fit[[model[i]]]=vitality::vitality.ku(dTmp[,"time"],sdata = dTmp[,"sfract"],rc.data = T,pplot =F,lplot = F,
-                                        se=T,...) # added ... here to get the init.params argument to pass through
+                                        se=T,...)#init.params = c(0.0118535685, 0.0070384229, 0.0001868951, 0.0443095393),silent=F,...) # added ... here to get the init.params argument to pass through
           pars_tmp=fit[[model[i]]][,"params"]
           fit_vals=rbind(fit_vals,
                          data.frame(model="vitality.ku",
