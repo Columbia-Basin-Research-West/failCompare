@@ -1,4 +1,4 @@
-#' Lifespans of microacoustic tags uses as part of a juvenile salmon survival study conducted at Rocky Reach Dam, WA, USA in 2004
+#' Lifespans of microacoustictags uses as part of a juvenile salmon survival studies conducted during two seasons
 #'
 #' @format A data frame with 50 rows and 1 variable:
 #' \describe{
@@ -17,7 +17,7 @@
 #' }
 "chinook"
 
-#' Lifespans of microacoustic tags uses as part of a juvenile steelhead survival study with premature tag failures that require censoring at 79 days.
+#' Lifespans of microacoustic tags uses as part of a juvenile steelhead survival study with premature tag failures that require censoring at 79 days
 #'
 #' @format A data frame with 82 rows and 1 variables:
 #' \describe{
