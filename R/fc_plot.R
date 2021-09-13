@@ -11,11 +11,11 @@ fc_plot=function(time,surv,group=NULL){
   tmx=max(round(time))
   tmn=min(round(time))
   inc=(tmx-tmn)*0.15
-  xdim=c(tmn-inc,tmx+inc)
+  xdim=c(max(tmn-inc,0),tmx+inc)
   t_brk=seq(xdim[1],xdim[2],length.out = 20)
   
   if(is.null(group)){
-    hist(x=taglife,
+    hist(x=time,
          col=8,
          # xlim=xdim,   # x-axis scale
          breaks=20,
