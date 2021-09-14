@@ -14,7 +14,8 @@ fc_test <- function(
   times, # vectors of values
   iters=50000,
   model="gompertz",
-  label=""
+  label="",
+  plot=FALSE
 ){
   n=length(times)
   
@@ -111,10 +112,12 @@ fc_test <- function(
   # P-VAL CALCULATION
   pval=length(which(Dsim>D0))/iters
   
-  hist(Dsim,col=8,breaks=seq(0,1,0.01),main="",xlab="D",
-       col.main=ifelse(pval<0.05,"red","black"),probability=T)
-  mtext(side=3,text = paste("P-value =",signif(pval,4)),line = -2,adj = 0.8,col=2)
-  abline(v=D0,col=2,lwd=2)
+  if(plot){
+    hist(Dsim,col=8,breaks=seq(0,1,0.01),main="",xlab="D",
+         col.main=ifelse(pval<0.05,"red","black"),probability=T)
+    mtext(side=3,text = paste("P-value =",signif(pval,4)),line = -2,adj = 0.8,col=2)
+    abline(v=D0,col=2,lwd=2)
+  }
   
   out=list(pval,Dsim,D0)
   names(out)=c("pval","Dsim","D0")
