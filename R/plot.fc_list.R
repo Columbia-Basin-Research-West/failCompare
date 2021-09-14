@@ -9,14 +9,19 @@
 #'
 #' @return plot and a message
 #' @export
-plot.fc_list <- function(x,model=NULL,type="data",km=F,res=100,...){
+plot.fc_list <- function(x,model=NULL,type="data",km=F,res=100,xlim,...){
   # validation
   if(type!="data"){stop("Only 'data' type plot allowed for model lists")}
   stopifnot(all(model %in% c("weibull", "gompertz", "gamma", "lognormal", "llogis", "gengamma","vitality.ku","vitality.4p","weibull3")))
   # time increment def.
   t_rng=x$fit_vals$time
   ts=seq(max(min(t_rng*.95),0),(max(t_rng)*1.05),length.out = res)
-
+  
+  if(missing(xlim)){
+    print("ha")
+    xlms=c(min(ts),max(ts))}
+  else{xlms=xlim}
+  
   # if fail_rank() has not been run yet
   if(is.null(x$GOF_tab)){
     # if the model argument is empty
@@ -56,7 +61,7 @@ plot.fc_list <- function(x,model=NULL,type="data",km=F,res=100,...){
   }
 
   # plotting k-m
-  plot(surv_frac~time,x$times,pch=3,col=NA,xlab="t",ylab="S(t)",xlim=c(min(ts),max(ts)),...) #empty plot
+  plot(surv_frac~time,x$times,pch=3,col=c("darkgray","black")[x$times$non_cen+1],xlab="t",ylab="S(t)",xlim=xlms,...) #empty plot
 
   spred=list()
   for(i in 1:length(mod_plts)){
@@ -85,5 +90,5 @@ plot.fc_list <- function(x,model=NULL,type="data",km=F,res=100,...){
       legend(legend=c("kaplan-meier (Est)",mod_plts),"bottomleft",col=c(8,(1:length(mod_plts))+1),lwd=c(1,3,3),lty=c(2,1:length(mod_plts)),title = "Models",bty = "n")}
     else{legend(legend=mod_plts,"bottomleft",col=(1:length(mod_plts))+1,lwd=3,lty=1:length(mod_plts),title = "Models",bty = "n")}
   }
-  points(surv_frac~time,x$times,pch=3)
+  points(surv_frac~time,x$times,col=c("darkgray","black")[x$times$non_cen+1],pch=3)
 }
