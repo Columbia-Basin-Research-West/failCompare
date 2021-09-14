@@ -88,7 +88,8 @@ fc_fit=function(time,model,censorID=NULL,rc.value=NULL,rt.value=NULL,...){
   
   # censorID
   if(!is.null(censorID)){
-    if(!(censorID %in% c(0,1) | is.logical(censorID))){stop("1/0 or TRUE/FALSE expected for censorID")}
+    stopifnot(length(time)==length(censorID)) # censorID length should match
+    if(any(sapply(censorID,function(x){!(x %in% c(0,1) | is.logical(x))}))){stop("1/0 or TRUE/FALSE expected for censorID")}
     if(!is.null(rc.value)){warning("censorID overrides rc.value argument")}
     non_cen=censorID
   }
