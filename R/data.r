@@ -33,7 +33,7 @@
 #' @format A data frame with 35 rows and 2 variables:
 #' \describe{
 #'   \item{days}{time until death of fish}
-#'   \item{censor}{Observation was censored}
+#'   \item{censored}{Observation was censored}
 #'   ...
 #' }
 "trout"
