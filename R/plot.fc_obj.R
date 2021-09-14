@@ -22,7 +22,7 @@ plot.fc_obj <- function(x,km=FALSE,km.ci=FALSE,res=100,type="data",...){
   stopifnot(type %in% c("data","resid"))
 
   if(x$mod_choice=="kaplan-meier"){
-    km.ci=TRUE # automatically add
+    #km.ci=TRUE # automatically add
     if(type=="resid"){stop("residual plot not available for kaplan-meier model")}
     t_rng=x$fit_vals$time
     ts=seq(max(min(t_rng*.95),0),(max(t_rng)*1.05),length.out = res)
@@ -31,8 +31,8 @@ plot.fc_obj <- function(x,km=FALSE,km.ci=FALSE,res=100,type="data",...){
     if(km.ci){
       lines(lcl~time,x$KM_DF,type="s",col=8,lty=3)
       lines(ucl~time,x$KM_DF,type="s",col=8,lty=3)
-      legend(legend=c("observation","kaplan-meier (Est)","kaplan-meier (95% CI)"),"bottomleft",col=c(1,2,8),lwd=c(NA,4,1),lty=c(NA,1,3),pch=c(3,NA,NA))}
-    else{legend(legend=c("observation","kaplan-meier (Est)"),"bottomleft",col=c(1,2),lwd=c(NA,4),lty=c(NA,1),pch=c(3,NA))} # smaller legend if km.ci=F
+      legend(legend=c("observation","kaplan-meier (Est)","kaplan-meier (95% CI)"),"bottomleft",col=c(1,2,8),lwd=c(NA,4,1),lty=c(NA,1,3),pch=c(3,NA,NA),bty="n")}
+    else{legend(legend=c("observation","kaplan-meier (Est)"),"bottomleft",col=c(1,2),lwd=c(NA,4),lty=c(NA,1),pch=c(3,NA),bty="n")} # smaller legend if km.ci=F
       points(surv_frac~time,x$times,pch=3,col=1)
   }
   else{  # Any model other than KM
