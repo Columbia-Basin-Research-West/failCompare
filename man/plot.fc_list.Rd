@@ -15,6 +15,8 @@
 
 \item{res}{fineness of survival function preds}
 
+\item{xlim}{x axis limits, used to override default}
+
 \item{...}{ignore}
 }
 \value{

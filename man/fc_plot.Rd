@@ -4,17 +4,40 @@
 \alias{fc_plot}
 \title{Ploting failure time and sample survival function}
 \usage{
-fc_plot(time, surv, group = NULL, ...)
+fc_plot(
+  time,
+  surv,
+  censorID,
+  group = NULL,
+  hist = T,
+  surv_curv = T,
+  main,
+  ylim,
+  xlim,
+  ...
+)
 }
 \arguments{
-\item{time}{}
+\item{time}{failure time (x axis)}
 
-\item{surv}{}
+\item{surv}{survival function (y axis)}
 
-\item{group}{}
+\item{censorID}{indicates censored observations (T/F)}
+
+\item{group}{grouping variable, limit of 3}
+
+\item{hist}{show histogram of failure times (T/F)}
+
+\item{surv_curv}{show histogram of failure times (T/F)}
+
+\item{main}{title for scatterplot}
+
+\item{ylim}{y axis limits for survival plot, used to override default of c(0,1)}
+
+\item{xlim}{x axis limits for survival plot}
 }
 \value{
-histogram of failure times and scatter plot of sample survival function
+histogram of failure times and/or scatter plot of sample survival function
 }
 \description{
 Ploting failure time and sample survival function

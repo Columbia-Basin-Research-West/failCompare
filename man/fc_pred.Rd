@@ -4,7 +4,7 @@
 \alias{fc_pred}
 \title{Failure time predictions}
 \usage{
-fc_pred(times, pars, model = "gompertz")
+fc_pred(mod_obj = NULL, times, pars = NULL, model = NULL)
 }
 \arguments{
 \item{times}{time vector}

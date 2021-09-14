@@ -4,12 +4,14 @@
 \alias{fc_surv}
 \title{Compute sample survival function}
 \usage{
-fc_surv(time, non_cen = NULL, rt.value = NULL, rc.value = NULL)
+fc_surv(time, censorID = NULL, rt.value = NULL, rc.value = NULL)
 }
 \arguments{
 \item{time}{failure or censoring time}
 
-\item{non_cen}{logical vector the same length as \code{time}, with TRUE indicating censoring time}
+\item{censorID}{logical vector the same length as \code{time}, with TRUE indicating censoring time}
+
+\item{rc.value}{time after which all values are censored}
 }
 \value{
 sample survival function

@@ -4,7 +4,7 @@
 \alias{fc_test}
 \title{Simulated Kolmogorov-Smirnov Test}
 \usage{
-fc_test(times, iters = 50000, model = "gompertz", label = "")
+fc_test(times, iters = 50000, model = "gompertz", label = "", plot = FALSE)
 }
 \arguments{
 \item{times}{numeric vector of failure times}
