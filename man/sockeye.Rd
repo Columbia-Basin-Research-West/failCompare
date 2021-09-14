@@ -3,7 +3,7 @@
 \docType{data}
 \name{sockeye}
 \alias{sockeye}
-\title{Lifespans of microacoustic tags uses as part of a juvenile salmon survival study conducted at Rocky Reach Dam, WA, USA in 2004}
+\title{Lifespans of microacoustictags uses as part of a juvenile salmon survival studies conducted during two seasons}
 \format{
 A data frame with 50 rows and 1 variable:
 \describe{
@@ -15,6 +15,6 @@ A data frame with 50 rows and 1 variable:
 sockeye
 }
 \description{
-Lifespans of microacoustic tags uses as part of a juvenile salmon survival study conducted at Rocky Reach Dam, WA, USA in 2004
+Lifespans of microacoustictags uses as part of a juvenile salmon survival studies conducted during two seasons
 }
 \keyword{datasets}
