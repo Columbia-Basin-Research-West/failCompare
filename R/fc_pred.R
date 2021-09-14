@@ -13,7 +13,17 @@
 #' @importFrom vitality vitality.4p
 #' @export fc_pred
 #'
-fc_pred <- function(times,pars,model="gompertz"){
+fc_pred <- function(mod_obj=NULL,times,pars=NULL,model=NULL){
+  stopifnot(is.numeric(times)) # requires times argument
+  if(!is.null(mod_obj)){
+    stopifnot((class(mod_obj)=="fc_obj")) #checking that it sit a fc_obj
+    if(!is.null(model) | !is.null(pars)){warning("'pars' and 'model' arguments overridden by 'mod_obj'")} # notifies user that other arguments are overridden
+      #accessing model parameters and choices
+      pars=mod_obj$par_tab[,1]
+      model=mod_obj$mod_choice
+  }
+
+    
   if(model=="weibull"){
     tmp=1-stats::pweibull(times,shape = pars[1],scale=pars[2])
   }
