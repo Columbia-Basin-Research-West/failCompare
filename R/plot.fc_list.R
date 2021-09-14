@@ -19,7 +19,6 @@ plot.fc_list <- function(x,model=NULL,type="data",km=F,res=100,xlim,...){
   ts=seq(max(min(t_rng*.95),0),(max(t_rng)*1.05),length.out = res)
   
   if(missing(xlim)){
-    print("ha")
     xlms=c(min(ts),max(ts))}
   else{xlms=xlim}
   
