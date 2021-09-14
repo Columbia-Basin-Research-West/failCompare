@@ -6,7 +6,7 @@
 #'
 #' @return histogram of failure times and scatter plot of sample survival function
 #' @export
-fc_plot=function(time,surv,group=NULL){
+fc_plot=function(time,surv,group=NULL,...){
   
   tmx=max(round(time))
   tmn=min(round(time))
@@ -26,7 +26,7 @@ fc_plot=function(time,surv,group=NULL){
     plot(x=time,y=surv,
          xlim=xdim,  
          main="Survival function", 
-         xlab="Days",ylab="S(t)")
+         xlab="Days",ylab="S(t)",...)
   }
   else{
     stopifnot(is.character(group)|is.factor(group))
