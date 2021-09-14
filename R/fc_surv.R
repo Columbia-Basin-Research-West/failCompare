@@ -3,18 +3,24 @@
 #' @details Calculates sample survival function accounting for right censoring. In the absence of censoring, uses the basic survival function estimator, otherwise uses the Kaplan-Meier product limit estimate.
 #'
 #' @param time failure or censoring time
-#' @param non_cen logical vector the same length as `time`, with TRUE indicating censoring time
+#' @param censorID logical vector the same length as `time`, with TRUE indicating censoring time
+#' @param rc.value time after which all values are censored
 #'
 #' @return sample survival function
 #' 
 #' @export
 #'
-fc_surv <- function(time,non_cen=NULL,rt.value=NULL,rc.value=NULL){
+fc_surv <- function(time,censorID=NULL,rt.value=NULL,rc.value=NULL){
   org_time_ord=order(time)
   y=time
   y_sfrac=sapply(y,function(x){1-length(which(y<=x))/length(y)}) # survival fraction calc
   
-  if(is.null(non_cen)){non_cen=rep(1,length(y))}
+  # Checking censoring values
+  if(is.null(censorID)){non_cen=rep(1,length(y))}
+  else{
+    if(any(sapply(censorID,function(x){!(x %in% c(0,1) | is.logical(x))}))){stop("1/0 or TRUE/FALSE expected for censorID")}
+    if(!is.null(rc.value)){stop("'rc.value' will override 'censorID' argument")}
+    non_cen=censorID}
   
   if(!is.null(rt.value)){
     non_trunc=time<rt.value # vector used by "flexsurv"
