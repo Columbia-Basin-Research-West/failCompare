@@ -5,6 +5,7 @@
 #' @param model surival model
 #' @param res fineness of survival function preds
 #' @param km Show kaplan-meier estimates
+#' @param xlim x axis limits, used to override default
 #' @param ... ignore
 #'
 #' @return plot and a message

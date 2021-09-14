@@ -4,7 +4,7 @@
 \alias{fc_plot}
 \title{Ploting failure time and sample survival function}
 \usage{
-fc_plot(time, surv, group = NULL)
+fc_plot(time, surv, group = NULL, ...)
 }
 \arguments{
 \item{time}{}

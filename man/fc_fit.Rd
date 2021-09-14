@@ -4,7 +4,7 @@
 \alias{fc_fit}
 \title{Fitting one or a set of failure time models}
 \usage{
-fc_fit(time, model, rc.value = NULL, rt.value = NULL, ...)
+fc_fit(time, model, censorID = NULL, rc.value = NULL, rt.value = NULL, ...)
 }
 \arguments{
 \item{time}{numeric vector of failure times}
