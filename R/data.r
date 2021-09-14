@@ -27,3 +27,13 @@
 #' }
 "steelhead"
 
+
+#' Lifespans of rainbow trout exposed to gas supersaturation. Based on example given in Salinger et al. 2003.
+#'
+#' @format A data frame with 35 rows and 2 variables:
+#' \describe{
+#'   \item{days}{time until death of fish}
+#'   \item{censor}{Observation was censored}
+#'   ...
+#' }
+"trout"
