@@ -121,7 +121,7 @@ fc_fit=function(time,model,censorID=NULL,rc.value=NULL,rt.value=NULL,...){
       if(model[i]=="vitality.ku"){
         if(rc){
           dTmp=vitality::dataPrep(c(0,y_cen),(n_cen:(n_cen-length(y_cen)))/n_cen,datatype="CUM",rc.data=(n_cen>length(y_cen)))
-          fit[[model[i]]]=vitality::vitality.ku(dTmp[,"time"],sdata = dTmp[,"sfract"],rc.data = T,pplot =F,lplot = F,
+          fit[[model[i]]]=vitality::vitality.ku(dTmp[,"time"],sdata = dTmp[,"sfract"],rc.data = T,pplot =F,lplot = F, silent = T,
                                         se=T,...)#init.params = c(0.0118535685, 0.0070384229, 0.0001868951, 0.0443095393),silent=F,...) # added ... here to get the init.params argument to pass through
           pars_tmp=fit[[model[i]]][,"params"]
           fit_vals=rbind(fit_vals,
@@ -143,7 +143,7 @@ fc_fit=function(time,model,censorID=NULL,rc.value=NULL,rt.value=NULL,...){
       if(model[i]=="vitality.4p"){
         if(rc){
           dTmp=vitality::dataPrep(c(0,y_cen),(n_cen:(n_cen-length(y_cen)))/n_cen,datatype="CUM",rc.data=(n_cen>length(y_cen)))
-          fit[[model[i]]]=vitality::vitality.4p(dTmp[,"time"],sdata = dTmp[,"sfract"],rc.data = T,pplot =F,
+          fit[[model[i]]]=vitality::vitality.4p(dTmp[,"time"],sdata = dTmp[,"sfract"],rc.data = T,pplot =F,silent=T,
                                                 se=T,init.params=c(0.012, 0.01, 0.1, 0.1),...) # added ... here to get the init.params argument to pass through
           pars_tmp=fit[[model[i]]][,"params"]
           fit_vals=rbind(fit_vals,
