@@ -46,7 +46,7 @@
 #' @export fc_fit 
 #'
 #'
-fc_fit=function(time,model,rc.value=NULL,rt.value=NULL,...){
+fc_fit=function(time,model,censorID=NULL,rc.value=NULL,rt.value=NULL,...){
   rc=FALSE #temp def
   rt=FALSE #temp def
   if(!is.vector(time)|!is.numeric(time)){stop("A numeric vector is expected for the 'time' argument")}
@@ -73,6 +73,7 @@ fc_fit=function(time,model,rc.value=NULL,rt.value=NULL,...){
     # recalculate the survival fraction after truncating values beyond the threshold
     y_sfrac=sapply(y,function(x){1-length(which(y<=x))/length(y)}) # survival fraction calc
   }
+  
   if(!is.null(rc.value)){
     rc=TRUE # change this value for later if statement
     non_cen=ifelse(time<rc.value,1,0) # vector used by "flexsurv"
@@ -84,6 +85,14 @@ fc_fit=function(time,model,rc.value=NULL,rt.value=NULL,...){
     y_cen_sfrac=y_sfrac[y<rc.value]
     n_cen=length(y)
   }
+  
+  # censorID
+  if(!is.null(censorID)){
+    if(!(censorID %in% c(0,1) | is.logical(censorID))){stop("1/0 or TRUE/FALSE expected for censorID")}
+    if(!is.null(rc.value)){warning("censorID overrides rc.value argument")}
+    non_cen=censorID
+  }
+  
 
   KM_mod=survival::survfit(survival::Surv(time=y,event=non_cen)~1)
   KM_sls=summary(KM_mod)
@@ -93,7 +102,7 @@ fc_fit=function(time,model,rc.value=NULL,rt.value=NULL,...){
 
   if("kaplan-meier" %in% model & length(model)>1){
     model=model[model!="kaplan-meier"]
-    message("'kaplan-meier' cannot be included in a fc_list with parametric models, and will be removed")
+    message("'kaplan-meier' cannot be included in a fc_list with parametric models, and will be omitted from the string")
   }
 
   fit=list()
@@ -106,7 +115,7 @@ fc_fit=function(time,model,rc.value=NULL,rt.value=NULL,...){
       # preds[match(time,preds$time),]
       fit_vals=rbind(fit_vals,
                      data.frame(model=model[i],time=0,est=1,lcl=1,ucl=1),
-                     data.frame(model=model[i],preds[match(y,preds$time),]))
+                     data.frame(model=model[i],preds[match(y,preds$time),])) # match() used for duplicate rows
       }
     else{
       if(model[i]=="vitality.ku"){
