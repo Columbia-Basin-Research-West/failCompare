@@ -11,6 +11,8 @@ fc_fit(time, model, censorID = NULL, rc.value = NULL, rt.value = NULL, ...)
 
 \item{model}{character vector of specified model(s)}
 
+\item{censorID}{censored observation vector (T/F)}
+
 \item{rc.value}{right-censoring cutoff value; only observations with times > rc.value are considered to have failed prematurely.}
 
 \item{rt.value}{right-truncation cutoff value; only observations with times < rt.value will be included in the model fitting}

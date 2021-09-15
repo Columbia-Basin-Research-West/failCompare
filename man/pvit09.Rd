@@ -18,7 +18,7 @@ pvit09(x, par1, par2, par3, par4)
 \item{par4}{u}
 }
 \value{
-
+cumulative probability
 }
 \description{
 Cumulative distribution function of Vitality 2009 model

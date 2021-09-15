@@ -18,7 +18,7 @@ pvit13(x, par1, par2, par3, par4)
 \item{par4}{beta}
 }
 \value{
-
+cumulative probability
 }
 \description{
 Cumulative distribution function of Vitality 2013 model

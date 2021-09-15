@@ -7,11 +7,13 @@
 fc_pred(mod_obj = NULL, times, pars = NULL, model = NULL)
 }
 \arguments{
+\item{mod_obj}{model object (class = fc_obj)}
+
 \item{times}{time vector}
 
-\item{pars}{parameter estimates}
+\item{pars}{parameter estimates, if mod_obj absent}
 
-\item{model}{survival model}
+\item{model}{survival model name, if mod_obj absent}
 }
 \value{
 failure probability

@@ -24,7 +24,7 @@ rvitality(
 \item{model}{either "Vitality09" ot "Vitality13"}
 }
 \value{
-
+random values
 }
 \description{
 Generating  samples from 2009 and 2013 Vitality models

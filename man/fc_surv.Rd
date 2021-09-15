@@ -4,7 +4,7 @@
 \alias{fc_surv}
 \title{Compute sample survival function}
 \usage{
-fc_surv(time, censorID = NULL, rt.value = NULL, rc.value = NULL)
+fc_surv(time, censorID = NULL, rc.value = NULL)
 }
 \arguments{
 \item{time}{failure or censoring time}

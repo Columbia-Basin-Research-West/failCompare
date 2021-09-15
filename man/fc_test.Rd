@@ -11,12 +11,14 @@ fc_test(times, iters = 50000, model = "gompertz", label = "", plot = FALSE)
 
 \item{iters}{replicates for bootstrap (default to 50k)}
 
+\item{model}{distribution}
+
 \item{label}{optional argument for labeling plots}
 
-\item{dist}{distribution}
+\item{plot}{optional argument for creating histogram}
 }
 \value{
-P-value and plot of sample distribution of D statistic.
+P-value and histogram of sample distribution of D statistic.
 }
 \description{
 Simulated Kolmogorov-Smirnov Test

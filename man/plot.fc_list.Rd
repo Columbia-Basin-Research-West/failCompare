@@ -9,9 +9,11 @@
 \arguments{
 \item{x}{failmod_list objects (ranked or not)}
 
-\item{model}{surival model}
+\item{model}{survival model}
 
-\item{km}{Show kaplan-meier estimates}
+\item{type}{"data" or "residual" plot.}
+
+\item{km}{show kaplan-meier estimates}
 
 \item{res}{fineness of survival function preds}
 
@@ -24,4 +26,7 @@ plot and a message
 }
 \description{
 Title
+}
+\details{
+Plot type "data" shown by default. For "residual" type plot showing (kaplan-meier estimates - parametric model fit) plot a singual model of class=fc_obj.
 }

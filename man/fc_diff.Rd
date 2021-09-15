@@ -4,7 +4,7 @@
 \alias{fc_diff}
 \title{Log-rank test of two data sets}
 \usage{
-fc_diff(data, time, group, non_cen = NULL)
+fc_diff(data, time, group, censorID = NULL)
 }
 \arguments{
 \item{data}{dataframe containing all variables}
@@ -12,6 +12,8 @@ fc_diff(data, time, group, non_cen = NULL)
 \item{time}{failure times}
 
 \item{group}{grouping variable}
+
+\item{censorID}{censored observation vector (T/F)}
 }
 \value{
 Results of a log-rank test for comparing two survival distributions
