@@ -72,6 +72,11 @@ fc_rank(fmods)
 
 ### Ranking models
 ```{r mod rank,warning=FALSE,fig.width=5, fig.height=5}
+
+fc_fit(taglife,"weibull")
+fc_fit(taglife,"weibull3")
+
+
 fmods_all=fc_fit(taglife,"all")
 fmods_all
 fmods_all_ranked=fc_rank(fmods_all)
