@@ -10,7 +10,7 @@
 #' 
 #' @export
 #'
-fc_surv <- function(time,censorID=NULL,rt.value=NULL,rc.value=NULL){
+fc_surv <- function(time,censorID=NULL,rc.value=NULL){
   org_time_ord=order(time)
   y=time
   y_sfrac=sapply(y,function(x){1-length(which(y<=x))/length(y)}) # survival fraction calc
@@ -22,13 +22,6 @@ fc_surv <- function(time,censorID=NULL,rt.value=NULL,rc.value=NULL){
     if(!is.null(rc.value)){stop("'rc.value' will override 'censorID' argument")}
     non_cen=censorID}
   
-  if(!is.null(rt.value)){
-    non_trunc=time<rt.value # vector used by "flexsurv"
-    y=y[non_trunc]
-    non_cen=non_cen[non_trunc]
-    # recalculate the survival fraction after truncating values beyond the threshold
-    y_sfrac=sapply(y,function(x){1-length(which(y<=x))/length(y)}) # survival fraction calc
-  }
   if(!is.null(rc.value)){
     rc=TRUE # change this value for later if statement
     non_cen=ifelse(time<rc.value,1,0) # vector used by "flexsurv"

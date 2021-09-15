@@ -7,6 +7,7 @@
 #' @param rc.value right-censoring cutoff value; only observations with times > rc.value are considered to have failed prematurely.
 #' @param rt.value right-truncation cutoff value; only observations with times < rt.value will be included in the model fitting
 #' @param ... additional arguments passed
+#' @param censorID censored observation vector (T/F)
 #'
 #' @return A failure model object, if one model specified OR a failure model list object if multiple models are specified
 #'
@@ -60,7 +61,8 @@ fc_fit=function(time,model,censorID=NULL,rc.value=NULL,rt.value=NULL,...){
   test=!model %in% c("weibull",'weibull3', "gompertz", "gamma", "lognormal", "llogis", "gengamma","vitality.ku","vitality.4p","kaplan-meier")
   if(any(test)){
     message(paste("Model names not recognized:",paste(model[which(test)],collapse=";")," \n Default model names = {'weibull','weibull3','gompertz','gamma','lognormal','llogis','gengamma','vitality.ku','vitality.4p','kaplan-meier'}",sep=""))
-    model=model[!test]}
+    model=model[!test]
+    if(length(model)==0){stop("No valid names in the 'model' argument")}}
 
   y=sort(time)  # sorted data necessary for Vitality package functions
   y_sfrac=sapply(y,function(x){1-length(which(y<=x))/length(y)}) # survival fraction calc
