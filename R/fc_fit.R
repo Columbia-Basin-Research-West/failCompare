@@ -52,7 +52,7 @@ fc_fit=function(time,model,censorID=NULL,rc.value=NULL,rt.value=NULL,...){
   rt=FALSE #temp def
   if(!is.vector(time)|!is.numeric(time)){stop("A numeric vector is expected for the 'time' argument")}
   if(model[1]=="all"){model=c("weibull",'weibull3', "gompertz", "gamma", "lognormal", "llogis", "gengamma","vitality.ku","vitality.4p")
-  message("Fitting all default parametric survival models")}
+  message("Fitting all available parametric survival models")}
 
   # WARNINGS AND VALIDATION
   if(any(is.na(time))){
@@ -107,6 +107,14 @@ fc_fit=function(time,model,censorID=NULL,rc.value=NULL,rt.value=NULL,...){
     model=model[model!="kaplan-meier"]
     message("'kaplan-meier' cannot be included in a fc_list with parametric models, and will be omitted from the string")
   }
+  
+  ### WEIBULL3 not supported
+  if(rc & "weibull3" %in% model){
+    model=model[model!="weibull3"]
+    message("The right-censored 3-parameter Weibull model ('weibull3') is not available ")
+    if(length(model)==1){stop()}
+  }
+
 
   fit=list()
   fit_vals=NULL
