@@ -112,7 +112,7 @@ fc_fit=function(time,model,censorID=NULL,rc.value=NULL,rt.value=NULL,...){
   if(rc & "weibull3" %in% model){
     model=model[model!="weibull3"]
     message("The right-censored 3-parameter Weibull model ('weibull3') is not available ")
-    if(length(model)==1){stop()}
+    if(length(model)==0){stop("Cannot fit right-censored 3-parameter Weibull model")}
   }
 
 
