@@ -46,12 +46,11 @@ taglife.fn_weib3=function(tags.in,model.in="weibull",tag.se=T){
   }else{params.out[,3]=NA}
 
   ##### end of fitting loop.  need to add prompt that fit is accepted.  If not, go back to model choice
-  ##### fn will return last model fit
-
-  # fit_vals=data.frame(model="weibull3",time=c(0,tags.in),est=fail.fn_weib3(c(0,tags.in),params.out[1,2],params.out[2,2],params.out[3,2]),lcl=NA,ucl=NA)
-  fit_vals=data.frame(model="weibull3",time=c(0,tags.in),est=fc_pred(c(0,tags.in),pars = params.out[,2],model = "weibull3"),lcl=NA,ucl=NA)
+  fit_vals=data.frame(model="weibull3",time=c(0,tags.in),est=fc_pred(times = c(0,tags.in),pars = params.out[,2],model = "weibull3"),lcl=NA,ucl=NA)
   mod_obj=par_out_simp
-  out=list(mod_obj=mod_obj,fit_vals=fit_vals,par_tab=par_out_simp)
+  out=list(mod_obj=mod_obj,
+           fit_vals=fit_vals,
+           par_tab=par_out_simp)
 
   return(out)
 }
