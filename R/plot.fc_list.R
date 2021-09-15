@@ -2,11 +2,14 @@
 #' Title
 #'
 #' @param x failmod_list objects (ranked or not)
-#' @param model surival model
+#' @param model survival model
+#' @param type "data" or "residual" plot. 
 #' @param res fineness of survival function preds
-#' @param km Show kaplan-meier estimates
+#' @param km show kaplan-meier estimates
 #' @param xlim x axis limits, used to override default
 #' @param ... ignore
+#' 
+#' @details Plot type "data" shown by default. For "residual" type plot showing (kaplan-meier estimates - parametric model fit) plot a singual model of class=fc_obj.
 #'
 #' @return plot and a message
 #' @export

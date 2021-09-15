@@ -1,9 +1,10 @@
 #' @title Failure time predictions
 #' @description Geneates predictions from failure time model objects
 #'
-#' @param times time vector
-#' @param pars parameter estimates
-#' @param model survival model
+#' @param times time vector 
+#' @param mod_obj model object (class = fc_obj)
+#' @param pars parameter estimates, if mod_obj absent
+#' @param model survival model name, if mod_obj absent
 #'
 #' @return failure probability
 #'

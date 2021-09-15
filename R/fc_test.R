@@ -2,11 +2,26 @@
 #'
 #' @param times numeric vector of failure times
 #' @param iters replicates for bootstrap (default to 50k)
-#' @param dist distribution
+#' @param model distribution
 #' @param label optional argument for labeling plots
+#' @param plot optional argument for creating histogram
 #'
-#' @return P-value and plot of sample distribution of D statistic.
+#' @return P-value and histogram of sample distribution of D statistic.
 #' 
+#' @importFrom stats ks.test
+#' @importFrom stats rlnorm
+#' @importFrom stats rgamma
+#' @importFrom stats rweibull
+#'
+#' @importFrom flexsurv flexsurvreg
+#' @importFrom flexsurv pllogis
+#' @importFrom flexsurv rllogis
+#' @importFrom flexsurv rgompertz
+#' @importFrom flexsurv rgengamma
+#'
+#' @importFrom stats rweibull
+#' @import graphics
+#'
 #' @export
 #' 
 
@@ -21,35 +36,35 @@ fc_test <- function(
   
   # TWO-PARAMETER MODELS
   if(model=="gompertz"){
-    fit=flexsurv::flexsurvreg(survival::Surv(times)~1,dist = model)
+    fit=flexsurvreg(survival::Surv(times)~1,dist = model)
     est_pars=fit$res[,1]
     D0=ks.test(times,"pgompertz",est_pars[1],est_pars[2])$statistic
     MAT=replicate(iters,rgompertz(n,est_pars[1],est_pars[2]))
     Dsim=apply(MAT,2,function(x){ks.test(x,"pgompertz",shape=est_pars[1],rate=est_pars[2])$statistic})}
   
   if(model=="llogis"){
-    fit=flexsurv::flexsurvreg(survival::Surv(times)~1,dist = model)
+    fit=flexsurvreg(survival::Surv(times)~1,dist = model)
     est_pars=fit$res[,1]
     D0=ks.test(times,"pllogis",est_pars[1],est_pars[2])$statistic
     MAT=replicate(iters,rllogis(n,est_pars[1],est_pars[2]))
     Dsim=apply(MAT,2,function(x){ks.test(x,"pllogis",est_pars[1],est_pars[2])$statistic})}
   
   if(model=="lnorm"){
-    fit=flexsurv::flexsurvreg(survival::Surv(times)~1,dist = model)
+    fit=flexsurvreg(survival::Surv(times)~1,dist = model)
     est_pars=fit$res[,1]
     D0=ks.test(times,"plnorm",est_pars[1],est_pars[2])$statistic
     MAT=replicate(iters,rlnorm(n,est_pars[1],est_pars[2]))
     Dsim=apply(MAT,2,function(x){ks.test(x,"plnorm",est_pars[1],est_pars[2])$statistic})}
   
   if(model=="gamma"){
-    fit=flexsurv::flexsurvreg(survival::Surv(times)~1,dist = model)
+    fit=flexsurvreg(survival::Surv(times)~1,dist = model)
     est_pars=fit$res[,1]
     D0=ks.test(times,"pgamma",est_pars[1],est_pars[2])$statistic
     MAT=replicate(iters,rgamma(n,est_pars[1],est_pars[2]))
     Dsim=apply(MAT,2,function(x){ks.test(x,"pgamma",est_pars[1],est_pars[2])$statistic})}
   
-  if(model=="weibull(2)"){
-    fit=flexsurv::flexsurvreg(survival::Surv(times)~1,dist = "weibull")
+  if(model=="weibull"){
+    fit=flexsurvreg(survival::Surv(times)~1,dist = "weibull")
     est_pars=fit$res[,1]
     D0=ks.test(times,"pweibull",est_pars[1],est_pars[2])$statistic
     MAT=replicate(iters,rweibull(n,est_pars[1],est_pars[2]))
@@ -58,14 +73,15 @@ fc_test <- function(
   # THREE-PARAMETER MODELS
   
   if(model=="gengamma"){
-    fit=flexsurv::flexsurvreg(survival::Surv(times)~1,dist = model)
+    fit=flexsurvreg(survival::Surv(times)~1,dist = model)
     est_pars=fit$res[,1]
     D0=ks.test(times,"pgengamma",est_pars[1],est_pars[2],est_pars[3])$statistic
     MAT=replicate(iters,rgengamma(n,est_pars[1],est_pars[2],est_pars[3]))
     Dsim=apply(MAT,2,function(x){ks.test(x,"pgengamma",est_pars[1],est_pars[2],est_pars[3])$statistic})}
   
-  if(model=="weibull(3)"){
-    weib3_res=weibull3_NOSE(times,plots=F)
+  if(model=="weibull3"){
+    # weib3_res=weibull3_NOSE(times,plots=F)
+    weib3_res=taglife.fn_weib3(tags.in = times)
     est_pars=weib3_res[[1]][,2]
     D0=ks.test(times,"pweibull3",est_pars[1],est_pars[2],est_pars[3])$statistic
     MAT=replicate(iters,rweibull3(n,est_pars[1],est_pars[2],est_pars[3]))
@@ -137,7 +153,7 @@ fc_test <- function(
 #' @param quant_seq bins in which to place simulated times
 #' @param model either "Vitality09" ot "Vitality13"
 #'
-#' @return
+#' @return random values
 #' @export
 rvitality=function(
   parms, # four vitality parameters
@@ -185,7 +201,7 @@ rvitality=function(
 #' @param par3 k
 #' @param par4 u
 #'
-#' @return
+#' @return cumulative probability
 pvit09=function(x,par1,par2,par3,par4){1-vitality::SurvFn.ku(x,par1,par2,par3,par4)}
 
 #'@title Cumulative distribution function of Vitality 2013 model
@@ -196,8 +212,18 @@ pvit09=function(x,par1,par2,par3,par4){1-vitality::SurvFn.ku(x,par1,par2,par3,pa
 #' @param par3 lambda
 #' @param par4 beta
 #'
-#' @return
+#' @return cumulative probability
 pvit13=function(x,par1,par2,par3,par4){1-vitality::SurvFn.4p(x,par1,par2,par3,par4)}
 
-pllogis=flexsurv::pllogis
-rllogis=flexsurv::rllogis
+#' @title random number generation for 3-parameter weibull
+#'
+#' @param n sample size
+#' @param shape beta
+#' @param scale lambda
+#' @param thres gamma
+#'
+#' @return vector of random values from the 3-parameter weibull model
+rweibull3=function(n, shape, scale = 1, thres = 0){
+  thres + rweibull(n, shape, scale)
+}
+  

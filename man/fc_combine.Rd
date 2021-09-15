@@ -6,6 +6,9 @@
 \usage{
 fc_combine(mod_ls)
 }
+\arguments{
+\item{mod_ls}{list of fc_mods}
+}
 \value{
 fc_list object
 }

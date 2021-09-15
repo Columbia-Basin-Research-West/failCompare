@@ -1,9 +1,9 @@
 #' @title Combination of multiple failure time model objects into a list of models
 #'
-#'@details A convenient function for combining model failure time model objecs (fc_obj) into a list object (fc_list). 
+#' @details A convenient function for combining model failure time model objecs (fc_obj) into a list object (fc_list). 
 #'Model list objects may be ranked according to the Skalski and Whitlock GOF metric using fc_rank
 #'
-#'@params list of fc_mods
+#' @param mod_ls list of fc_mods
 #'
 #' @return fc_list object
 #' @export
