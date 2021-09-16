@@ -16,10 +16,20 @@
 #' @importFrom graphics plot lines legend points
 #'
 #' @export
-plot.fc_obj <- function(x,km=FALSE,km.ci=FALSE,res=100,type="data",...){
+plot.fc_obj <- function(x,km=FALSE,km.ci=FALSE,res=100,ylim,xlim,type="data",...){
   stopifnot(is.logical(km))
   stopifnot(is.logical(km.ci))
   stopifnot(type %in% c("data","resid"))
+  
+  #override xlim
+  if(missing(xlim)){
+    xdim=c(max(tmn-inc,0),tmx+inc)}
+  else{xdim=xlim}
+  
+  #override ylim
+  if(missing(ylim)){
+    ydim=c(0,1)}
+  else{ydim=ylim}
 
   if(x$mod_choice=="kaplan-meier"){
     #km.ci=TRUE # automatically add
