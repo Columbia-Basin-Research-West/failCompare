@@ -7,6 +7,8 @@
 #' @param km Show kaplan-meier estimates
 #' @param km.ci Show 95% confidence limits surrounding kaplan-meier estimates
 #' @param res Number of evenly space points within the range of the data
+#' @param xlim x axis limits for survival plot
+#' @param ylim y axis limits for survival plot, used to override default of c(0,1)
 #' @param ... ignored
 #'
 #'
@@ -20,6 +22,11 @@ plot.fc_obj <- function(x,km=FALSE,km.ci=FALSE,res=100,ylim,xlim,type="data",...
   stopifnot(is.logical(km))
   stopifnot(is.logical(km.ci))
   stopifnot(type %in% c("data","resid"))
+
+  time=x$fit_vals$time
+  tmx=max(round(time))
+  tmn=min(round(time))
+  inc=(tmx-tmn)*0.15
   
   #override xlim
   if(missing(xlim)){
@@ -28,7 +35,7 @@ plot.fc_obj <- function(x,km=FALSE,km.ci=FALSE,res=100,ylim,xlim,type="data",...
   
   #override ylim
   if(missing(ylim)){
-    ydim=c(0,1)}
+    ydim=c(0,1.1)}
   else{ydim=ylim}
 
   if(x$mod_choice=="kaplan-meier"){
@@ -36,7 +43,7 @@ plot.fc_obj <- function(x,km=FALSE,km.ci=FALSE,res=100,ylim,xlim,type="data",...
     if(type=="resid"){stop("residual plot not available for kaplan-meier model")}
     t_rng=x$fit_vals$time
     ts=seq(max(min(t_rng*.95),0),(max(t_rng)*1.05),length.out = res)
-    plot(surv_frac~time,x$times,pch=3,col=NA,xlab="t",ylab="S(t)",xlim=c(min(ts),max(ts)),...)
+    plot(surv_frac~time,x$times,pch=3,col=NA,xlab="t",ylab="S(t)",xlim=xdim,ylim=ydim,...)
     lines(est~time,x$KM_DF,type="s",col=2,lty=1,lwd=4)
     if(km.ci){
       lines(lcl~time,x$KM_DF,type="s",col=8,lty=3)
@@ -54,7 +61,7 @@ plot.fc_obj <- function(x,km=FALSE,km.ci=FALSE,res=100,ylim,xlim,type="data",...
 
   # Data plot
   if(type=="data"){
-  plot(surv_frac~time,x$times,pch=3,col=NA,xlab="t",ylab="S(t)",xlim=c(min(ts),max(ts)),...)
+  plot(surv_frac~time,x$times,pch=3,col=NA,xlab="t",ylab="S(t)",xlim=xdim,ylim=ydim,...)
   lines(ts,spred,col=2,lwd=4)
   if(km){
     lines(est~time,x$KM_DF,type="s",col=8,lty=2)
@@ -78,7 +85,13 @@ plot.fc_obj <- function(x,km=FALSE,km.ci=FALSE,res=100,ylim,xlim,type="data",...
   tmpDF=data.frame(x$KM_DF$time,est_offset,x$KM_DF$lcl,x$KM_DF$ucl,est_lcl,est_ucl)
   bnds=unlist(tmpDF[,c("est_lcl","est_ucl")])
   min_bnds=min(bnds);max_bnds=max(bnds)
-  plot(x$fit_vals$time,c(1,x$times$surv_frac)-x$fit_vals$est,col=NA,ylim=c(min_bnds,max_bnds),xlim=c(min(ts),max(ts)),xlab="t",ylab="Residual \n (Kaplan-Meier - Fitted)",...)
+  
+  #override ylim
+  if(missing(ylim)){
+    ydim=c(min_bnds,max_bnds)}
+  else{ydim=ylim}
+  
+  plot(x$fit_vals$time,c(1,x$times$surv_frac)-x$fit_vals$est,col=NA,ylim=c(min_bnds,max_bnds),xlim=xdim,xlab="t",ylab="Residual \n (Kaplan-Meier - Fitted)",...)
   lines(y=rep(0,length(ts)),x=ts,col=2,lwd=4)
   points(x$fit_vals$time[-1],x$times$surv_frac-x$fit_vals$est[-1],pch=3) # adding -1 removes default point placed at zero
 
