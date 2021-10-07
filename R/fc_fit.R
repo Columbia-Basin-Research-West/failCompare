@@ -64,9 +64,10 @@ fc_fit=function(time,model,censorID=NULL,rc.value=NULL,rt.value=NULL,...){
     model=model[!test]
     if(length(model)==0){stop("No valid names in the 'model' argument")}}
 
+  ord=order(time)
   y=sort(time)  # sorted data necessary for Vitality package functions
   y_sfrac=sapply(y,function(x){1-length(which(y<=x))/length(y)}) # survival fraction calc
-  non_cen=rep(1,length(y))
+  non_cen=rep(TRUE,length(y))
 
   if(!is.null(rt.value)){
     non_trunc=time<rt.value # vector used by "flexsurv"
@@ -78,8 +79,8 @@ fc_fit=function(time,model,censorID=NULL,rc.value=NULL,rt.value=NULL,...){
   
   if(!is.null(rc.value)){
     rc=TRUE # change this value for later if statement
-    non_cen=ifelse(time<rc.value,1,0) # vector used by "flexsurv"
     y=sort(y)  # sorted data necessary for Vitality package functions
+    non_cen=ifelse(y<rc.value,TRUE,FALSE) # vector used by "flexsurv"
     y_sfrac=sapply(y,function(x){1-length(which(y<=x))/length(y)}) # survival fraction calc
 
     # For vitality model
@@ -90,10 +91,11 @@ fc_fit=function(time,model,censorID=NULL,rc.value=NULL,rt.value=NULL,...){
   
   # censorID
   if(!is.null(censorID)){
+    censorID=censorID[ord]
     stopifnot(length(time)==length(censorID)) # censorID length should match
     if(any(sapply(censorID,function(x){!(x %in% c(0,1) | is.logical(x))}))){stop("1/0 or TRUE/FALSE expected for censorID")}
     if(!is.null(rc.value)){warning("censorID overrides rc.value argument")}
-    non_cen=censorID
+    non_cen=as.logical(censorID)
   }
   
 
@@ -208,7 +210,8 @@ fc_fit=function(time,model,censorID=NULL,rc.value=NULL,rt.value=NULL,...){
                 "mod_objs"=fit,
                 "par_tab"=par_tab,
                 "KM_DF"=KM_DF,
-                "KM_mod"=KM_mod)
+                "KM_mod"=KM_mod,
+                "censored"=rc)
     out=structure(out_ls,class="fc_list")
 
     }
@@ -240,7 +243,8 @@ fc_fit=function(time,model,censorID=NULL,rc.value=NULL,rt.value=NULL,...){
                 "mod_objs"=fit[[1]],
                 "par_tab"=par_tab,
                 "KM_DF"=KM_DF,
-                "KM_mod"=KM_mod)
+                "KM_mod"=KM_mod,
+                "censored"=rc)
 
     out=structure(out_ls,class="fc_obj")
   }
