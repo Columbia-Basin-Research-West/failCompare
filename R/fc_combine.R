@@ -27,6 +27,13 @@ fc_combine <- function(mod_ls){
               "par_tab"=do.call(rbind,lapply(mod_ls,function(x){x$par_tab})),
               "KM_DF"=mod_ls[[1]]$KM_DF,
               "KM_mod"=mod_ls[[1]]$KM_mod) # advisable to check that all km_mods are the same
+  
+  if(!any(names(out_ls[["par_tab"]]) %in% "model")){
+    out_ls[["par_tab"]]=data.frame(model=rep(out_ls[["mod_choice"]],sapply(mod_ls,function(x){nrow(x$par_tab)})),
+                                   param=unlist(sapply(mod_ls,function(x){rownames(x$par_tab)})),#rownames(out_ls[["par_tab"]]),
+                                   out_ls[["par_tab"]])
+    rownames(out_ls[["par_tab"]])=NULL}
+  
   out=structure(out_ls,class="fc_list") # adds fc_list class designation
   
   return(out)
