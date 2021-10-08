@@ -68,6 +68,7 @@ fc_fit=function(time,model,censorID=NULL,rc.value=NULL,rt.value=NULL,...){
   y=sort(time)  # sorted data necessary for Vitality package functions
   y_sfrac=sapply(y,function(x){1-length(which(y<=x))/length(y)}) # survival fraction calc
   non_cen=rep(TRUE,length(y))
+  n_cen=length(y)
 
   if(!is.null(rt.value)){
     non_trunc=time<rt.value # vector used by "flexsurv"
@@ -86,12 +87,13 @@ fc_fit=function(time,model,censorID=NULL,rc.value=NULL,rt.value=NULL,...){
     # For vitality model
     y_cen=y[y<rc.value]
     y_cen_sfrac=y_sfrac[y<rc.value]
-    n_cen=length(y)
   }
   
   # censorID
   if(!is.null(censorID)){
+    rc=TRUE # change this value for later if statement
     censorID=censorID[ord]
+    y_cen=y[censorID]
     stopifnot(length(time)==length(censorID)) # censorID length should match
     if(any(sapply(censorID,function(x){!(x %in% c(0,1) | is.logical(x))}))){stop("1/0 or TRUE/FALSE expected for censorID")}
     if(!is.null(rc.value)){warning("censorID overrides rc.value argument")}
