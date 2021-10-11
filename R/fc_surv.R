@@ -11,6 +11,7 @@
 #' @export
 #'
 fc_surv <- function(time,censorID=NULL,rc.value=NULL){
+  if(is.unsorted(time)){message("times are not sorted")}
   org_time_ord=order(time)
   y=time
   y_sfrac=sapply(y,function(x){1-length(which(y<=x))/length(y)}) # survival fraction calc
