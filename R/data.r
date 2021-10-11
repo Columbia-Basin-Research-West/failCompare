@@ -37,3 +37,14 @@
 #'   ...
 #' }
 "trout"
+
+
+#' Lifespans of rats in an example described in Lee and Wang 2003.
+#'
+#' @format A data frame with 35 rows and 2 variables:
+#' \describe{
+#'   \item{days}{time until death of fish}
+#'   \item{death}{1s indicate observed failures}
+#'   ...
+#' }
+"pike"
