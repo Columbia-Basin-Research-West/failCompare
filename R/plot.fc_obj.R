@@ -105,9 +105,3 @@ plot.fc_obj <- function(x,km=FALSE,km.ci=FALSE,res=100,ylim,xlim,type="data",...
   }
   }
 }
-
-png("ee.png",width=10,height=5,units="in",res=600)
-par(mfrow=c(1,2))
-plot(weib_mod,km = TRUE,km.ci = TRUE)
-plot(weib_mod,type = "resid",km = TRUE,km.ci = TRUE)
-dev.off()
