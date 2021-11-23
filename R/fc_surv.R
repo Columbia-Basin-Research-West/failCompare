@@ -6,7 +6,9 @@
 #' @param censorID logical vector the same length as `time`, with TRUE indicating censoring time
 #' @param rc.value time after which all values are censored
 #'
-#' @return sample survival function
+#' @return Numeric vector of survival fraction etimates sample survival function
+#' 
+#' @seealso \code{\link{fc_combine}}
 #' 
 #' @export
 #'
