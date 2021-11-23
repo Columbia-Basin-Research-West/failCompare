@@ -13,7 +13,7 @@
 #'
 #' @return histogram of failure times and/or scatter plot of sample survival function
 #' @export
-fc_plot=function(time,surv,censorID,group=NULL,hist=T,surv_curv=T,main,ylim,xlim,...){
+fc_plot=function(time,surv,censorID,group=NULL,hist=T,surv_curv=T,main,ylim,xlim,ylab,xlab,...){
   if(all(!surv_curv,!hist)){stop("At least 'surv_curv' or 'hist' must be TRUE")}
   if(missing(censorID)){censorID=rep(FALSE,length(time))}
   else{if(!is.null(group)){warning("group symbols override censorIDs")}}
@@ -25,6 +25,12 @@ fc_plot=function(time,surv,censorID,group=NULL,hist=T,surv_curv=T,main,ylim,xlim
 
   if(missing(main)){plt_title="Survival function"}
   else{plt_title=main}
+  
+  if(missing(xlab)){x_title="t"}
+  else{x_title=xlab}
+  
+  if(missing(ylab)){y_title="S(t)"}
+  else{y_title=ylab}
   
   tmx=max(round(time))
   tmn=min(round(time))
@@ -49,7 +55,7 @@ fc_plot=function(time,surv,censorID,group=NULL,hist=T,surv_curv=T,main,ylim,xlim
          # xlim=xdim,   # x-axis scale
          breaks=20,
          main="Failure time distribution", # plot title
-         xlab="Days")} # axis label
+         xlab=x_title)} # axis label
     
     # Sample survival function
     if(surv_curv){
@@ -57,7 +63,7 @@ fc_plot=function(time,surv,censorID,group=NULL,hist=T,surv_curv=T,main,ylim,xlim
          xlim=xdim, 
          ylim = ydim,
          main=plt_title,pch=1,col=c("black","darkgray")[non_cen+1],
-         xlab="Days",ylab="S(t)",...)}
+         xlab=x_title,ylab=y_title,...)}
   }
   else{
     stopifnot(is.character(group)|is.factor(group))
@@ -66,7 +72,7 @@ fc_plot=function(time,surv,censorID,group=NULL,hist=T,surv_curv=T,main,ylim,xlim
     
     if(hist){
       # histogram of all failure times
-      hist(x = time,breaks=t_brk,xlab="Day",xlim=c(0,60),main="",col=8)
+      hist(x = time,breaks=t_brk,xlab=x_title,xlim=c(0,60),main="",col=8)
       # overlay histogram of spring failure is red
       for(i in 2:n_grps){
         hist(time[group==unique(group)[i]],breaks=t_brk,add=T,col=i)
@@ -77,7 +83,7 @@ fc_plot=function(time,surv,censorID,group=NULL,hist=T,surv_curv=T,main,ylim,xlim
       plot(x=time,y=surv,
              xlim=xdim,  
              main=plt_title, 
-             xlab="Days",ylab="S(t)",cex=1.1,pch=1)
+             xlab=x_title,ylab=y_title,cex=1.1,pch=1)
       for(i in 2:n_grps){
         points(time[group==unique(group)[i]],y=surv[group==unique(group)[i]],col=i,cex=1.1)}
       legend("bottomleft",legend=unique(group),col=c(1,2:(n_grps)),pch=1,bty="n")
