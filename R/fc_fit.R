@@ -5,11 +5,11 @@
 #' @param time numeric vector of failure times
 #' @param model character vector of specified model(s)
 #' @param rc.value right-censoring cutoff value; only observations with times > rc.value are considered to have failed prematurely.
-#' @param rt.value right-truncation cutoff value; only observations with times < rt.value will be included in the model fitting
-#' @param ... additional arguments passed
 #' @param censorID censored observation vector (T/F)
+#' @param ... additional arguments passed
 #'
-#' @return A failure model object, if one model specified OR a failure model list object if multiple models are specified
+#' @return Returns failure model object of class \code{"fc_obj"} if one model specified OR 
+#' a failure model list object of class \code{"fc_list"} if multiple models are specified
 #'
 #' @details
 #' Model fitting routine used to fit one or a set of failure time models.
@@ -34,11 +34,21 @@
 #' fc_rank() function, which ranks the performance of the model using
 #' the \href{http://animalbiotelemetry.biomedcentral.com/articles/10.1186/s40317-020-00213-z}{Skalski and Whitlock (2020)} GOF measure.
 #'
-#'  The raw output from the function is a named list with the following objects \cr
-#' "mod_choice" = character object of model name or vector of model names \cr
-#' "fit_vals" = data frame with fitted values for each time and 95% confidence interval \cr
-#' "mod_objs" = model objects from various packages: kaplan-meier ("surival"), vitality models ("vitality") \cr
-#' "par_tab" = dataframe of one or more model's parameter estimates \cr
+#'   Parameter estimates and accompanying standard errors(if available) are printed. 
+#'   The \code{"fc_obJ"} is a list of the following extractable objects:
+#'  \itemize{
+#'     \item"mod_choice"  = official model name
+#'     \item     "times"  = dataframe of failure time, survival fraction, and censoring binary var.
+#'     \item  "fit_vals"  = failure times and predicted survival under the model, 95% LCL an UCL if available
+#'     \item  "mod_objs"  = actual model object created by "flexsurvdist" or "vitality package"-- much more to extract from "flexsurvdist
+#'     \item   "par_tab"  = table of parameter estimates and SE in failCompare recognized order
+#'     \item     "KM_DF"  = table of K-M estimates for plotting
+#'     \item    "KM_mod"  = survival package K-M model estimates
+#'     \item  'censored'  = T/F of censored dataset or not
+#'  }
+#'
+#' @references Skalski, J. R., and S. L. Whitlock. 2020. Vitality models found useful in modeling tag-failure times in acoustic-tag survival studies. Animal Biotelemetry 8:1–10.DOI:10.1186/s40317-020-00213-z
+#'
 #'
 #' @importFrom survival Surv
 #' @importFrom flexsurv flexsurvreg
@@ -47,7 +57,7 @@
 #' @export fc_fit 
 #'
 #'
-fc_fit=function(time,model,censorID=NULL,rc.value=NULL,rt.value=NULL,...){
+fc_fit=function(time,model,censorID=NULL,rc.value=NULL,...){
   rc=FALSE #temp def
   rt=FALSE #temp def
   if(!is.vector(time)|!is.numeric(time)){stop("A numeric vector is expected for the 'time' argument")}
@@ -70,14 +80,6 @@ fc_fit=function(time,model,censorID=NULL,rc.value=NULL,rt.value=NULL,...){
   non_cen=rep(TRUE,length(y))
   n_cen=length(y)
 
-  if(!is.null(rt.value)){
-    non_trunc=time<rt.value # vector used by "flexsurv"
-    y=y[non_trunc]
-    non_cen=non_cen[non_trunc]
-    # recalculate the survival fraction after truncating values beyond the threshold
-    y_sfrac=sapply(y,function(x){1-length(which(y<=x))/length(y)}) # survival fraction calc
-  }
-  
   if(!is.null(rc.value)){
     rc=TRUE # change this value for later if statement
     y=sort(y)  # sorted data necessary for Vitality package functions

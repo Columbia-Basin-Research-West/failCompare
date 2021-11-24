@@ -14,7 +14,7 @@ fc_surv(time, censorID = NULL, rc.value = NULL)
 \item{rc.value}{time after which all values are censored}
 }
 \value{
-sample survival function
+Numeric vector of survival fraction etimates sample survival function
 }
 \description{
 Compute sample survival function

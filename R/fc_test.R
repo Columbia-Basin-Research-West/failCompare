@@ -6,7 +6,14 @@
 #' @param label optional argument for labeling plots
 #' @param plot optional argument for creating histogram
 #'
+#' @details Performsa a simulation-based Kolmogorov Smirnov Test
+#'
 #' @return P-value and histogram of sample distribution of D statistic.
+#'
+#'
+#' @seealso \code{\link[stats]{ks.test}}.
+#'  \code{\link[stats]{rweibull}}.
+#' 
 #' 
 #' @importFrom stats ks.test
 #' @importFrom stats rlnorm
@@ -18,6 +25,7 @@
 #' @importFrom flexsurv rllogis
 #' @importFrom flexsurv rgompertz
 #' @importFrom flexsurv rgengamma
+#'
 #'
 #' @importFrom stats rweibull
 #' @import graphics

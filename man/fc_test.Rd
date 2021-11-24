@@ -23,3 +23,10 @@ P-value and histogram of sample distribution of D statistic.
 \description{
 Simulated Kolmogorov-Smirnov Test
 }
+\details{
+Performsa a simulation-based Kolmogorov Smirnov Test
+}
+\seealso{
+\code{\link[stats]{ks.test}}.
+\code{\link[stats]{rweibull}}.
+}

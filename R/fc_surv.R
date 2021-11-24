@@ -8,9 +8,10 @@
 #'
 #' @return Numeric vector of survival fraction etimates sample survival function
 #' 
-#' @seealso \code{\link{fc_combine}}
 #' 
 #' @export
+#'
+#'
 #'
 fc_surv <- function(time,censorID=NULL,rc.value=NULL){
   if(is.unsorted(time)){message("times are not sorted")}

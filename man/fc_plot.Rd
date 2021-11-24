@@ -14,6 +14,8 @@ fc_plot(
   main,
   ylim,
   xlim,
+  ylab,
+  xlab,
   ...
 )
 }
@@ -36,7 +38,11 @@ fc_plot(
 
 \item{xlim}{x axis limits for survival plot}
 
-\item{...}{additional argument passed to scatter plot}
+\item{ylab}{y axis limits for survival plot, used to override default of c(0,1)}
+
+\item{xlab}{x axis limits for survival plot}
+
+\item{...}{additional argument passed to plot}
 }
 \value{
 histogram of failure times and/or scatter plot of sample survival function

@@ -9,7 +9,10 @@
 #' @param xlim x axis limits for survival plot
 #' @param ylim y axis limits for survival plot, used to override default of c(0,1)
 #' @param main title for scatterplot
-#' @param ... additional argument passed to scatter plot
+#' @param xlab x axis limits for survival plot
+#' @param ylab y axis limits for survival plot, used to override default of c(0,1)
+#' 
+#' @param ... additional argument passed to plot
 #'
 #' @return histogram of failure times and/or scatter plot of sample survival function
 #' @export

@@ -4,7 +4,7 @@
 \alias{fc_fit}
 \title{Fitting one or a set of failure time models}
 \usage{
-fc_fit(time, model, censorID = NULL, rc.value = NULL, rt.value = NULL, ...)
+fc_fit(time, model, censorID = NULL, rc.value = NULL, ...)
 }
 \arguments{
 \item{time}{numeric vector of failure times}
@@ -15,12 +15,11 @@ fc_fit(time, model, censorID = NULL, rc.value = NULL, rt.value = NULL, ...)
 
 \item{rc.value}{right-censoring cutoff value; only observations with times > rc.value are considered to have failed prematurely.}
 
-\item{rt.value}{right-truncation cutoff value; only observations with times < rt.value will be included in the model fitting}
-
 \item{...}{additional arguments passed}
 }
 \value{
-A failure model object, if one model specified OR a failure model list object if multiple models are specified
+Returns failure model object of class \code{"fc_obj"} if one model specified OR
+a failure model list object of class \code{"fc_list"} if multiple models are specified
 }
 \description{
 Code for fitting a particular tag-life model or models
@@ -48,9 +47,19 @@ output from all model fits. This object serves as an input in the
 fc_rank() function, which ranks the performance of the model using
 the \href{http://animalbiotelemetry.biomedcentral.com/articles/10.1186/s40317-020-00213-z}{Skalski and Whitlock (2020)} GOF measure.
 
-The raw output from the function is a named list with the following objects \cr
-"mod_choice" = character object of model name or vector of model names \cr
-"fit_vals" = data frame with fitted values for each time and 95\% confidence interval \cr
-"mod_objs" = model objects from various packages: kaplan-meier ("surival"), vitality models ("vitality") \cr
-"par_tab" = dataframe of one or more model's parameter estimates \cr
+Parameter estimates and accompanying standard errors(if available) are printed.
+The \code{"fc_obJ"} is a list of the following extractable objects:
+\itemize{
+\item"mod_choice"  = official model name
+\item     "times"  = dataframe of failure time, survival fraction, and censoring binary var.
+\item  "fit_vals"  = failure times and predicted survival under the model, 95\% LCL an UCL if available
+\item  "mod_objs"  = actual model object created by "flexsurvdist" or "vitality package"-- much more to extract from "flexsurvdist
+\item   "par_tab"  = table of parameter estimates and SE in failCompare recognized order
+\item     "KM_DF"  = table of K-M estimates for plotting
+\item    "KM_mod"  = survival package K-M model estimates
+\item  'censored'  = T/F of censored dataset or not
+}
+}
+\references{
+Skalski, J. R., and S. L. Whitlock. 2020. Vitality models found useful in modeling tag-failure times in acoustic-tag survival studies. Animal Biotelemetry 8:1–10.DOI:10.1186/s40317-020-00213-z
 }
