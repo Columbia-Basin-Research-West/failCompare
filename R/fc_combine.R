@@ -1,12 +1,21 @@
 #' @title Combination of multiple failure time model objects into a list of models
 #'
-#' @details A convenient function for combining model failure time model objecs (fc_obj) into a list object (fc_list). 
-#'Model list objects may be ranked according to the Skalski and Whitlock GOF metric using fc_rank
+#' @details A convenience function for combining model failure time model objecs \code{fc_obj} into a failure model
+#' list object \code{fc_list}. Lists that include the "kaplan-meier" model or duplicates are not allowed.
 #'
 #' @param mod_ls list of fc_mods
 #'
 #' @return fc_list object
+#' 
+#' @seealso \code{fc_select} and \code{fc_fit}
+#' 
+#' @references 
+#' Li, T., and Anderson, J.J. 2009. The vitality model: A way to understand population survival and demographic heterogeneity. Theoretical Population Biology 76(2): 118–131.
+#'
+#' Li, T., and Anderson, J.J. 2013. Shaping human mortality patterns through intrinsic and extrinsic vitality processes. Demographic research 28: 341–372.
+#'
 #' @export
+#' 
 fc_combine <- function(mod_ls){
   #checking for too many models in the list
   if(length(mod_ls)>8){
