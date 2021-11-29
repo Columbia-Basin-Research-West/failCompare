@@ -44,7 +44,7 @@ plot.fc_obj <- function(x,km=FALSE,km.ci=FALSE,res=100,ylim,xlim,type="data",...
     t_rng=x$fit_vals$time
     ts=seq(max(min(t_rng*.95),0),(max(t_rng)*1.05),length.out = res)
     plot(surv_frac~time,x$times,pch=3,col=NA,xlab="t",ylab="S(t)",xlim=xdim,ylim=ydim,...)
-    lines(est~time,x$KM_DF,type="s",col=2,lty=1,lwd=4)
+    lines(est~time,x$KM_DF,type="s",col="red",lty=1,lwd=4)
     if(km.ci){
       lines(lcl~time,x$KM_DF,type="s",col=80,lwd=2,lty=3)
       lines(ucl~time,x$KM_DF,type="s",col=80,lwd=2,lty=3)
@@ -62,7 +62,7 @@ plot.fc_obj <- function(x,km=FALSE,km.ci=FALSE,res=100,ylim,xlim,type="data",...
   # Data plot
   if(type=="data"){
   plot(surv_frac~time,x$times,pch=3,col=NA,xlab="t",ylab="S(t)",xlim=xdim,ylim=ydim,...)
-  lines(ts,spred,col=2,lwd=4)
+  lines(ts,spred,col="red",lwd=4)
   if(km){
     lines(est~time,x$KM_DF,type="s",col=80,lwd=2,lty=2)
     if(km.ci){
@@ -92,8 +92,7 @@ plot.fc_obj <- function(x,km=FALSE,km.ci=FALSE,res=100,ylim,xlim,type="data",...
   else{ydim=ylim}
   
   plot(x$fit_vals$time,c(1,x$times$surv_frac)-x$fit_vals$est,col=NA,ylim=c(min_bnds,max_bnds),xlim=xdim,xlab="t",ylab="Residual \n (Kaplan-Meier - Fitted)",...)
-  lines(y=rep(0,length(ts)),x=ts,col=2,lwd=4)
-  points(x$fit_vals$time[-1],x$times$surv_frac-x$fit_vals$est[-1],pch=3) # adding -1 removes default point placed at zero
+  lines(y=rep(0,length(ts)),x=ts,col="red",lwd=4)
 
   lines(x$fit_vals$time,c(1,x$times$surv_frac)-x$fit_vals$est,lty=2,col=80,lwd=2)
   if(km.ci){
@@ -101,7 +100,7 @@ plot.fc_obj <- function(x,km=FALSE,km.ci=FALSE,res=100,ylim,xlim,type="data",...
     lines(x=x$KM_DF$time,est_ucl,col=80,lwd=2,lty=3)
     legend(legend=c("observation",x$mod_choice,"kaplan-meier (Est)","kaplan-meier (95% CI)"),"bottomleft",col=c(1,2,8,8),lwd=c(NA,4,1,1),pch=c(3,NA,NA,NA),lty=c(NA,1,2,3),bty = "n")}
   else{legend(legend=c("observation",x$mod_choice,"kaplan-meier (Est)"),"bottomleft",col=c(1,2,8),lwd=c(NA,4,1),lty=c(NA,1,2),pch=c(3,NA,NA),bty = "n")}
-
+  points(x$fit_vals$time[-1],x$times$surv_frac-x$fit_vals$est[-1],pch=3)
   }
   }
 }
