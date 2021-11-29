@@ -1,53 +1,67 @@
 #' @title Fitting one or a set of failure time models
-#' @description Code for fitting a particular tag-life model or models
-#'
+#' @description Routines for fitting a  common failure time model or models 
 #'
 #' @param time numeric vector of failure times
-#' @param model character vector of specified model(s)
-#' @param rc.value right-censoring cutoff value; only observations with times > rc.value are considered to have failed prematurely.
-#' @param censorID censored observation vector (T/F)
+#' @param model character object or string specififying the model(s) to be fit
+#' @param rc.value right-censoring cutoff value (i.e.,only observations with times > rc.value are censored due to termination of the experiment or study).
+#' @param censorID binary or logical variable indicating censored observations
 #' @param ... additional arguments passed
 #'
 #' @return Returns failure model object of class \code{"fc_obj"} if one model specified OR 
-#' a failure model list object of class \code{"fc_list"} if multiple models are specified
+#' a failure model list object of class \code{"fc_list"} if multiple models are specified.
 #'
 #' @details
 #' Model fitting routine used to fit one or a set of failure time models.
 #' 
-#' The following nine model options include
-#' `weibull` = 2-parameter Weibull 
-#' `weibull3` = 3-parameter Weibull
-#' `gompertz` = Gompertz
-#' `lognormal` = lognormal
-#' `llogis` = log-logistic
-#' `gamma` = gamma (2-parameter)
-#' `gengamma` = generalized gamma (3-parameter)
-#' `vitality.ku` = vitality (2009)
-#' `vitality.4p` = vitality (2013)
-#' `kaplan-meier` = Kaplan-Meier nonparametric estimate (NOTE: this model cannot be specified in a list with any other model)
+#'  \itemize{
+#'     \item   "weibull"  = 2-parameter Weibull
+#'     \item   "weibull3" = 3-parameter Weibull
+#'     \item  "gompertz"  = Gompertz Model
+#'     \item     "gamma"  = Gamma distribution (2-parameter)
+#'     \item "lognormal"  = Log-Normal distribution
+#'     \item     "llogis" = Log-Logistic distribution
+#'     \item  "gengamma"  = Generalized Gamma Distribution (3-parameter; Prentice 1974 parameterization)
+#'     \item  'vitality.ku'  = 4-parameter vitality model from Li and Anderson (2009)
+#'     \item  'vitality.4p'  = 4-parameter vitality model from Li and Anderson (2013)
+#'     \item  'kaplan-meier' = Kaplan-Meier nonparametric estimate (NOTE: this model cannot be specified in a list with any other model
+#'  }
 #'
-#' If a single model is specified a "fc_obj" is created, which can be
-#' used to adjust a CJS model in the "ATLAS" package.
+#' If a single model is specified a \code{"fc_obj"} is created, which can be
+#' used to adjust a CJS model in the "cbrATLAS" package.
 #'
-#' If multiple models are specified a "fc_list" is created containing
-#' output from all model fits. This object serves as an input in the
+#' If multiple models are specified a \code{"fc_list"} is created containing
+#' output from all models that could be fit with default optimizer settings. 
+#' A warning will appear if any of the models could not be fit, in which case, 
+#' the user should either remove the model from consideration or specifiy initial parameter values.
+#' 
+#' Objects of class \code{fc_list} may serve as an input in the
 #' fc_rank() function, which ranks the performance of the model using
 #' the \href{http://animalbiotelemetry.biomedcentral.com/articles/10.1186/s40317-020-00213-z}{Skalski and Whitlock (2020)} GOF measure.
 #'
-#'   Parameter estimates and accompanying standard errors(if available) are printed. 
-#'   The \code{"fc_obJ"} is a list of the following extractable objects:
+#' Printing a \code{fc_obJ} will display 
+#' parameter estimates and accompanying standard errors(if available).
+#'
+#'   Each \code{fc_obJ} is a list of the following extractable objects:
 #'  \itemize{
-#'     \item"mod_choice"  = official model name
+#'     \item"mod_choice"  = model name
 #'     \item     "times"  = dataframe of failure time, survival fraction, and censoring binary var.
 #'     \item  "fit_vals"  = failure times and predicted survival under the model, 95% LCL an UCL if available
 #'     \item  "mod_objs"  = actual model object created by "flexsurvdist" or "vitality package"-- much more to extract from "flexsurvdist
 #'     \item   "par_tab"  = table of parameter estimates and SE in failCompare recognized order
-#'     \item     "KM_DF"  = table of K-M estimates for plotting
+#'     \item     "KM_DF"  = table of product limit (Kaplan-Meier)  estimates for plotting (Kaplan and Meier 1954)
 #'     \item    "KM_mod"  = survival package K-M model estimates
-#'     \item  'censored'  = T/F of censored dataset or not
+#'     \item  'censored'  = binary/logical variable the length of the data describing individual observations that are censored.
 #'  }
 #'
-#' @references Skalski, J. R., and S. L. Whitlock. 2020. Vitality models found useful in modeling tag-failure times in acoustic-tag survival studies. Animal Biotelemetry 8:1–10.DOI:10.1186/s40317-020-00213-z
+#' @references 
+#'
+#' Kaplan, E.L., and Meier, P. 1958. Nonparametric estimation from incomplete observations. Journal of the American statistical association 53(282): 457–481.
+#'
+#' Li, T., and Anderson, J.J. 2009. The vitality model: A way to understand population survival and demographic heterogeneity. Theoretical Population Biology 76(2): 118–131.
+#'
+#' Li, T., and Anderson, J.J. 2013. Shaping human mortality patterns through intrinsic and extrinsic vitality processes. Demographic research 28: 341–372.
+#'
+#' Skalski, J. R., and S. L. Whitlock. 2020. Vitality models found useful in modeling tag-failure times in acoustic-tag survival studies. Animal Biotelemetry 8(1):1–10.DOI:10.1186/s40317-020-00213-z
 #'
 #'
 #' @importFrom survival Surv
@@ -120,8 +134,7 @@ fc_fit=function(time,model,censorID=NULL,rc.value=NULL,...){
     message("The right-censored 3-parameter Weibull model ('weibull3') is not available ")
     if(length(model)==0){stop("Cannot fit right-censored 3-parameter Weibull model")}
   }
-
-
+  
   fit=list()
   fit_vals=NULL
   for (i in 1:length(model)){

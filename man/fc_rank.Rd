@@ -2,19 +2,26 @@
 % Please edit documentation in R/fc_rank.R
 \name{fc_rank}
 \alias{fc_rank}
-\title{Ranking failure time models based on goodness of fit (GOF)}
+\title{Ranking failure time models}
 \usage{
 fc_rank(x)
 }
 \arguments{
-\item{x}{an object of class "fc_list"}
+\item{x}{an object of class \code{"fc_list"}}
 }
 \value{
-Table of models ranked according to GOF measure
+Table of models ranked in ascending order according to GOF measure.
 }
 \description{
-Ranking failure time models based on goodness of fit (GOF)
+Ranking failure time models
 }
 \details{
-Goodness of fit measure from Skalski and Whitlock (2020)
+Uses the Skalski and Whitlock (2020) goodness-of-fit measure to rank parametric failure time models.
+The statistic is based on the squared differnec between a given parametric model and the product-limit estimate
+of the survival estimate (described by Kaplan and Meier (1954))
+}
+\references{
+Kaplan, E.L., and Meier, P. 1958. Nonparametric estimation from incomplete observations. Journal of the American statistical association 53(282): 457–481. Taylor & Francis.
+
+Skalski, J. R., and S. L. Whitlock. 2020. Vitality models found useful in modeling tag-failure times in acoustic-tag survival studies. Animal Biotelemetry 8(1):1–10.DOI:10.1186/s40317-020-00213-z
 }
