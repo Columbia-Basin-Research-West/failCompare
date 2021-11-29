@@ -8,10 +8,7 @@
 #'
 #' @return failure probability
 #'
-#' @importFrom survival Surv
-#' @importFrom flexsurv pgompertz
-#' @importFrom vitality vitality.ku
-#' @importFrom vitality vitality.4p
+#'
 #' @export fc_pred
 #'
 fc_pred <- function(mod_obj=NULL,times,pars=NULL,model=NULL){
@@ -31,7 +28,7 @@ fc_pred <- function(mod_obj=NULL,times,pars=NULL,model=NULL){
       tmp[is.na(tmp)]=1
     }
     if(model=="gompertz"){
-      tmp=1-pgompertz(times,shape = pars[1],rate=pars[2])
+      tmp=1-flexsurv::pgompertz(times,shape = pars[1],rate=pars[2])
     }
     if(model=="gamma"){
       tmp=1-stats::pgamma(times,shape = pars[1],rate=pars[2])

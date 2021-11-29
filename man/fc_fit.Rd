@@ -68,7 +68,7 @@ Each \code{fc_obJ} is a list of the following extractable objects:
 }
 }
 \references{
-Kaplan, E.L., and Meier, P. 1958. Nonparametric estimation from incomplete observations. Journal of the American statistical association 53(282): 457–481. Taylor & Francis.
+Kaplan, E.L., and Meier, P. 1958. Nonparametric estimation from incomplete observations. Journal of the American statistical association 53(282): 457–481.
 
 Li, T., and Anderson, J.J. 2009. The vitality model: A way to understand population survival and demographic heterogeneity. Theoretical Population Biology 76(2): 118–131.
 
