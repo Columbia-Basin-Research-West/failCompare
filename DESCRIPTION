@@ -20,13 +20,13 @@ URL: https://github.com/Columbia-Basin-Research-West/failCompare
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
-Imports: 
-    flexsurv,
-    survival,
-    vitality
 Depends: 
     R (>= 2.10)
 Suggests: 
     rmarkdown,
     knitr
 VignetteBuilder: knitr
+Imports: 
+    survival,
+    flexsurv,
+    vitality
