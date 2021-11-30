@@ -7,11 +7,14 @@
 #' @param model survival model name, if mod_obj absent
 #'
 #' @return failure probability
-#'
+#' @import reshape2 flexsurv survival
 #'
 #' @export fc_pred
 #'
 fc_pred <- function(mod_obj=NULL,times,pars=NULL,model=NULL){
+  
+  
+  reshape2::melt(rnorm(10))
   # stopifnot(is.numeric(times)) # requires times argument
   if(!is.null(mod_obj)){
     stopifnot((class(mod_obj)=="fc_obj")) #checking that it sit a fc_obj
