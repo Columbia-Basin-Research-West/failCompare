@@ -14,11 +14,14 @@
 #'
 #' Li, T., and Anderson, J.J. 2013. Shaping human mortality patterns through intrinsic and extrinsic vitality processes. Demographic research 28: 341–372.
 #'
+#' @examples 
+#' 
+#'
 #' @export
 #' 
 fc_combine <- function(mod_ls){
   #checking for too many models in the list
-  if(length(mod_ls)>8){
+  if(length(mod_ls)>9){
     stop("list of models exceeds the total number of default failCompare models 
     (combining and rank models with different sample sizes/censoring schemes is not advised)")}
   #checking for only fc_obj

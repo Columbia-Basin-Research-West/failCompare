@@ -19,6 +19,10 @@ Combination of multiple failure time model objects into a list of models
 A convenience function for combining model failure time model objecs \code{fc_obj} into a failure model
 list object \code{fc_list}. Lists that include the "kaplan-meier" model or duplicates are not allowed.
 }
+\examples{
+
+
+}
 \references{
 Li, T., and Anderson, J.J. 2009. The vitality model: A way to understand population survival and demographic heterogeneity. Theoretical Population Biology 76(2): 118–131.
 
