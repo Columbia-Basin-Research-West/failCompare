@@ -220,6 +220,9 @@ fc_fit=function(time,model,censorID=NULL,rc.value=NULL,...){
     tmp_tab=do.call(rbind,par_ls)
     param=unlist(sapply(par_ls,rownames,simplify = F))
     par_tab=data.frame(model=rep(model,sapply(par_ls,nrow)),param,tmp_tab,row.names = NULL)
+    
+    rownames(par_tab)=NULL
+    rownames(fit_vals)=NULL
 
     out_ls=list("mod_choice"=model,
                 "times"=data.frame(time=y,surv_frac=y_sfrac,non_cen=non_cen),
@@ -229,6 +232,7 @@ fc_fit=function(time,model,censorID=NULL,rc.value=NULL,...){
                 "KM_DF"=KM_DF,
                 "KM_mod"=KM_mod,
                 "censored"=rc)
+    rownames(out_ls[["par_tab"]])=NULL
     out=structure(out_ls,class="fc_list")
 
     }
@@ -243,6 +247,7 @@ fc_fit=function(time,model,censorID=NULL,rc.value=NULL,...){
     }
     # Otherwise
     else{
+      # if a non-flexsurv model
       if(model=="vitality.ku" | model=="vitality.4p" | model =="weibull3"){
         par_tab=fit[[1]][,c("params","std")]
         pnms=as.character(1:dim(par_tab)[1]) # number parameters by default
@@ -262,7 +267,7 @@ fc_fit=function(time,model,censorID=NULL,rc.value=NULL,...){
                 "KM_DF"=KM_DF,
                 "KM_mod"=KM_mod,
                 "censored"=rc)
-
+    rownames(out_ls[["par_tab"]])=NULL
     out=structure(out_ls,class="fc_obj")
   }
 
