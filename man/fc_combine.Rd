@@ -21,6 +21,18 @@ list object \code{fc_list}. Lists that include the "kaplan-meier" model or dupli
 }
 \examples{
 
+### Load example dataframe
+data(sockeye)
+taglife=sockeye[,"days"] #define vector of times
+
+### Fit a 2-parameter Weibull model
+weib_mod=fc_fit(time=taglife,model="weibull")
+
+### Fit a 4-parameter Vitality 2013 model
+vit_mod=fc_fit(time=taglife,model="vitality.4p")
+
+# Combine two "fc_obj" objects into a model list of class "fc_list" 
+fc_combine(mod_ls = list(weib_mod,vit_mod))
 
 }
 \references{
@@ -29,5 +41,5 @@ Li, T., and Anderson, J.J. 2009. The vitality model: A way to understand populat
 Li, T., and Anderson, J.J. 2013. Shaping human mortality patterns through intrinsic and extrinsic vitality processes. Demographic research 28: 341–372.
 }
 \seealso{
-\code{fc_select} and \code{fc_fit}
+\code{\link{fc_select}} \code{\link{fc_fit}}
 }
