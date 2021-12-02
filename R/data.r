@@ -48,3 +48,10 @@
 #'   ...
 #' }
 "pike"
+
+
+
+##' @format 
+##' \describe{named list of default failCompare models}
+##' 
+"fc_mod_ls"
