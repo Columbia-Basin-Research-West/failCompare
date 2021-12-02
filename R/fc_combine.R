@@ -7,7 +7,7 @@
 #'
 #' @return fc_list object
 #' 
-#' @seealso \code{fc_select} and \code{fc_fit}
+#' @seealso \code{\link{fc_select}} \code{\link{fc_fit}}
 #' 
 #' @references 
 #' Li, T., and Anderson, J.J. 2009. The vitality model: A way to understand population survival and demographic heterogeneity. Theoretical Population Biology 76(2): 118–131.
@@ -16,7 +16,19 @@
 #'
 #' @examples 
 #' 
-#'
+#' ### Load example dataframe
+#' data(sockeye)
+#' taglife=sockeye[,"days"] #define vector of times
+#' 
+#' ### Fit a 2-parameter Weibull model
+#' weib_mod=fc_fit(time=taglife,model="weibull")
+#' 
+#' ### Fit a 4-parameter Vitality 2013 model
+#' vit_mod=fc_fit(time=taglife,model="vitality.4p")
+#' 
+#' # Combine two "fc_obj" objects into a model list of class "fc_list" 
+#' fc_combine(mod_ls = list(weib_mod,vit_mod))
+#' 
 #' @export
 #' 
 fc_combine <- function(mod_ls){
@@ -26,27 +38,34 @@ fc_combine <- function(mod_ls){
     (combining and rank models with different sample sizes/censoring schemes is not advised)")}
   #checking for only fc_obj
   if(!all(sapply(mod_ls,function(x){class(x)=="fc_obj"}))){stop("Expecting a list of model objects")}
-  modnms=c('weibull','weibull3','gompertz','gamma','lognormal','llogis','gengamma','vitality.ku','vitality.4p')
+  modnms=names(fc_mod_ls)
   #checking that only default parametric models are used
-  if(!all(sapply(mod_ls,function(x){x$mod_choice %in% modnms}))){stop(paste("Expecting parametric model objects    of type:",paste(modnms,collapse="; ")))}
+  if(!all(sapply(mod_ls,function(x){x$mod_choice %in% modnms}))){stop(paste("Expecting parametric model objects of type:",paste(modnms,collapse="; ")))}
   
   fit_vals=do.call(rbind,lapply(mod_ls,function(x){x$fit_vals}))
   
-  out_ls=list("mod_choice"=sapply(mod_ls,function(x){x$mod_choice}),
+  # for ordering model names
+  ls_nms=as.character(sapply(mod_ls,function(x){x$mod_choice}))
+  mod_mtch=match(ls_nms,modnms)
+  mod_ord=order(mod_mtch)
+  out_ls=list("mod_choice"=modnms[mod_mtch],
               "times"=mod_ls[[1]]$times,
-              "fit_vals"=do.call(rbind,lapply(mod_ls,function(x){x$fit_vals})),
-              "mod_objs"=do.call(c,lapply(mod_ls,function(x){x$mod_objs})),
-              "par_tab"=do.call(rbind,lapply(mod_ls,function(x){x$par_tab})),
+              "fit_vals"=do.call(rbind,lapply(mod_ls[mod_ord],function(x){x$fit_vals})),
+              "mod_objs"=do.call(c,lapply(mod_ls[mod_ord],function(x){x$mod_objs})),
+              "par_tab"=do.call(rbind,lapply(mod_ls[mod_ord],function(x){x$par_tab})),
               "KM_DF"=mod_ls[[1]]$KM_DF,
               "KM_mod"=mod_ls[[1]]$KM_mod) # advisable to check that all km_mods are the same
+  # inserts model name in case two individual fc_objs are being combined (b/c fc_obj don't have a "model" column)
+  if(!any(names(out_ls[["par_tab"]]) %in% c("model","param"))){
+    out_ls[["par_tab"]]=data.frame(get_param_nm(out_ls[["mod_choice"]]),
+                                   param=out_ls[["par_tab"]][,])}
   
-  if(!any(names(out_ls[["par_tab"]]) %in% "model")){
-    out_ls[["par_tab"]]=data.frame(model=rep(out_ls[["mod_choice"]],sapply(mod_ls,function(x){nrow(x$par_tab)})),
-                                   param=unlist(sapply(mod_ls,function(x){rownames(x$par_tab)})),#rownames(out_ls[["par_tab"]]),
-                                   out_ls[["par_tab"]])
-    rownames(out_ls[["par_tab"]])=NULL}
+  # making rownames comparable
+  rownames(out_ls[["par_tab"]])=NULL
+  rownames(out_ls[["fit_vals"]])=1:nrow(out_ls[["fit_vals"]]) # renumbering
   
   out=structure(out_ls,class="fc_list") # adds fc_list class designation
   
   return(out)
 }
+
