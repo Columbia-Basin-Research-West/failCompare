@@ -4,6 +4,14 @@
 #'
 #' @return dataframe of with model name "model" and "param" names in order reported by optimizer
 #' 
+#' @examples
+#' # lognormal parameter names 
+#' get_param_nm(mod_nm=c("lognormal"))
+#' 
+#' # 3-parameter Weibull and Gompertz parameter names 
+#' get_param_nm(mod_nm=c("weibull3","gompertz")) 
+#' 
+#' @export get_param_nm
 #' 
 get_param_nm <- function(mod_nm){
   pos_mods=names(fc_mod_ls) #accepted models
