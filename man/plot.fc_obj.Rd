@@ -4,17 +4,7 @@
 \alias{plot.fc_obj}
 \title{Title}
 \usage{
-\method{plot}{fc_obj}(
-  x,
-  km = FALSE,
-  km.ci = FALSE,
-  res = 100,
-  ylim,
-  xlim,
-  main,
-  type = "data",
-  ...
-)
+\method{plot}{fc_obj}(x, km = FALSE, km.ci = FALSE, res = 100, type = "data", ...)
 }
 \arguments{
 \item{x}{of class "fc_obj", created using}
@@ -23,18 +13,11 @@
 
 \item{km.ci}{Show 95\% confidence limits surrounding kaplan-meier estimates}
 
-\item{res}{Number of evenly space points within the range of the data}
-
-\item{ylim}{y axis limits for survival plot, used to override default of c(0,1)}
-
-\item{xlim}{x axis limits for survival plot}
+\item{res}{Number of evenly space points within the range of the data for plotting}
 
 \item{type}{Plotting survival curve of data ("data") versus difference between Kaplan-Meier estimates and predictions from a parametric model ("resid")}
 
-\item{...}{ignored}
-}
-\value{
-plot of taglife
+\item{...}{arguements passed to plot \code{\link{plot}}}
 }
 \description{
 Title

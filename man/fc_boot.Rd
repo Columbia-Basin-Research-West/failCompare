@@ -4,7 +4,7 @@
 \alias{fc_boot}
 \title{Nonparametric bootstrap of failure time model object}
 \usage{
-fc_boot(mod_obj, nrep, type = "pred", times = NULL, tol = 0.9)
+fc_boot(mod_obj, nrep, type = "pred", times = NULL, tol = 0.9, ...)
 }
 \arguments{
 \item{mod_obj}{failure time model object of class "fc_obj"}
@@ -33,6 +33,7 @@ Random sampling of the failure time data with replacement as a means for propaga
 data(sockeye)
 taglife=sockeye[,"days"]
 weib_mod=fc_fit(taglife,model="weibull")
+fc_boot(weib_mod,nrep=60,times = 10:20)
 
 }
 \references{

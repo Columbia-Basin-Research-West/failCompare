@@ -6,19 +6,15 @@
 #' @param type Plotting survival curve of data ("data") versus difference between Kaplan-Meier estimates and predictions from a parametric model ("resid")
 #' @param km Show kaplan-meier estimates
 #' @param km.ci Show 95% confidence limits surrounding kaplan-meier estimates
-#' @param res Number of evenly space points within the range of the data
-#' @param xlim x axis limits for survival plot
-#' @param ylim y axis limits for survival plot, used to override default of c(0,1)
-#' @param ... ignored
+#' @param res Number of evenly space points within the range of the data for plotting
+#' @param ... arguements passed to plot \code{\link{plot}}
 #'
-#'
-#' @return plot of taglife
 #'
 #' @importFrom survival Surv
 #' @importFrom graphics plot lines legend points
 #'
 #' @export
-plot.fc_obj <- function(x,km=FALSE,km.ci=FALSE,res=100,ylim,xlim,main,type="data",...){
+plot.fc_obj <- function(x,km=FALSE,km.ci=FALSE,res=100,type="data",...){ #ylim,xlim,main,
   stopifnot(is.logical(km))
   stopifnot(is.logical(km.ci))
   stopifnot(type %in% c("data","resid"))
@@ -27,28 +23,16 @@ plot.fc_obj <- function(x,km=FALSE,km.ci=FALSE,res=100,ylim,xlim,main,type="data
   tmx=max(round(time))
   tmn=min(round(time))
   inc=(tmx-tmn)*0.15
+  fromcall=match.call(expand.dots = F)
+  # default x limits
+  if(!"xlim" %in% names(fromcall)){xlim_sub=c(max(tmn-inc,0),tmx+inc)}
+  else{xlim_sub=names(fromcall)$xlim}
   
-  #override xlim
-  if(missing(xlim)){
-    xdim=c(max(tmn-inc,0),tmx+inc)}
-  else{xdim=xlim}
-  
-  #override ylim
-  if(missing(ylim)){
-    ydim=c(0,1.1)}
-  else{ydim=ylim}
-  
-  #override ylim
-  if(missing(main)){
-    main=x$mod_choice}
-  else{plt_title=main}
-
   if(x$mod_choice=="kaplan-meier"){
-    #km.ci=TRUE # automatically add
     if(type=="resid"){stop("residual plot not available for kaplan-meier model")}
     t_rng=x$fit_vals$time
     ts=seq(max(min(t_rng*.95),0),(max(t_rng)*1.05),length.out = res)
-    plot(surv_frac~time,x$times,pch=3,col=NA,xlab="t",ylab="S(t)",xlim=xdim,ylim=ydim,...)
+    plot(surv_frac~time,x$times,pch=3,col=NA,xlab="t",ylab="S(t)",xlim=xlim_sub,...)#xlim=xdim,ylim=ydim,...)
     lines(est~time,x$KM_DF,type="s",col="red",lty=1,lwd=4)
     if(km.ci){
       lines(lcl~time,x$KM_DF,type="s",col=80,lwd=2,lty=3)
@@ -66,7 +50,7 @@ plot.fc_obj <- function(x,km=FALSE,km.ci=FALSE,res=100,ylim,xlim,main,type="data
 
   # Data plot
   if(type=="data"){
-  plot(surv_frac~time,x$times,pch=3,col=NA,xlab="t",ylab="S(t)",xlim=xdim,ylim=ydim,plt_title,...)
+  plot(surv_frac~time,x$times,pch=3,col=NA,xlab="t",ylab="S(t)",xlim=xlim_sub,...)#,xlim=xdim,ylim=ydim,plt_title)
   lines(ts,spred,col="red",lwd=4)
   if(km){
     lines(est~time,x$KM_DF,type="s",col=80,lwd=2,lty=2)
@@ -91,12 +75,7 @@ plot.fc_obj <- function(x,km=FALSE,km.ci=FALSE,res=100,ylim,xlim,main,type="data
   bnds=unlist(tmpDF[,c("est_lcl","est_ucl")])
   min_bnds=min(bnds);max_bnds=max(bnds)
   
-  #override ylim
-  if(missing(ylim)){
-    ydim=c(min_bnds,max_bnds)}
-  else{ydim=ylim}
-  
-  plot(x$fit_vals$time,c(1,x$times$surv_frac)-x$fit_vals$est,col=NA,ylim=c(min_bnds,max_bnds),xlim=xdim,xlab="t",ylab="Residual \n (Kaplan-Meier - Fitted)",...)
+  plot(x$fit_vals$time,c(1,x$times$surv_frac)-x$fit_vals$est,col=NA,ylim=c(min_bnds,max_bnds),xlim=xlim_sub,xlab="t",ylab="Residual \n (Kaplan-Meier - Fitted)",...)
   lines(y=rep(0,length(ts)),x=ts,col="red",lwd=4)
 
   lines(x$fit_vals$time,c(1,x$times$surv_frac)-x$fit_vals$est,lty=2,col=80,lwd=2)
