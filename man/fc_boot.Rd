@@ -4,16 +4,44 @@
 \alias{fc_boot}
 \title{Nonparametric bootstrap of failure time model object}
 \usage{
-fc_boot(mod_obj, nrep)
+fc_boot(mod_obj, nrep, type = "pred", times = NULL, tol = 0.9)
 }
 \arguments{
 \item{mod_obj}{failure time model object of class "fc_obj"}
 
-\item{nrep}{number of replicate samples}
+\item{nrep}{number of resampling replicates}
+
+\item{type}{number of resamples}
+
+\item{times}{times at which survival fraction will be estimated}
+
+\item{tol}{optional tolerance setting for the estimated proportion of bootstrap data sets that cannot be fit default = 0.9}
+
+\item{...}{aruments passed to the optimizer}
 }
 \value{
-matrix of bootstrap parameter estimates with, dimensions (rows= nrep, columns= estimated pars in mod_obj)
+if \code{type="pred"} survival fraction or proportion of failed subjects (nrep x times) is returned, and
+if \code{type="par"} a matrix of bootstrap parameter estimates  dimensions (nrep x number of parameters)
 }
 \description{
 Nonparametric bootstrap of failure time model object
+}
+\details{
+Random sampling of the failure time data with replacement as a means for propagating uncertainty in predictions of survival probability and estimates of parameter sampling distributions (Tibshirani and Efron 1993).
+}
+\examples{
+data(sockeye)
+taglife=sockeye[,"days"]
+weib_mod=fc_fit(taglife,model="weibull")
+
+}
+\references{
+Efron, B. and Tibshirani, R. 1993 An Introduction to the
+Bootstrap. Chapman and Hall, New York.
+
+Townsend R., L., J. R. Skalski, P. Dillingham, T. W. Steig. 2006 Correcting bias in survival estimation resulting from tag failure in acoustic and radiotelemetry studies.
+Journal of Agricultural Biological and Environmental Statistics.11:183–196.
+}
+\seealso{
+\code{\link{fc_fit}}
 }

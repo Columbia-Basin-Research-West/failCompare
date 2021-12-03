@@ -2,7 +2,7 @@
 # function that plots fitted values when a failmod_obj is called
 #' Title
 #'
-#' @param x failmod_obj
+#' @param x of class "fc_obj", created using 
 #' @param type Plotting survival curve of data ("data") versus difference between Kaplan-Meier estimates and predictions from a parametric model ("resid")
 #' @param km Show kaplan-meier estimates
 #' @param km.ci Show 95% confidence limits surrounding kaplan-meier estimates
@@ -18,7 +18,7 @@
 #' @importFrom graphics plot lines legend points
 #'
 #' @export
-plot.fc_obj <- function(x,km=FALSE,km.ci=FALSE,res=100,ylim,xlim,type="data",...){
+plot.fc_obj <- function(x,km=FALSE,km.ci=FALSE,res=100,ylim,xlim,main,type="data",...){
   stopifnot(is.logical(km))
   stopifnot(is.logical(km.ci))
   stopifnot(type %in% c("data","resid"))
@@ -37,6 +37,11 @@ plot.fc_obj <- function(x,km=FALSE,km.ci=FALSE,res=100,ylim,xlim,type="data",...
   if(missing(ylim)){
     ydim=c(0,1.1)}
   else{ydim=ylim}
+  
+  #override ylim
+  if(missing(main)){
+    main=x$mod_choice}
+  else{plt_title=main}
 
   if(x$mod_choice=="kaplan-meier"){
     #km.ci=TRUE # automatically add
@@ -61,7 +66,7 @@ plot.fc_obj <- function(x,km=FALSE,km.ci=FALSE,res=100,ylim,xlim,type="data",...
 
   # Data plot
   if(type=="data"){
-  plot(surv_frac~time,x$times,pch=3,col=NA,xlab="t",ylab="S(t)",xlim=xdim,ylim=ydim,...)
+  plot(surv_frac~time,x$times,pch=3,col=NA,xlab="t",ylab="S(t)",xlim=xdim,ylim=ydim,plt_title,...)
   lines(ts,spred,col="red",lwd=4)
   if(km){
     lines(est~time,x$KM_DF,type="s",col=80,lwd=2,lty=2)

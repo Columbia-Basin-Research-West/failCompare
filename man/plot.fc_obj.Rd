@@ -4,10 +4,20 @@
 \alias{plot.fc_obj}
 \title{Title}
 \usage{
-\method{plot}{fc_obj}(x, km = FALSE, km.ci = FALSE, res = 100, ylim, xlim, type = "data", ...)
+\method{plot}{fc_obj}(
+  x,
+  km = FALSE,
+  km.ci = FALSE,
+  res = 100,
+  ylim,
+  xlim,
+  main,
+  type = "data",
+  ...
+)
 }
 \arguments{
-\item{x}{failmod_obj}
+\item{x}{of class "fc_obj", created using}
 
 \item{km}{Show kaplan-meier estimates}
 

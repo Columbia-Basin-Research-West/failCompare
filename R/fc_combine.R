@@ -1,11 +1,11 @@
 #' @title Combination of multiple failure time model objects into a list of models
 #'
-#' @details A convenience function for combining model failure time model objecs \code{fc_obj} into a failure model
+#' @details A convenience function for combining model failure time model objects into a failure model
 #' list object \code{fc_list}. Lists that include the "kaplan-meier" model or duplicates are not allowed.
 #'
 #' @param mod_ls list of fc_mods
 #'
-#' @return fc_list object
+#' @return fc_list object that may be used by 
 #' 
 #' @seealso \code{\link{fc_select}} \code{\link{fc_fit}}
 #' 

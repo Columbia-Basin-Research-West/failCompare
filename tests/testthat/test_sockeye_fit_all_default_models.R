@@ -26,3 +26,6 @@ test_that("get_param_nm errors when duplicate models or improper names are enter
   expect_error(get_param_nm(mod_nm=c("weibull3","weibull3","gompertz")))
   expect_error(get_param_nm(mod_nm=letters[1:5]))
 })
+
+test_that("fc_boot will not provide predictions without 'times'",
+          {expect_error(fc_boot(weib_mod,nrep = 50))})

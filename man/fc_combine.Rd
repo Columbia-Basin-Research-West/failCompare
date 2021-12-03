@@ -10,13 +10,13 @@ fc_combine(mod_ls)
 \item{mod_ls}{list of fc_mods}
 }
 \value{
-fc_list object
+fc_list object that may be used by
 }
 \description{
 Combination of multiple failure time model objects into a list of models
 }
 \details{
-A convenience function for combining model failure time model objecs \code{fc_obj} into a failure model
+A convenience function for combining model failure time model objects into a failure model
 list object \code{fc_list}. Lists that include the "kaplan-meier" model or duplicates are not allowed.
 }
 \examples{

@@ -94,6 +94,7 @@ fc_fit=function(time,model,censorID=NULL,rc.value=NULL,...){
   non_cen=rep(TRUE,length(y))
   n_cen=length(y)
 
+  # HANDLING CENSORING
   if(!is.null(rc.value)){
     rc=TRUE # change this value for later if statement
     y=sort(y)  # sorted data necessary for Vitality package functions

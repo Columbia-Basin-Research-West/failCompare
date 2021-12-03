@@ -40,10 +40,6 @@ fc_surv <- function(time,censorID=NULL,rc.value=NULL){
   
   KM_mod=survival::survfit(survival::Surv(time=y,event=non_cen)~1)
   KM_sls=summary(KM_mod)
-  # KM_DF=rbind(data.frame(model="kaplan-meier",time=0,est=1,lcl=1,ucl=1),
-  #             data.frame(model="kaplan-meier",time=KM_sls$time,est=KM_sls$surv,lcl=KM_sls$lower,ucl=KM_sls$upper))
-  # KM_DF[nrow(KM_DF),c("lcl","ucl")]=c(0,0) # replacing last two NAs wih 0s
-  
   S_est=KM_sls$surv[match(y,KM_sls$time)]
 
   return(S_est)
