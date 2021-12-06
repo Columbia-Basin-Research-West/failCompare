@@ -64,7 +64,8 @@ fc_boot=function(mod_obj,nrep,type="pred",times=NULL,tol=0.9,...){
                         surv_frac=t_new,
                         non_cen=(obs_dat$non_cen[ind])[t_ord])
     # ensure that error-catching works here
-    try({fit=fc_fit(time = boot_dat$time,model = mod_obj$mod_choice,censorID=NULL,rc.value=NULL,eval(noHess))
+
+    try({fit=fc_fit(time = boot_dat$time,model = mod_obj$mod_choice,eval(noHess),...)
           par_mat=rbind(par_mat,fit$par_tab[,1])})
   }
 
@@ -90,7 +91,7 @@ fc_boot=function(mod_obj,nrep,type="pred",times=NULL,tol=0.9,...){
                         time=t_raw[t_ord],
                         surv_frac=t_new,
                         non_cen=(obs_dat$non_cen[ind])[t_ord])
-    try({fit=fc_fit(time = boot_dat$time,model = mod_obj$mod_choice)
+    try({fit=fc_fit(time = boot_dat$time,model = mod_obj$mod_choice,...)
       par_mat=rbind(par_mat,fit$par_tab[,1])})
   }
 

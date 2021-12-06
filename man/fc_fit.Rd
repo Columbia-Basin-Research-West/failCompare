@@ -4,12 +4,14 @@
 \alias{fc_fit}
 \title{Fitting one or a set of failure time models}
 \usage{
-fc_fit(time, model, censorID = NULL, rc.value = NULL, ...)
+fc_fit(time, model, SEs = TRUE, censorID = NULL, rc.value = NULL, ...)
 }
 \arguments{
 \item{time}{numeric vector of failure times}
 
 \item{model}{character object or string specififying the model(s) to be fit}
+
+\item{SEs}{logical for whether standard errors should be estimated}
 
 \item{censorID}{binary or logical variable indicating censored observations}
 

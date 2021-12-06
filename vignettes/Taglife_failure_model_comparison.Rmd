@@ -72,13 +72,21 @@ fc_rank(fmods)
 ### Ranking models
 ```{r mod rank,warning=FALSE,fig.width=5, fig.height=5}
 
-fc_fit(taglife,"weibull")
+aa=fc_fit(taglife,"weibull")
 fc_fit(taglife,"weibull3")
 
+sapply(names(fc_mod_ls),function(x){fc_fit(model = x,time = taglife)$mod_objs})
 
-fmods_all=fc_fit(taglife,"all")
+
+
+
+fmods_all=fc_fit(taglife,"all",SEs = F)
 fmods_all
 fmods_all_ranked=fc_rank(fmods_all)
+
+
+
+
 par(mfrow=c(1,1))
 plot(fmods_all_ranked)
 

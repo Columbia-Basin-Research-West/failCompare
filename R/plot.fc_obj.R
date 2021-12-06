@@ -1,4 +1,3 @@
-
 # function that plots fitted values when a failmod_obj is called
 #' Title
 #'
