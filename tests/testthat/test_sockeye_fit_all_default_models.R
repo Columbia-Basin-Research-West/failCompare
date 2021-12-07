@@ -3,6 +3,7 @@ data(sockeye)
 taglife=sockeye[,1]
 f_all=fc_fit(time=taglife,model="all")
 
+
 modnms=c('weibull','weibull3','gompertz','gamma','lognormal','llogis','gengamma','vitality.ku','vitality.4p')
 f_indiv=sapply(modnms,fc_fit,time=taglife,simplify = F)
 

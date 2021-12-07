@@ -7,7 +7,6 @@
 #'
 #' @return model fitting output
 #'
-#' @examples
 fc_tryfit=function(fit_call,model="weibull3"){
   # seeing if an error in generated
   frst_ft=tryCatch(eval(fit_call),
@@ -43,11 +42,3 @@ fc_tryfit=function(fit_call,model="weibull3"){
   return(lst_ft)
 }
 
-
-my_e=quote(taglife.fn_weib3(tags.in = bad_time_dat,model.in = "weibull",tag.se = T))
-my_e2=quote(taglife.fn_weib3(tags.in = bad_time_dat,model.in = "weibull",tag.se = F))
-
-bad_time_dat=c(rep(5,3),rep(10,3))
-
-try_fit(my_e)
-try_fit(my_e2)
