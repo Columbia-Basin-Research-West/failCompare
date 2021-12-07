@@ -24,12 +24,12 @@ fc_tryfit=function(fit_call,model="weibull3"){
     message("Switching 'SEs' argument to FALSE to avoid error")
   # Second try at optimizing
     sec_ft=tryCatch(eval(fit_call),
-                   # error = function(e) {
-                   #   disp=paste(c("Error(s) in",model,"model fitting:\n"),collapse = "")
-                   #   msg=conditionMessage(w)
-                   #   message(paste(disp,unique(msg),"Try changing initial values or optimizer settings"))
-                   #   err=invisible(structure(msg, class = "try-error"))
-                   #   return(err)},
+                   error = function(e) {
+                     disp=paste(c("Error(s) in",model,"model fitting:\n"),collapse = "")
+                     msg=conditionMessage(e)
+                     message(paste(disp,unique(msg),"Try changing initial values or optimizer settings"))
+                     err=invisible(structure(msg, class = "try-error"))
+                     return(err)},
                     warning = function(w) {
                       disp=paste(c("Warnings(s) in",model,"model fitting:\n"),collapse = "")
                       msg=conditionMessage(w)
