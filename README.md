@@ -4,7 +4,7 @@
 
 ### Description 
 
-A package for fitting and comparing among failure-time/survival models from the F distribution and vitality families, which facilitates visualizing andranking the performance of the model using the Skalski and Whitlock (2020) GOF measure.
+A package for fitting and comparing among failure-time/survival models from the F distribution and vitality families, which facilitates visualizing and ranking the performance of the model using the Skalski and Whitlock (2020) GOF measure.
 
 ### Installation
 
