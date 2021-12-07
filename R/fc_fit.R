@@ -74,7 +74,7 @@
 #'
 fc_fit=function(time,model,SEs=TRUE,censorID=NULL,rc.value=NULL,...){
   rc=FALSE #temp def
-  if(!is.vector(time)|!is.numeric(time)){stop("A numeric vector is expected for the 'time' argument")}
+  if(!is.vector(time)|!is.numeric(time)|any(time<=0)){stop("Expects postive numeric vector the 'time' argument")}
   if(model[1]=="all"){model=c("weibull",'weibull3', "gompertz", "gamma", "lognormal", "llogis", "gengamma","vitality.ku","vitality.4p")
   message("Fitting all available parametric survival models")}
   
