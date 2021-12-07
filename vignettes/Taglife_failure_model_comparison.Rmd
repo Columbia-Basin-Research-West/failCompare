@@ -74,13 +74,26 @@ fc_rank(fmods)
 
 aa=fc_fit(taglife,"weibull")
 fc_fit(taglife,"weibull3")
-
-sapply(names(fc_mod_ls),function(x){fc_fit(model = x,time = taglife)$mod_objs})
-
+fc_fit(taglife,"weibull3",SEs = F)
 
 
+fc_fit(taglife,"weibull3",SEs=F)
+fc_fit(taglife,"weibull3",SEs=T)
 
-fmods_all=fc_fit(taglife,"all",SEs = F)
+fc_fit(taglife,"vitality.ku",SEs=F)
+
+# THESE THROW ERRORS
+# fc_fit(taglife,"vitality.4p",SEs=F)
+
+
+# indivdual model fitting
+# sapply(names(fc_mod_ls),function(x){fc_fit(model = x,time = taglife)$mod_objs})
+# sapply(names(fc_mod_ls),function(x){fc_fit(model = x,time = taglife,SEs = F)$mod_objs})
+
+# simultaneous model fitting
+# fmods_all=fc_fit(taglife,"all",SEs = F)
+
+fmods_all=fc_fit(taglife,"all",SEs = T)
 fmods_all
 fmods_all_ranked=fc_rank(fmods_all)
 

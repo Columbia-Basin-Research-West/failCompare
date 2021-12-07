@@ -96,6 +96,7 @@ fc_fit=function(time,model,SEs=TRUE,censorID=NULL,rc.value=NULL,...){
   y_sfrac=sapply(y,function(x){1-length(which(y<=x))/length(y)}) # survival fraction calc
   non_cen=rep(TRUE,length(y))
   n_cen=length(y)
+  fc_mod_ls=fc_mod_ls
 
   # HANDLING CENSORING
   if(!is.null(rc.value)){
@@ -157,22 +158,27 @@ fc_fit=function(time,model,SEs=TRUE,censorID=NULL,rc.value=NULL,...){
           fit[[model[i]]]=vitality::vitality.ku(dTmp[,"time"],sdata = dTmp[,"sfract"],rc.data = T,pplot =F,lplot = F, silent=T,se=Hess,...)
           #init.params = c(0.0118535685, 0.0070384229, 0.0001868951, 0.0443095393),,...) # added ... here to get the init.params argument to pass through
           if(SEs){
-            pars_tmp=ifelse(Hess,fit[[model[i]]][,"params"],fit[[model[i]]])}
-        else{pars_tmp=model[[i]]}
+            pars_tmp=fit[[model[i]]][,"params"]
+            }
+          else{pars_tmp=fit[[model[i]]]
+          }
           fit_vals=rbind(fit_vals,
                          data.frame(model="vitality.ku",
-                                    time=c(0,y), # survival proportions
+                                    time=c(0,y), 
                                     est=c(1,vitality::SurvFn.ku(y,pars_tmp[1],pars_tmp[2],pars_tmp[3],pars_tmp[4])),
                                     lcl=0,ucl=0))
         }
         else{
         fit[[model[i]]] = vitality::vitality.ku(time = sort(y),sdata = y_sfrac,se=Hess,pplot =F,silent=T,lplot = F,...)
-      if(Hess){par_tab=fit[[1]][,c("params","std")]}
-      else{par_tab=matrix(c(fit[[1]],rep(NA,4)),ncol=2)
-          pars_tmp=fit[[model[i]]]}
+        if(SEs){
+          pars_tmp=fit[[model[i]]][,"params"]
+          }
+        else{pars_tmp=fit[[model[i]]];
+        }
+        
         fit_vals=rbind(fit_vals,
                        data.frame(model="vitality.ku",
-                                  time=c(0,y), # survival proportions
+                                  time=c(0,y), 
                                   est=c(1,vitality::SurvFn.ku(y,pars_tmp[1],pars_tmp[2],pars_tmp[3],pars_tmp[4])),
                                   lcl=0,ucl=0))
         }
@@ -182,10 +188,16 @@ fc_fit=function(time,model,SEs=TRUE,censorID=NULL,rc.value=NULL,...){
           dTmp=vitality::dataPrep(c(0,y_cen),(n_cen:(n_cen-length(y_cen)))/n_cen,datatype="CUM",rc.data=(n_cen>length(y_cen)))
           fit[[model[i]]]=vitality::vitality.4p(dTmp[,"time"],sdata = dTmp[,"sfract"],rc.data = T,pplot =F,silent=T,
                                                 se=Hess,...) # added ... here to get the init.params argument to pass through init.params=c(0.012, 0.01, 0.1, 0.1)
+          if(SEs){
+            pars_tmp=fit[[model[i]]][,"params"]
+            }
+          else{pars_tmp=fit[[model[i]]]; 
+          }
+          
           pars_tmp=fit[[model[i]]][,"params"]
           fit_vals=rbind(fit_vals,
                          data.frame(model="vitality.4p",
-                                    time=c(0,y), # survival proportions
+                                    time=c(0,y), 
                                     est=c(1,vitality::SurvFn.4p(y,pars_tmp[1],pars_tmp[2],pars_tmp[3],pars_tmp[4])),
                                     lcl=0,ucl=0))
         }
@@ -194,13 +206,22 @@ fc_fit=function(time,model,SEs=TRUE,censorID=NULL,rc.value=NULL,...){
         pars_tmp=fit[[model[i]]][,"params"]
         fit_vals=rbind(fit_vals,
                        data.frame(model="vitality.4p",
-                                  time=c(0,y), # survival proportions
+                                  time=c(0,y), 
                                   est=c(1,vitality::SurvFn.4p(y,pars_tmp[1],pars_tmp[2],pars_tmp[3],pars_tmp[4])),
                                   lcl=0,ucl=0))
         }
       }
       if(model[i]=="weibull3"){
-        tmp=taglife.fn_weib3(sort(y),model.in = "weibull")
+        
+        show_condition <- function(code) {
+          tryCatch(code,
+                   error = function(c) "error",
+                   warning = function(c) "warning",
+                   message = function(c) "message")}
+        
+        show_condition(taglife.fn_weib3(sort(y),model.in = "weibull",tag.se=F))
+        
+        tmp=taglife.fn_weib3(sort(y),model.in = "weibull",tag.se=Hess)
         fit[[model[i]]] = tmp$mod_obj
         pars_tmp=tmp$par_tab
         fit_vals=rbind(fit_vals,tmp$fit_vals)
@@ -213,26 +234,20 @@ fc_fit=function(time,model,SEs=TRUE,censorID=NULL,rc.value=NULL,...){
     par_ls=sapply(seq_along(fit),function(i){
       tmp_mod_nm=names(fit)[i]
       if(class(fit[[i]])[1]=="flexsurvreg"){tmp=fit[[i]]$res[,c("est","se")]}
-      else{tmp=fit[[i]][,c("params","std")]
-      pnms=as.character(1:dim(tmp)[1]) # number parameters by default
-      # substitute vitality parameter names
-      if(Hess){par_tab=fit[[1]][,c("params","std")]}
-      else{par_tab=matrix(c(fit[[1]],rep(NA,4)),ncol=2)}
-      pnms=failCompare::fc_mod_ls[[model]] #  parameters by default
-      
-      # if(tmp_mod_nm=="vitality.ku"){pnms=c("r","s","k","u")}
-      # if(tmp_mod_nm=="vitality.4p"){pnms=c("r","s","lambda","beta")}
-      # if(tmp_mod_nm=="weibull3"){pnms=c("shape","thrsh","scale")}
+      else{
+        if(is.vector(fit[[i]])){ tmp=matrix(c(fit[[i]],rep(NA,4)),ncol=2)}
+        else{tmp=fit[[i]][,c("params","std")]}
+        }
+      pnms=fc_mod_ls[[tmp_mod_nm]] #  parameters by default
       dimnames(tmp)=list(pnms,c("est","se"))
       tmp=data.frame(tmp)
-      }
+      rownames(tmp)=fc_mod_ls[[model[i]]]
       return(tmp)
     },simplify = FALSE)
     tmp_tab=do.call(rbind,par_ls)
     param=unlist(sapply(par_ls,rownames,simplify = F))
     par_tab=data.frame(model=rep(model,sapply(par_ls,nrow)),param,tmp_tab,row.names = NULL)
     
-    rownames(par_tab)=NULL
     rownames(fit_vals)=NULL
 
     out_ls=list("mod_choice"=model,
@@ -259,9 +274,8 @@ fc_fit=function(time,model,SEs=TRUE,censorID=NULL,rc.value=NULL,...){
       # if a non-flexsurv model
       if(model=="vitality.ku" | model=="vitality.4p" | model =="weibull3"){
         if(Hess){par_tab=fit[[1]][,c("params","std")]}
-        else{par_tab=matrix(c(fit[[1]],rep(NA,4)),ncol=2)}
+        else{par_tab=matrix(c(fit[[1]],rep(NA,length(fc_mod_ls[[model[i]]]))),ncol=2)}
             pnms=fc_mod_ls[[model]] # number parameters by default
-      #dimnames(par_tab)=list(pnms,c("est","se"))
       }
       else{
         par_tab=fit[[1]]$res[,c("est","se")]

@@ -48,8 +48,6 @@ fc_boot=function(mod_obj,nrep,type="pred",times=NULL,tol=0.9,...){
   # matching arguments from the original model fitting function
   call=match.call(expand.dots = F)
 
-  if(mod_obj$mod_choice %in% c("vitality.ku","vitality.4p")){noHess="SE=F"}
-  else{noHess="hessian=F"}
         # Initial evaluation
   bt=proc.time()
   while(max(1,nrow(par_mat)) <= 50){
@@ -65,7 +63,7 @@ fc_boot=function(mod_obj,nrep,type="pred",times=NULL,tol=0.9,...){
                         non_cen=(obs_dat$non_cen[ind])[t_ord])
     # ensure that error-catching works here
 
-    try({fit=fc_fit(time = boot_dat$time,model = mod_obj$mod_choice,eval(noHess),...)
+    try({fit=fc_fit(time = boot_dat$time,model = mod_obj$mod_choice,SEs=F,...)
           par_mat=rbind(par_mat,fit$par_tab[,1])})
   }
 
