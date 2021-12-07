@@ -1,7 +1,7 @@
 
 # failCompare  
 <img src="man/figures/failCompare manual thumbnail.png" align="right" height="400" hspace="15" />  <br>
-A package for fitting and comparing among failure-time/survival models from the F distribution and [vitality](http://www.cbr.washington.edu/analysis/vitality) families, which facilitates visualizing and ranking the performance of the model using the [Skalski and Whitlock (2020)]((http://animalbiotelemetry.biomedcentral.com/articles/10.1186/s40317-020-00213-z)) goodness-of-fit measure. Dependencies include the [survival](https://cran.r-project.org/web/packages/survival/index.html), [flexsurv](https://cran.r-project.org/web/packages/flexsurv/index.html), and [Vitality](https://cran.r-project.org/web/packages/vitality/index.html) R packages. Additional features include: (1) handling of Type I and Type II right-censored data; (2) specialized ploting for examining model fit; and (3) generalized one-sample Kolmogorov-Smirnov tests of lack-of-fit ([Lilliefors 1967](https://www.tandfonline.com/doi/abs/10.1080/01621459.1967.10482916)).
+A package for fitting and comparing among failure-time/survival models from the F distribution and [vitality](http://www.cbr.washington.edu/analysis/vitality) families, which facilitates visualizing and ranking the performance of the model using the [Skalski and Whitlock (2020)]((http://animalbiotelemetry.biomedcentral.com/articles/10.1186/s40317-020-00213-z)) goodness-of-fit measure. Dependencies include the [survival](https://cran.r-project.org/web/packages/survival/index.html), [flexsurv](https://cran.r-project.org/web/packages/flexsurv/index.html), and [Vitality](https://cran.r-project.org/web/packages/vitality/index.html) R packages. Additional features include: (1) handling of Type I and Type II right-censored data; (2) specialized plotting for examining model fit; and (3) generalized one-sample Kolmogorov-Smirnov tests of lack-of-fit ([Lilliefors 1967](https://www.tandfonline.com/doi/abs/10.1080/01621459.1967.10482916)).
 
 **User manual:**
 [failCompare (Version 1.0)](http://www.cbr.washington.edu/sites/default/files/manuals/failCompare%20User%20Manual.pdf)
@@ -12,7 +12,7 @@ Please visit the *failCompare* page on the [CBR website](http://www.cbr.washingt
 
 **Creators**: Steve Whitlock, Rebecca Buchanan, and Rich Townsend
 
-**Release date** <br>
+#### Releases
 -11/30/2021 on the CBR site <br>
 -Coming soon to CRAN
 
@@ -22,7 +22,7 @@ Please visit the *failCompare* page on the [CBR website](http://www.cbr.washingt
 ## Installation
 
 #### Dependencies
-*failCompare* depends upon a prior installation of the following *survival*,*flexsurv*, and*vitality* packages
+*failCompare* depends upon a prior installation of the following *survival*, *flexsurv*, and *vitality* packages
 run the following code to install or update these packages
 ```
 install.packages(c("survival", "flexsurv", "vitality"))
@@ -38,7 +38,7 @@ utils:::menuInstallLocal()
 ```
 Navigate to and select the downloaded .zip folder
 
-#### From source
+#### From source code
 
 If package `devtools` is installed:
 ```r
@@ -82,5 +82,5 @@ fc_test(time=failure_times,model=mod_obj,iters=10000)
 ```
 ## Association with *cbrATLAS* package
 
-A fitted model (of class "fc_obj") can be used to adjust for tag failure in a space-for-time CJS model fit using the R pacakge [cbrATLAS](https://github.com/Columbia-Basin-Research-West/ATLAS) package. 
+A fitted model (of class `fc_obj`) can be used to adjust for tag failure in a space-for-time CJS model fit using the R pacakge [cbrATLAS](https://github.com/Columbia-Basin-Research-West/ATLAS) package. 
 
