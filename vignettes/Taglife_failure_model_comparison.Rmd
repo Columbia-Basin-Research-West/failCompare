@@ -93,17 +93,40 @@ fc_fit(taglife,"vitality.ku",SEs=F)
 # simultaneous model fitting
 # fmods_all=fc_fit(taglife,"all",SEs = F)
 
-fmods_all=fc_fit(taglife,"all",SEs = T)
+# PROBLEMATIC CODE RELATED TO THE SES
+# 
+names(fc_fit(taglife,"weibull",SEs = F)$par_tab)
+
+fc_fit(taglife,"weibull",SEs = T)
+fc_fit(taglife,"weibull3",SEs = T)
+
+fc_fit(taglife,c("weibull","weibull3"),SEs = T)
+fc_fit(taglife,c("weibull3","weibull"),SEs = T)
+
+
+fc_fit(taglife,c("weibull","weibull3"),SEs = F)
+fc_fit(taglife,c("weibull3","weibull"),SEs = F)
+
+
+m1=fc_fit(taglife,"weibull",SEs = T)
+m2=fc_fit(taglife,"weibull3",SEs = T)
+
+# 
+fmods_all=fc_fit(taglife,names(fc_mod_ls)[1:7],SEs = T)
+
+# 
+# fmods_all=suppressWarnings(fc_fit(taglife,"all",SEs = T))
+# fmods_all=suppressWarnings(fc_fit(taglife,"all",SEs = F))
 fmods_all
 fmods_all_ranked=fc_rank(fmods_all)
-
+# 
 
 
 
 par(mfrow=c(1,1))
 plot(fmods_all_ranked)
 
-plot(fmods_all_ranked,c("vitality.ku","vitality.4p"))
+# plot(fmods_all_ranked,c("vitality.ku","vitality.4p"))
 
 plot(fmods_all_ranked,c("gamma","weibull"))
 

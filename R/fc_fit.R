@@ -145,7 +145,10 @@ fc_fit=function(time,model,SEs=TRUE,censorID=NULL,rc.value=NULL,...){
   for (i in 1:length(model)){
     # FITTING DISTRIBUTIONS IN THE FLEXSURV PACKAGE
     if(model[i] %in% names(fc_mod_ls)[names(fc_mod_ls) %in% names(flexsurv::flexsurv.dists)]){
-      fit[[model[i]]] <- flexsurv::flexsurvreg(survival::Surv(time=y,event=non_cen) ~ 1, dist = model[i],hessian = Hess,...)
+      flex_mod=quote(model[i])
+      q_e=quote(flexsurv::flexsurvreg(survival::Surv(time=y,event=non_cen) ~ 1,
+                                  dist = model,hessian = Hess))
+      fit[[model[i]]] <- fc_tryfit(y = y,non_cen = non_cen,fit_call = q_e,model = model[i],Hess=Hess)
       preds=summary(fit[[i]])[[1]]
       fit_vals=rbind(fit_vals,
                      data.frame(model=model[i],time=0,est=1,lcl=1,ucl=1),
@@ -155,9 +158,11 @@ fc_fit=function(time,model,SEs=TRUE,censorID=NULL,rc.value=NULL,...){
       if(model[i]=="vitality.ku"){
         if(rc){
           dTmp=vitality::dataPrep(c(0,y_cen),(n_cen:(n_cen-length(y_cen)))/n_cen,datatype="CUM",rc.data=(n_cen>length(y_cen)))
+          
+          
           fit[[model[i]]]=vitality::vitality.ku(dTmp[,"time"],sdata = dTmp[,"sfract"],rc.data = T,pplot =F,lplot = F, silent=T,se=Hess,...)
           #init.params = c(0.0118535685, 0.0070384229, 0.0001868951, 0.0443095393),,...) # added ... here to get the init.params argument to pass through
-          if(SEs){
+          if(Hess){
             pars_tmp=fit[[model[i]]][,"params"]
             }
           else{pars_tmp=fit[[model[i]]]
@@ -170,7 +175,7 @@ fc_fit=function(time,model,SEs=TRUE,censorID=NULL,rc.value=NULL,...){
         }
         else{
         fit[[model[i]]] = vitality::vitality.ku(time = sort(y),sdata = y_sfrac,se=Hess,pplot =F,silent=T,lplot = F,...)
-        if(SEs){
+        if(Hess){
           pars_tmp=fit[[model[i]]][,"params"]
           }
         else{pars_tmp=fit[[model[i]]];
@@ -188,7 +193,7 @@ fc_fit=function(time,model,SEs=TRUE,censorID=NULL,rc.value=NULL,...){
           dTmp=vitality::dataPrep(c(0,y_cen),(n_cen:(n_cen-length(y_cen)))/n_cen,datatype="CUM",rc.data=(n_cen>length(y_cen)))
           fit[[model[i]]]=vitality::vitality.4p(dTmp[,"time"],sdata = dTmp[,"sfract"],rc.data = T,pplot =F,silent=T,
                                                 se=Hess,...) # added ... here to get the init.params argument to pass through init.params=c(0.012, 0.01, 0.1, 0.1)
-          if(SEs){
+          if(Hess){
             pars_tmp=fit[[model[i]]][,"params"]
             }
           else{pars_tmp=fit[[model[i]]]; 
@@ -212,39 +217,50 @@ fc_fit=function(time,model,SEs=TRUE,censorID=NULL,rc.value=NULL,...){
         }
       }
       if(model[i]=="weibull3"){
-        
-        show_condition <- function(code) {
-          tryCatch(code,
-                   error = function(c) "error",
-                   warning = function(c) "warning",
-                   message = function(c) "message")}
-        
-        show_condition(taglife.fn_weib3(sort(y),model.in = "weibull",tag.se=F))
-        
-        tmp=taglife.fn_weib3(sort(y),model.in = "weibull",tag.se=Hess)
+        y=sort(time)
+        q_e=quote(taglife.fn_weib3(y,model.in = "weibull",tag.se=eval(Hess)))
+        tmp=fc_tryfit(y=y,fit_call=q_e,model="weibull3")
+        if(is.vector(tmp$par_tab)){Hess=F} # switch to FALSE if hessian caused error
         fit[[model[i]]] = tmp$mod_obj
         pars_tmp=tmp$par_tab
         fit_vals=rbind(fit_vals,tmp$fit_vals)
+        
       }
     }
   }
 
   # Combined table of parameter estimates for all fitted models (Associated with fc_list)
   if(length(model)>1){
+    names(fit)=model
     par_ls=sapply(seq_along(fit),function(i){
       tmp_mod_nm=names(fit)[i]
-      if(class(fit[[i]])[1]=="flexsurvreg"){tmp=fit[[i]]$res[,c("est","se")]}
+      if(class(fit[[i]])=="flexsurvreg"){tmp=fit[[i]]$res[,c("est","se")]}
       else{
-        if(is.vector(fit[[i]])){ tmp=matrix(c(fit[[i]],rep(NA,4)),ncol=2)}
+        if(is.vector(fit[[i]])){ 
+          tmp=matrix(c(fit[[i]],rep(NA,length(fc_mod_ls[[tmp_mod_nm]]))),nrow=length(fit[[i]]),ncol=2)}
         else{tmp=fit[[i]][,c("params","std")]}
-        }
+      }
       pnms=fc_mod_ls[[tmp_mod_nm]] #  parameters by default
       dimnames(tmp)=list(pnms,c("est","se"))
       tmp=data.frame(tmp)
-      rownames(tmp)=fc_mod_ls[[model[i]]]
-      return(tmp)
-    },simplify = FALSE)
+      return(tmp)},simplify = FALSE)
+    # par_ls=sapply(seq_along(fit),function(i){
+    # 
+    #   # tmp_mod_nm=names(fit)[i]
+    #   if(class(fit[[i]])[1]=="flexsurvreg"){tmp=fit[[i]]$res[,c("est","se")]}
+    #   else{
+    #     if(is.vector(fit[[i]])){ tmp=matrix(c(fit[[i]],length(fc_mod_ls[[model[i]]])),ncol=2)}
+    #     else{tmp=fit[[i]][,c("params","std")]}
+    #     }
+    #   pnms=fc_mod_ls[[tmp_mod_nm]] #  parameters by default
+    #   dimnames(tmp)=list(pnms,c("est","se"))
+    #   tmp=data.frame(tmp)
+    #   rownames(tmp)=fc_mod_ls[[model[i]]]
+    #   return(tmp)
+    # },simplify = FALSE)
     tmp_tab=do.call(rbind,par_ls)
+    
+    
     param=unlist(sapply(par_ls,rownames,simplify = F))
     par_tab=data.frame(model=rep(model,sapply(par_ls,nrow)),param,tmp_tab,row.names = NULL)
     
