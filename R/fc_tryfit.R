@@ -9,6 +9,7 @@
 #' @param Hess logical arguement to fc_fit() carried through
 #'
 #' @return model fitting output for internal use by fc_fit
+#' 
 #'
 fc_tryfit=function(y=y,fit_call,model="weibull3",non_cen=NULL,Hess=NULL){
   # seeing if an error in generated
@@ -39,7 +40,7 @@ fc_tryfit=function(y=y,fit_call,model="weibull3",non_cen=NULL,Hess=NULL){
                    }
                    )
   # If theres a optim error replacing call and reporting warnings
-  if(class(frst_ft)=="try-error"){
+  if(any(class(frst_ft)=="try-error")){
     # if(Hess){message("Switching 'SEs' argument to FALSE to avoid error")}
     if(model=="weibull3"){fit_call$tag.se=F}
     if(model %in% names(flexsurv::flexsurv.dists)){fit_call$hessian=F}
