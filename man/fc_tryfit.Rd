@@ -4,7 +4,14 @@
 \alias{fc_tryfit}
 \title{Error handling for fitting failCompare models}
 \usage{
-fc_tryfit(y = y, fit_call, model = "weibull3", non_cen = NULL, Hess = NULL)
+fc_tryfit(
+  y = y,
+  y_sfrac = NULL,
+  fit_call,
+  model = "weibull3",
+  non_cen = NULL,
+  Hess = NULL
+)
 }
 \arguments{
 \item{y}{numeric time argument of failure times carried through}
