@@ -192,9 +192,12 @@ fc_fit=function(time,model,SEs=TRUE,censorID=NULL,rc.value=NULL,...){
         # Defines function call depending on right censoring or not
         if(rc){
           dTmp=vitality::dataPrep(c(0,y_cen),(n_cen:(n_cen-length(y_cen)))/n_cen,datatype="CUM",rc.data=(n_cen>length(y_cen)))
-          q_e=vitality::vitality.ku(dTmp[,"time"],sdata = dTmp[,"sfract"],rc.data = T,pplot =F,silent=T,se=Hess,...)
+          y_sfrac=dTmp[,"sfract"]
+          q_e=vitality::vitality.ku(time=sort(y),sdata = y_sfrac,rc.data = T,pplot =F,silent=T,se=Hess,...)
         }
-        else{q_e=vitality::vitality.4p(time = sort(y),sdata = y_sfrac,pplot =F,silent = T,se=Hess)}
+        else{
+          q_e=vitality::vitality.ku(time = sort(y),sdata = y_sfrac,pplot =F,silent = T,se=Hess)
+          }
         fit[[model[i]]] = fc_tryfit(fit_call = q_e,y = y,model="vitality.ku")
         pars_tmp=fit[[model[i]]]
         fit_vals=rbind(fit_vals,
@@ -211,7 +214,7 @@ fc_fit=function(time,model,SEs=TRUE,censorID=NULL,rc.value=NULL,...){
           dTmp=vitality::dataPrep(c(0,y_cen),(n_cen:(n_cen-length(y_cen)))/n_cen,datatype="CUM",rc.data=(n_cen>length(y_cen)))
           q_e=vitality::vitality.4p(dTmp[,"time"],sdata = dTmp[,"sfract"],rc.data = T,pplot =F,silent=T,se=Hess,...)
         }
-        else{q_e=vitality::vitality.4p(time = sort(y),sdata = y_sfrac,pplot =F,silent = T,se=Hess)}
+        else{q_e=vitality::vitality.4p(time = sort(y),sdata = y_sfrac,pplot =F,silent = T,se=Hess,...)}
         fit[[model[i]]] = fc_tryfit(fit_call = q_e,y = y,model="vitality.4p")
           pars_tmp=fit[[model[i]]]
           fit_vals=rbind(fit_vals,
@@ -259,6 +262,19 @@ fc_fit=function(time,model,SEs=TRUE,censorID=NULL,rc.value=NULL,...){
       }
     }
   }
+  
+  # Combined table of parameter estimates for all fitted models (Associated with fc_list)
+  # if(length(model)>1){
+  #   
+  # }
+  
+  
+  
+  
+  
+  
+  
+  
 
   # Combined table of parameter estimates for all fitted models (Associated with fc_list)
   # if(length(model)>1){
