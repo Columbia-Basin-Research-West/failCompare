@@ -1,16 +1,16 @@
 # library(testthat)
 data(sockeye)
 taglife=sockeye[,1]
-
-f_all=suppressWarnings(fc_fit(time=taglife,model="all"))
-modnms=c('weibull','weibull3','gompertz','gamma','lognormal','llogis','gengamma','vitality.ku','vitality.4p')
-f_indiv=suppressWarnings(sapply(modnms,fc_fit,time=taglife,simplify = F))
-tmp=fc_combine(f_indiv)
-
-test_that("default models fit together and separately for sockeye",{
-  expect_s3_class(f_all,class="fc_list")
-  expect_s3_class(tmp,class="fc_list")
-  })
+# 
+# f_all=suppressWarnings(fc_fit(time=taglife,model="all"))
+# modnms=c('weibull','weibull3','gompertz','gamma','lognormal','llogis','gengamma','vitality.ku','vitality.4p')
+# f_indiv=suppressWarnings(sapply(modnms,fc_fit,time=taglife,simplify = F))
+# tmp=fc_combine(f_indiv)
+# 
+# test_that("default models fit together and separately for sockeye",{
+#   expect_s3_class(f_all,class="fc_list")
+#   expect_s3_class(tmp,class="fc_list")
+#   })
 
 test_that("get_param_nm returns same results for single model as for vector",{
   expect_identical(

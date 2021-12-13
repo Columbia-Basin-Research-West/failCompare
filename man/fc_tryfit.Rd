@@ -7,11 +7,15 @@
 fc_tryfit(y = y, fit_call, model = "weibull3", non_cen = NULL, Hess = NULL)
 }
 \arguments{
+\item{y}{numeric time argument of failure times carried through}
+
 \item{fit_call}{call to dependent model fitting functions.}
 
 \item{model}{model argument passed from fc_fit()}
 
 \item{non_cen}{logical indicating censored variables for use by flexsurv and vitality models}
+
+\item{Hess}{logical arguement to fc_fit() carried through}
 }
 \value{
 model fitting output for internal use by fc_fit

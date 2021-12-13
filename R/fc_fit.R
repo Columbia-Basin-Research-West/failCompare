@@ -155,130 +155,163 @@ fc_fit=function(time,model,SEs=TRUE,censorID=NULL,rc.value=NULL,...){
                      data.frame(model=model[i],preds[match(y,preds$time),])) # match() used for duplicate rows
       }
     else{
+      # if(model[i]=="vitality.ku"){
+      #   if(rc){
+      #     dTmp=vitality::dataPrep(c(0,y_cen),(n_cen:(n_cen-length(y_cen)))/n_cen,datatype="CUM",rc.data=(n_cen>length(y_cen)))
+      #     
+      #     
+      #     fit[[model[i]]]=vitality::vitality.ku(dTmp[,"time"],sdata = dTmp[,"sfract"],rc.data = T,pplot =F,lplot = F, silent=T,se=Hess,...)
+      #     #init.params = c(0.0118535685, 0.0070384229, 0.0001868951, 0.0443095393),,...) # added ... here to get the init.params argument to pass through
+      #     if(Hess){
+      #       pars_tmp=fit[[model[i]]][,"params"]
+      #       }
+      #     else{pars_tmp=fit[[model[i]]]
+      #     }
+      #     fit_vals=rbind(fit_vals,
+      #                    data.frame(model="vitality.ku",
+      #                               time=c(0,y), 
+      #                               est=c(1,vitality::SurvFn.ku(y,pars_tmp[1],pars_tmp[2],pars_tmp[3],pars_tmp[4])),
+      #                               lcl=0,ucl=0))
+      #   }
+      #   else{
+      #   fit[[model[i]]] = vitality::vitality.ku(time = sort(y),sdata = y_sfrac,se=Hess,pplot =F,silent=T,lplot = F,...)
+      #   if(Hess){
+      #     pars_tmp=fit[[model[i]]][,"params"]
+      #     }
+      #   else{pars_tmp=fit[[model[i]]];
+      #   }
+      #   
+      #   fit_vals=rbind(fit_vals,
+      #                  data.frame(model="vitality.ku",
+      #                             time=c(0,y), 
+      #                             est=c(1,vitality::SurvFn.ku(y,pars_tmp[1],pars_tmp[2],pars_tmp[3],pars_tmp[4])),
+      #                             lcl=0,ucl=0))
+      #   }
+      # }
       if(model[i]=="vitality.ku"){
+        # Defines function call depending on right censoring or not
         if(rc){
           dTmp=vitality::dataPrep(c(0,y_cen),(n_cen:(n_cen-length(y_cen)))/n_cen,datatype="CUM",rc.data=(n_cen>length(y_cen)))
-          
-          
-          fit[[model[i]]]=vitality::vitality.ku(dTmp[,"time"],sdata = dTmp[,"sfract"],rc.data = T,pplot =F,lplot = F, silent=T,se=Hess,...)
-          #init.params = c(0.0118535685, 0.0070384229, 0.0001868951, 0.0443095393),,...) # added ... here to get the init.params argument to pass through
-          if(Hess){
-            pars_tmp=fit[[model[i]]][,"params"]
-            }
-          else{pars_tmp=fit[[model[i]]]
-          }
-          fit_vals=rbind(fit_vals,
-                         data.frame(model="vitality.ku",
-                                    time=c(0,y), 
-                                    est=c(1,vitality::SurvFn.ku(y,pars_tmp[1],pars_tmp[2],pars_tmp[3],pars_tmp[4])),
-                                    lcl=0,ucl=0))
+          q_e=vitality::vitality.ku(dTmp[,"time"],sdata = dTmp[,"sfract"],rc.data = T,pplot =F,silent=T,se=Hess,...)
         }
-        else{
-        fit[[model[i]]] = vitality::vitality.ku(time = sort(y),sdata = y_sfrac,se=Hess,pplot =F,silent=T,lplot = F,...)
-        if(Hess){
-          pars_tmp=fit[[model[i]]][,"params"]
-          }
-        else{pars_tmp=fit[[model[i]]];
-        }
-        
+        else{q_e=vitality::vitality.4p(time = sort(y),sdata = y_sfrac,pplot =F,silent = T,se=Hess)}
+        fit[[model[i]]] = fc_tryfit(fit_call = q_e,y = y,model="vitality.ku")
+        pars_tmp=fit[[model[i]]]
         fit_vals=rbind(fit_vals,
                        data.frame(model="vitality.ku",
-                                  time=c(0,y), 
+                                  time=c(0,y),
                                   est=c(1,vitality::SurvFn.ku(y,pars_tmp[1],pars_tmp[2],pars_tmp[3],pars_tmp[4])),
                                   lcl=0,ucl=0))
-        }
       }
+      
+      
       if(model[i]=="vitality.4p"){
+        # Defines function call depending on right censoring or not
         if(rc){
           dTmp=vitality::dataPrep(c(0,y_cen),(n_cen:(n_cen-length(y_cen)))/n_cen,datatype="CUM",rc.data=(n_cen>length(y_cen)))
-          fit[[model[i]]]=vitality::vitality.4p(dTmp[,"time"],sdata = dTmp[,"sfract"],rc.data = T,pplot =F,silent=T,
-                                                se=Hess,...) # added ... here to get the init.params argument to pass through init.params=c(0.012, 0.01, 0.1, 0.1)
-          if(Hess){
-            pars_tmp=fit[[model[i]]][,"params"]
-            }
-          else{pars_tmp=fit[[model[i]]]; 
-          }
-          
-          pars_tmp=fit[[model[i]]][,"params"]
-          fit_vals=rbind(fit_vals,
-                         data.frame(model="vitality.4p",
-                                    time=c(0,y), 
-                                    est=c(1,vitality::SurvFn.4p(y,pars_tmp[1],pars_tmp[2],pars_tmp[3],pars_tmp[4])),
-                                    lcl=0,ucl=0))
+          q_e=vitality::vitality.4p(dTmp[,"time"],sdata = dTmp[,"sfract"],rc.data = T,pplot =F,silent=T,se=Hess,...)
         }
-        else{
-          fit[[model[i]]] = vitality::vitality.4p(time = sort(y),sdata = y_sfrac,pplot =F,silent = T,se=Hess)#init.params=c(0.012, 0.01, 0.1, 0.1),...)
-        pars_tmp=fit[[model[i]]][,"params"]
-        fit_vals=rbind(fit_vals,
+        else{q_e=vitality::vitality.4p(time = sort(y),sdata = y_sfrac,pplot =F,silent = T,se=Hess)}
+        fit[[model[i]]] = fc_tryfit(fit_call = q_e,y = y,model="vitality.4p")
+          pars_tmp=fit[[model[i]]]
+          fit_vals=rbind(fit_vals,
                        data.frame(model="vitality.4p",
-                                  time=c(0,y), 
+                                  time=c(0,y),
                                   est=c(1,vitality::SurvFn.4p(y,pars_tmp[1],pars_tmp[2],pars_tmp[3],pars_tmp[4])),
                                   lcl=0,ucl=0))
         }
-      }
+        # 
+        # if(rc){
+        #   dTmp=vitality::dataPrep(c(0,y_cen),(n_cen:(n_cen-length(y_cen)))/n_cen,datatype="CUM",rc.data=(n_cen>length(y_cen)))
+        #   fit[[model[i]]]=vitality::vitality.4p(dTmp[,"time"],sdata = dTmp[,"sfract"],rc.data = T,pplot =F,silent=T,
+        #                                         se=Hess,...) # added ... here to get the init.params argument to pass through init.params=c(0.012, 0.01, 0.1, 0.1)
+        #   if(Hess){
+        #     pars_tmp=fit[[model[i]]][,"params"]
+        #     }
+        #   else{pars_tmp=fit[[model[i]]]; 
+        #   }
+        #   
+        #   pars_tmp=fit[[model[i]]][,"params"]
+        #   fit_vals=rbind(fit_vals,
+        #                  data.frame(model="vitality.4p",
+        #                             time=c(0,y), 
+        #                             est=c(1,vitality::SurvFn.4p(y,pars_tmp[1],pars_tmp[2],pars_tmp[3],pars_tmp[4])),
+        #                             lcl=0,ucl=0))
+        # }
+        # else{
+        #   fit[[model[i]]] = vitality::vitality.4p(time = sort(y),sdata = y_sfrac,pplot =F,silent = T,se=Hess)#init.params=c(0.012, 0.01, 0.1, 0.1),...)
+        #   pars_tmp=fit[[model[i]]][,"params"]
+        #   fit_vals=rbind(fit_vals,
+        #                data.frame(model="vitality.4p",
+        #                           time=c(0,y), 
+        #                           est=c(1,vitality::SurvFn.4p(y,pars_tmp[1],pars_tmp[2],pars_tmp[3],pars_tmp[4])),
+        #                           lcl=0,ucl=0))
+        # }
+      # }
       if(model[i]=="weibull3"){
         y=sort(time)
         q_e=quote(taglife.fn_weib3(y,model.in = "weibull",tag.se=eval(Hess)))
-        tmp=fc_tryfit(y=y,fit_call=q_e,model="weibull3")
+        tmp=fc_tryfit(y=y,fit_call=q_e,model="weibull3",Hess = eval(Hess))
         if(is.vector(tmp$par_tab)){Hess=F} # switch to FALSE if hessian caused error
         fit[[model[i]]] = tmp$mod_obj
         pars_tmp=tmp$par_tab
         fit_vals=rbind(fit_vals,tmp$fit_vals)
-        
       }
     }
   }
 
   # Combined table of parameter estimates for all fitted models (Associated with fc_list)
-  if(length(model)>1){
-    names(fit)=model
-    par_ls=sapply(seq_along(fit),function(i){
-      tmp_mod_nm=names(fit)[i]
-      if(class(fit[[i]])=="flexsurvreg"){tmp=fit[[i]]$res[,c("est","se")]}
-      else{
-        if(is.vector(fit[[i]])){ 
-          tmp=matrix(c(fit[[i]],rep(NA,length(fc_mod_ls[[tmp_mod_nm]]))),nrow=length(fit[[i]]),ncol=2)}
-        else{tmp=fit[[i]][,c("params","std")]}
-      }
-      pnms=fc_mod_ls[[tmp_mod_nm]] #  parameters by default
-      dimnames(tmp)=list(pnms,c("est","se"))
-      tmp=data.frame(tmp)
-      return(tmp)},simplify = FALSE)
-    # par_ls=sapply(seq_along(fit),function(i){
-    # 
-    #   # tmp_mod_nm=names(fit)[i]
-    #   if(class(fit[[i]])[1]=="flexsurvreg"){tmp=fit[[i]]$res[,c("est","se")]}
-    #   else{
-    #     if(is.vector(fit[[i]])){ tmp=matrix(c(fit[[i]],length(fc_mod_ls[[model[i]]])),ncol=2)}
-    #     else{tmp=fit[[i]][,c("params","std")]}
-    #     }
-    #   pnms=fc_mod_ls[[tmp_mod_nm]] #  parameters by default
-    #   dimnames(tmp)=list(pnms,c("est","se"))
-    #   tmp=data.frame(tmp)
-    #   rownames(tmp)=fc_mod_ls[[model[i]]]
-    #   return(tmp)
-    # },simplify = FALSE)
-    tmp_tab=do.call(rbind,par_ls)
-    
-    
-    param=unlist(sapply(par_ls,rownames,simplify = F))
-    par_tab=data.frame(model=rep(model,sapply(par_ls,nrow)),param,tmp_tab,row.names = NULL)
-    
-    rownames(fit_vals)=NULL
-
-    out_ls=list("mod_choice"=model,
-                "times"=data.frame(time=y,surv_frac=y_sfrac,non_cen=non_cen),
-                "fit_vals"=fit_vals,
-                "mod_objs"=fit,
-                "par_tab"=par_tab,
-                "KM_DF"=KM_DF,
-                "KM_mod"=KM_mod,
-                "censored"=rc)
-    rownames(out_ls[["par_tab"]])=NULL
-    out=structure(out_ls,class="fc_list")}
+  # if(length(model)>1){
+  #   names(fit)=model
+  #   par_ls=sapply(seq_along(fit),function(i){
+  #     tmp_mod_nm=names(fit)[i]
+  #     if(class(fit[[i]])=="flexsurvreg"){tmp=fit[[i]]$res[,c("est","se")]}
+  #     else{
+  #       if(is.vector(fit[[i]])){ 
+  #         tmp=matrix(c(fit[[i]],rep(NA,length(fc_mod_ls[[tmp_mod_nm]]))),nrow=length(fit[[i]]),ncol=2)}
+  #       else{tmp=fit[[i]][,c("params","std")]}
+  #     }
+  #     pnms=fc_mod_ls[[tmp_mod_nm]] #  parameters by default
+  #     dimnames(tmp)=list(pnms,c("est","se"))
+  #     tmp=data.frame(tmp)
+  #     return(tmp)},simplify = FALSE)
+  #   # par_ls=sapply(seq_along(fit),function(i){
+  #   # 
+  #   #   # tmp_mod_nm=names(fit)[i]
+  #   #   if(class(fit[[i]])[1]=="flexsurvreg"){tmp=fit[[i]]$res[,c("est","se")]}
+  #   #   else{
+  #   #     if(is.vector(fit[[i]])){ tmp=matrix(c(fit[[i]],length(fc_mod_ls[[model[i]]])),ncol=2)}
+  #   #     else{tmp=fit[[i]][,c("params","std")]}
+  #   #     }
+  #   #   pnms=fc_mod_ls[[tmp_mod_nm]] #  parameters by default
+  #   #   dimnames(tmp)=list(pnms,c("est","se"))
+  #   #   tmp=data.frame(tmp)
+  #   #   rownames(tmp)=fc_mod_ls[[model[i]]]
+  #   #   return(tmp)
+  #   # },simplify = FALSE)
+  #   tmp_tab=do.call(rbind,par_ls)
+  #   
+  #   
+  #   param=unlist(sapply(par_ls,rownames,simplify = F))
+  #   par_tab=data.frame(model=rep(model,sapply(par_ls,nrow)),param,tmp_tab,row.names = NULL)
+  #   
+  #   rownames(fit_vals)=NULL
+  # 
+  #   out_ls=list("mod_choice"=model,
+  #               "times"=data.frame(time=y,surv_frac=y_sfrac,non_cen=non_cen),
+  #               "fit_vals"=fit_vals,
+  #               "mod_objs"=fit,
+  #               "par_tab"=par_tab,
+  #               "KM_DF"=KM_DF,
+  #               "KM_mod"=KM_mod,
+  #               "censored"=rc)
+  #   rownames(out_ls[["par_tab"]])=NULL
+  #   out=structure(out_ls,class="fc_list")}
 
   # Table of parameter estimates for the single-model case (Associated with fc_obj)
-  else{
+  # Combined table of parameter estimates for all fitted models (Associated with fc_list)
+  # if(length(model)>1){
+  # else{
     # if only K-M specified
     if(model=="kaplan-meier"){
       par_tab=fit_vals=NULL
@@ -307,7 +340,7 @@ fc_fit=function(time,model,SEs=TRUE,censorID=NULL,rc.value=NULL,...){
                 "censored"=rc)
     rownames(out_ls[["par_tab"]])=NULL
     out=structure(out_ls,class="fc_obj")
-  }
+  # }
 
 return(out)
   # DEV NOTES

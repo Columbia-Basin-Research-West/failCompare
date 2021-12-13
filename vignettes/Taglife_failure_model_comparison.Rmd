@@ -70,65 +70,51 @@ fc_rank(fmods)
 ```
 
 ### Ranking models
-```{r mod rank,warning=FALSE,fig.width=5, fig.height=5}
+```{r mod rank,warning=FALSE,fig.width=5, fig.height=5,echo=T}
+
+taglife=sockeye[,1]
 
 aa=fc_fit(taglife,"weibull")
 fc_fit(taglife,"weibull3")
 fc_fit(taglife,"weibull3",SEs = F)
 
 
-fc_fit(taglife,"weibull3",SEs=F)
-fc_fit(taglife,"weibull3",SEs=T)
-
-fc_fit(taglife,"vitality.ku",SEs=F)
-
-# THESE THROW ERRORS
-# fc_fit(taglife,"vitality.4p",SEs=F)
+fc_fit(taglife,model=c("gompertz","weibull3"))
 
 
-# indivdual model fitting
-# sapply(names(fc_mod_ls),function(x){fc_fit(model = x,time = taglife)$mod_objs})
-# sapply(names(fc_mod_ls),function(x){fc_fit(model = x,time = taglife,SEs = F)$mod_objs})
+fc_fit(rnorm(14,10,3),"weibull3",SEs = F)
 
-# simultaneous model fitting
-# fmods_all=fc_fit(taglife,"all",SEs = F)
 
-# PROBLEMATIC CODE RELATED TO THE SES
+# fc_tryfit()
 # 
-names(fc_fit(taglife,"weibull",SEs = F)$par_tab)
-
-fc_fit(taglife,"weibull",SEs = T)
-fc_fit(taglife,"weibull3",SEs = T)
-
-fc_fit(taglife,c("weibull","weibull3"),SEs = T)
-fc_fit(taglife,c("weibull3","weibull"),SEs = T)
-
-
-fc_fit(taglife,c("weibull","weibull3"),SEs = F)
-fc_fit(taglife,c("weibull3","weibull"),SEs = F)
-
-
-m1=fc_fit(taglife,"weibull",SEs = T)
-m2=fc_fit(taglife,"weibull3",SEs = T)
-
 # 
-fmods_all=fc_fit(taglife,names(fc_mod_ls)[1:7],SEs = T)
-
+# fc_fit(taglife,"weibull3",SEs=F)
+# fc_fit(taglife,"weibull3",SEs=T)
 # 
-# fmods_all=suppressWarnings(fc_fit(taglife,"all",SEs = T))
-# fmods_all=suppressWarnings(fc_fit(taglife,"all",SEs = F))
-fmods_all
-fmods_all_ranked=fc_rank(fmods_all)
+# fc_fit(taglife,"vitality.ku",SEs=F)
 # 
-
-
-
-par(mfrow=c(1,1))
-plot(fmods_all_ranked)
-
-# plot(fmods_all_ranked,c("vitality.ku","vitality.4p"))
-
-plot(fmods_all_ranked,c("gamma","weibull"))
+# # # THESE THROW ERRORS
+# dnn=fc_fit(taglife,"vitality.4p",SEs=T)
+# dnnn=fc_fit(taglife,"vitality.4p",SEs=F)
+# dn=fc_fit(taglife,"all",SEs=T)
+# dn$par_tab
+# 
+# 
+# data(chinook)
+# taglife=chinook[,"days"]
+# 
+# taglife=c(rep(1,3),rep(50,3))
+# 
+# y=taglife
+# y_sfrac=fc_surv(taglife)
+# vitality::vitality.4p(time = sort(y),sdata = y_sfrac,pplot =F,silent = T,se=T)
+# vitality::vitality.4p(time = sort(y),sdata = y_sfrac,pplot =F,silent = T,se=F)
+# 
+# the_call=quote(vitality::vitality.4p(time = sort(y),sdata = y_sfrac,pplot =F,silent = T,se=T))
+# the_call=quote(vitality::vitality.4p(time = sort(y),sdata = y_sfrac,pplot =F,silent = T,se=F))
+# 
+# fc_tryfit(fit_call = the_call,y = taglife,model="vitality.4p")
+# 
 
 ```
 
