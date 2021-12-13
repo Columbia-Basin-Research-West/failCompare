@@ -4,18 +4,16 @@
 \alias{fc_fit_single}
 \title{Fitting a single failure time model}
 \usage{
-fc_fit_single(time, model, SEs = TRUE, censorID = NULL, rc.value = NULL, ...)
+fc_fit_single(y, y_sfrac, model, Hess, non_cen, KM_DF, KM_mod, ...)
 }
 \arguments{
-\item{time}{failure time}
+\item{y}{failure time}
 
 \item{model}{failure time model}
 
-\item{SEs}{calculating standard errors}
+\item{Hess}{calculating standard errors}
 
-\item{censorID}{logical whether an observation is non-censored}
-
-\item{rc.value}{value after which}
+\item{non_cen}{logical of length(y)}
 
 \item{...}{additional arguments passed to fc_tryfit()}
 }
