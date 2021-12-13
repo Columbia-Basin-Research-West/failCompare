@@ -13,6 +13,50 @@ my_km=fc_fit(taglife,model = "kaplan-meier")
 my_km$KM_DF
 my_km$KM_mod
 
+
+############################################# #
+### Testing individual fc_fit() expresssions
+############################################# #
+
+# checking flexsurv mods
+lapply(flex_mods,function(modnms){
+  fc_fit(time = taglife,
+                # y_sfrac=fc_surv(taglife),
+                model=modnms,
+                Hess=T,
+                non_cen = rep(TRUE,length(taglife)))})
+
+lapply(flex_mods,function(modnms){
+  fc_fit(time = taglife,
+         # y_sfrac=fc_surv(taglife),
+         model=modnms,
+         Hess=F,
+         non_cen = rep(TRUE,length(taglife)))})
+
+# checking weibull3 model
+fc_fit(time = taglife,
+              # y_sfrac=fc_surv(taglife),
+              model="weibull3",
+              Hess=T,
+              non_cen = rep(TRUE,length(taglife)))
+
+fc_fit(time = taglife,
+              # y_sfrac=fc_surv(taglife),
+              model="weibull3",
+              Hess=F,
+              non_cen = rep(TRUE,length(taglife)))
+
+### vitality mods
+lapply(vit_mods,function(modnms){
+  fc_fit_single(y = taglife,
+                y_sfrac=fc_surv(taglife),
+                model=modnms,
+                Hess=T,
+                non_cen = rep(TRUE,length(taglife)),
+                KM_DF=my_km$KM_DF,
+                KM_mod=my_km$KM_mod)})
+
+
 ########################################## #
 ### Testing fc_fit_single() expresssions
 ########################################## #
@@ -93,6 +137,9 @@ lapply(1:9,function(x){fc_tryfit(fit_call = eval(test_e[[x]]),model = all_mods[x
 ##################################### #
 ### Testing fc_fit() expresssions
 ##################################### #
+
+
+
 
 
 
