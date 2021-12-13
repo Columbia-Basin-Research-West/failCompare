@@ -16,6 +16,8 @@ fc_tryfit(
 \arguments{
 \item{y}{numeric time argument of failure times carried through}
 
+\item{y_sfrac}{survival fraction}
+
 \item{fit_call}{call to dependent model fitting functions.}
 
 \item{model}{model argument passed from fc_fit()}
