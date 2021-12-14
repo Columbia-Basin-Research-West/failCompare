@@ -20,7 +20,7 @@ plot.fc_list <- function(x,model=NULL,type="data",km=F,res=100,xlim,...){
   # time increment def.
   t_rng=x$fit_vals$time
   ts=seq(max(min(t_rng*.95),0),(max(t_rng)*1.05),length.out = res)
-  
+
   if(missing(xlim)){
     xlms=c(min(ts),max(ts))}
   else{xlms=xlim}
@@ -68,13 +68,15 @@ plot.fc_list <- function(x,model=NULL,type="data",km=F,res=100,xlim,...){
 
   spred=list()
   for(i in 1:length(mod_plts)){
-    # survival preds.
-    tmp=x$par_tab[x$par_tab$model==mod_plts[i],3] # param.est
-    # print(tmp)
     # print(mod_plts)
-    spred[[i]]=fc_pred(times=x$times$time,model=mod_plts[i],pars = tmp)
+    # print(x$par_tab)
+    tmp=x$par_tab[x$par_tab$model==mod_plts[i],3]
+    # print(match(mod_plts,x$modchoice))
+    # tmp=x$mod_objs[[i]]
+    print(tmp)
+    spred[[i]]=fc_pred(mod_obj=NULL,times=ts,model=mod_plts[i],pars = tmp)
     lines(ts,spred[[i]],col=i+1,lwd=3,lty=i)
-  }
+    }
 
   #plotting survival functions
   if(!is.null(x$GOF_tab)){

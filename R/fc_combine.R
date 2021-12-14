@@ -52,7 +52,9 @@ fc_combine <- function(mod_ls){
   out_ls=list("mod_choice"=modnms[mod_mtch],
               "times"=mod_ls[[1]]$times,
               "fit_vals"=do.call(rbind,lapply(mod_ls[mod_ord],function(x){x$fit_vals})),
-              "mod_objs"=do.call(c,lapply(mod_ls[mod_ord],function(x){x$mod_objs})),
+              "mod_objs"=do.call(c,lapply(mod_ls[mod_ord],function(x){
+                list(x$mod_objs)
+                })),
               "par_tab"=do.call(rbind,lapply(mod_ls[mod_ord],function(x){x$par_tab})),
               "KM_DF"=mod_ls[[1]]$KM_DF,
               "KM_mod"=mod_ls[[1]]$KM_mod) # advisable to check that all km_mods are the same

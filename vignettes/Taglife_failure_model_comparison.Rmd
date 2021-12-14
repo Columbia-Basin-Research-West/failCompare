@@ -62,10 +62,14 @@ vit13_mod
 
 ```{r mod sets,warning=FALSE,fig.width=5, fig.height=5,echo=F}
 
-fmods=fc_fit(taglife,c("weibull","gompertz","gamma","lognormal"))
+fmods=fc_fit(taglife,model=c("gengamma","gompertz","gamma","lognormal"))
 fmods
+
 par(mfrow=c(1,1))
 plot(fmods)
+
+
+
 # fc_rank(fmods)
 ```
 
