@@ -27,7 +27,7 @@
 #' Bootstrap. Chapman and Hall, New York.
 #' 
 #' Townsend R., L., J. R. Skalski, P. Dillingham, T. W. Steig. 2006 Correcting bias in survival estimation resulting from tag failure in acoustic and radiotelemetry studies.
-#'  Journal of Agricultural Biological and Environmental Statistics.11:183–196. 
+#'  Journal of Agricultural Biological and Environmental Statistics.11:183-196. 
 #'
 #' @export
 #' 

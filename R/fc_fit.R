@@ -28,6 +28,8 @@
 #'     \item  'kaplan-meier' = Kaplan-Meier nonparametric estimate (NOTE: this model cannot be specified in a list with any other model
 #'  }
 #'
+#' Details on the parameterization of these distributions can be found in the appendix of the 
+#' \href{http://www.cbr.washington.edu/sites/default/files/manuals/failCompare%20User%20Manual.pdf}{failCompare user manual} .
 #' If a single model is specified, a \code{"fc_obj"} is created, which can be
 #' used to adjust a CJS model in the "cbrATLAS" package.
 #'
@@ -57,13 +59,15 @@
 #'
 #' @references 
 #'
-#' Kaplan, E.L., and Meier, P. 1958. Nonparametric estimation from incomplete observations. Journal of the American Statistical Association 53(282):457–481.
+#' Kaplan, E.L., and Meier, P. 1958. Nonparametric estimation from incomplete observations. Journal of the American Statistical Association 53(282):457-481.
 #'
-#' Li, T., and Anderson, J.J. 2009. The vitality model: a way to understand population survival and demographic heterogeneity. Theoretical Population Biology 76(2):118–131.
+#' Li, T., and Anderson, J.J. 2009. The vitality model: a way to understand population survival and demographic heterogeneity. Theoretical Population Biology 76(2):118-131.
 #'
-#' Li, T., and Anderson, J.J. 2013. Shaping human mortality patterns through intrinsic and extrinsic vitality processes. Demographic Research 28:341–372.
+#' Li, T., and Anderson, J.J. 2013. Shaping human mortality patterns through intrinsic and extrinsic vitality processes. Demographic Research 28:341-372.
 #'
-#' Skalski, J. R., and S. L. Whitlock. 2020. Vitality models found useful in modeling tag-failure times in acoustic-tag survival studies. Animal Biotelemetry 8(1):1–10.DOI:10.1186/s40317-020-00213-z.
+#' Prentice, R. L. 1974. A Log Gamma Model and Its Maximum Likelihood Estimation. Biometrika: 61(3):539-544. 
+#'
+#' Skalski, J. R., and S. L. Whitlock. 2020. Vitality models found useful in modeling tag-failure times in acoustic-tag survival studies. Animal Biotelemetry 8(1):1-10.DOI:10.1186/s40317-020-00213-z.
 #'
 #'
 #' @importFrom survival Surv
@@ -182,14 +186,14 @@ fc_fit=function(time,model,SEs=TRUE,censorID=NULL,rc.value=NULL,...){
 return(out_ls)
 }
 
-# function that limits the amount of output displayed when
-# a fc_obj or a fc_list is called
-#' @title print.fc_list()
+
+#' @title Generic function that limits the amount of output displayed when
+#' an fc_list is called
 #'
 #' @description Printed output for class "fc_list"
 #'
 #' @param x an object of class "fc_list"
-#' @param ... ignored
+#' @param ... additional arguments to print()
 #'
 #' @return description of list of models
 #'
@@ -204,12 +208,11 @@ print.fc_list <- function(x,...){
   invisible(x)
 }
 
-#' @title print.fc_obj()
-#'
-#' @description Printed output for class "fc_obj"
+#' @title Generic function that limits the amount of output displayed when
+#' an fc_obj is called
 #'
 #' @param x an object of class "fc_obj"
-#' @param ... ignored
+#' @param ... additional arguments to print()
 #'
 #' @export
 #'
@@ -223,19 +226,16 @@ print.fc_obj <- function(x,...){
   cat("Parameter estimates:\n")
   print(x[["par_tab"]])
   }
-  #cat("\n*This object can be used to adjust survival estimates using the 'ATLAS' package\n")
-
   invisible(x)
 }
 
 
-#' @title Summary of fc object
-#' @details Detailed summary of model objects in fc object
+#' @title Generic function for summarizing an object of class "fc_obj"
 #'
 #' @param object object of class fc_obj
-#' @param ... ignore
+#' @param ... additional arguments to summary
 #'
-#' @return Summary of fc_obj model fit calls
+#' @return Summary of fc_obj model of calls to model fitting functions.
 #' @export
 #'
 summary.fc_obj <- function(object,...){
@@ -245,11 +245,10 @@ summary.fc_obj <- function(object,...){
   invisible(object)
 }
 
-#' @title Sumary of fc list
-#' @details Detailed summary of model objects in fc list object
+#' @title Generic function for summarizing an object of class "fc_list"
 #'
 #' @param object object of class fc_list
-#' @param ... ignore
+#' @param ... additional arguments to summary
 #'
 #' @return Summary of model fitting calls and GOF rankings (if available)
 #' @export

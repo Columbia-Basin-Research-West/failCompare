@@ -42,6 +42,8 @@ This is a model fitting routine used to fit one or a set of failure time models:
 \item  'kaplan-meier' = Kaplan-Meier nonparametric estimate (NOTE: this model cannot be specified in a list with any other model
 }
 
+Details on the parameterization of these distributions can be found in the appendix of the
+\href{http://www.cbr.washington.edu/sites/default/files/manuals/failCompare\%20User\%20Manual.pdf}{failCompare user manual} .
 If a single model is specified, a \code{"fc_obj"} is created, which can be
 used to adjust a CJS model in the "cbrATLAS" package.
 
@@ -70,11 +72,13 @@ Each \code{fc_obJ} is a list of the following extractable objects:
 }
 }
 \references{
-Kaplan, E.L., and Meier, P. 1958. Nonparametric estimation from incomplete observations. Journal of the American Statistical Association 53(282):457–481.
+Kaplan, E.L., and Meier, P. 1958. Nonparametric estimation from incomplete observations. Journal of the American Statistical Association 53(282):457-481.
 
-Li, T., and Anderson, J.J. 2009. The vitality model: a way to understand population survival and demographic heterogeneity. Theoretical Population Biology 76(2):118–131.
+Li, T., and Anderson, J.J. 2009. The vitality model: a way to understand population survival and demographic heterogeneity. Theoretical Population Biology 76(2):118-131.
 
-Li, T., and Anderson, J.J. 2013. Shaping human mortality patterns through intrinsic and extrinsic vitality processes. Demographic Research 28:341–372.
+Li, T., and Anderson, J.J. 2013. Shaping human mortality patterns through intrinsic and extrinsic vitality processes. Demographic Research 28:341-372.
 
-Skalski, J. R., and S. L. Whitlock. 2020. Vitality models found useful in modeling tag-failure times in acoustic-tag survival studies. Animal Biotelemetry 8(1):1–10.DOI:10.1186/s40317-020-00213-z.
+Prentice, R. L. 1974. A Log Gamma Model and Its Maximum Likelihood Estimation. Biometrika: 61(3):539-544.
+
+Skalski, J. R., and S. L. Whitlock. 2020. Vitality models found useful in modeling tag-failure times in acoustic-tag survival studies. Animal Biotelemetry 8(1):1-10.DOI:10.1186/s40317-020-00213-z.
 }

@@ -14,9 +14,9 @@
 #'
 #' @references 
 #' 
-#' Kaplan, E.L., and Meier, P. 1958. Nonparametric estimation from incomplete observations. Journal of the American Statistical Association 53(282):457–481.
+#' Kaplan, E.L., and Meier, P. 1958. Nonparametric estimation from incomplete observations. Journal of the American Statistical Association 53(282):457-481.
 #' 
-#' Skalski, J. R., and S. L. Whitlock. 2020. Vitality models found useful in modeling tag-failure times in acoustic-tag survival studies. Animal Biotelemetry 8(1):1–10. doi:10.1186/s40317-020-00213-z#'
+#' Skalski, J. R., and S. L. Whitlock. 2020. Vitality models found useful in modeling tag-failure times in acoustic-tag survival studies. Animal Biotelemetry 8(1):1-10. doi:10.1186/s40317-020-00213-z#'
 #'
 #'
 fc_rank <- function(x){

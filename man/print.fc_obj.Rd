@@ -2,15 +2,17 @@
 % Please edit documentation in R/fc_fit.R
 \name{print.fc_obj}
 \alias{print.fc_obj}
-\title{print.fc_obj()}
+\title{Generic function that limits the amount of output displayed when
+an fc_obj is called}
 \usage{
 \method{print}{fc_obj}(x, ...)
 }
 \arguments{
 \item{x}{an object of class "fc_obj"}
 
-\item{...}{ignored}
+\item{...}{additional arguments to print()}
 }
 \description{
-Printed output for class "fc_obj"
+Generic function that limits the amount of output displayed when
+an fc_obj is called
 }

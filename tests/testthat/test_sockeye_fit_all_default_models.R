@@ -208,17 +208,6 @@ taglife=sockeye[,1]
 #   expect_s3_class(tmp,class="fc_list")
 #   })
 
-test_that("get_param_nm returns same results for single model as for vector",{
-  expect_identical(
-    object = rbind(get_param_nm(mod_nm=c("weibull3","gompertz"))),
-    expected = get_param_nm(mod_nm=c("weibull3","gompertz")))
-})
-
-test_that("get_param_nm errors when duplicate models or improper names are entered",{
-  expect_error(get_param_nm(mod_nm=c("weibull3","weibull3","gompertz")))
-  expect_error(get_param_nm(mod_nm=letters[1:5]))
-})
-
 test_that("fc_boot will not provide predictions without 'times'",
           {expect_error(fc_boot(weib_mod,nrep = 50))})
 

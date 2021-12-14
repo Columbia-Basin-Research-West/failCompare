@@ -2,21 +2,18 @@
 % Please edit documentation in R/fc_fit.R
 \name{summary.fc_obj}
 \alias{summary.fc_obj}
-\title{Summary of fc object}
+\title{Generic function for summarizing an object of class "fc_obj"}
 \usage{
 \method{summary}{fc_obj}(object, ...)
 }
 \arguments{
 \item{object}{object of class fc_obj}
 
-\item{...}{ignore}
+\item{...}{additional arguments to summary}
 }
 \value{
-Summary of fc_obj model fit calls
+Summary of fc_obj model of calls to model fitting functions.
 }
 \description{
-Summary of fc object
-}
-\details{
-Detailed summary of model objects in fc object
+Generic function for summarizing an object of class "fc_obj"
 }

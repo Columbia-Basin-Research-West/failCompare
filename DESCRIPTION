@@ -13,7 +13,7 @@ Authors@R: c(person(given = "Steven L.",
            family = "Townsend",
            role = c("ctb"),
            email = "rich@uw.edu"))
-Description: Tools for fitting and comparing the performance of failure-time models from the F distribution and Vitality family of models. 
+Description: Tools for fitting and comparing the performance of failure-time models from the F distribution family, Vitality family, and others. 
 License: GPL (>= 3)
 Encoding: UTF-8
 URL: https://github.com/Columbia-Basin-Research-West/failCompare
