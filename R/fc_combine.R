@@ -32,37 +32,34 @@
 #' @export
 #' 
 fc_combine <- function(mod_ls){
+  
+  ls_nms=as.character(sapply(mod_ls,function(x){x$mod_choice}))
+  
   #checking for too many models in the list
   if(length(mod_ls)<2){stop("expects more than 1 model object in a list object")}
   if(length(mod_ls)>9){
     stop("list of models exceeds the total number of default failCompare models 
     (combining and rank models with different sample sizes/censoring schemes is not advised)")}
   #checking for only fc_obj
-  if(!all(sapply(mod_ls,function(x){class(x)=="fc_obj"}))){stop("Expecting a list of model objects")}
+  if(!all(sapply(mod_ls,function(x){class(x)=="fc_obj"})) | any(duplicated(ls_nms)))
+    {stop("expecting a list of unique model objects")}
   modnms=names(fc_mod_ls)
   #checking that only default parametric models are used
-  if(!all(sapply(mod_ls,function(x){x$mod_choice %in% modnms}))){stop(paste("Expecting parametric model objects of type:",paste(modnms,collapse="; ")))}
+  if(!all(sapply(mod_ls,function(x){x$mod_choice %in% modnms}))){stop(paste("expecting parametric model objects of type:",paste(modnms,collapse="; ")))}
   
-  fit_vals=do.call(rbind,lapply(mod_ls,function(x){x$fit_vals}))
-  
-  # for ordering model names
-  ls_nms=as.character(sapply(mod_ls,function(x){x$mod_choice}))
-  mod_mtch=match(ls_nms,modnms)
-  mod_ord=order(mod_mtch)
-  out_ls=list("mod_choice"=modnms[mod_mtch],
+  out_ls=list(
+              "mod_choice"=ls_nms,
               "times"=mod_ls[[1]]$times,
-              "fit_vals"=do.call(rbind,lapply(mod_ls[mod_ord],function(x){x$fit_vals})),
-              "mod_objs"=do.call(c,lapply(mod_ls[mod_ord],function(x){
-                list(x$mod_objs)
-                })),
-              "par_tab"=do.call(rbind,lapply(mod_ls[mod_ord],function(x){x$par_tab})),
+              "fit_vals"=do.call(rbind,lapply(mod_ls,function(x){x$fit_vals})),
+              "mod_objs"=do.call(c,lapply(mod_ls,function(x){list(x$mod_objs)})),
+              "par_tab"=do.call(rbind,lapply(mod_ls,function(x){x$par_tab})),
               "KM_DF"=mod_ls[[1]]$KM_DF,
               "KM_mod"=mod_ls[[1]]$KM_mod) # advisable to check that all km_mods are the same
-  # inserts model name in case two individual fc_objs are being combined (b/c fc_obj don't have a "model" column)
-  if(!any(names(out_ls[["par_tab"]]) %in% c("model","param"))){
-    out_ls[["par_tab"]]=data.frame(get_param_nm(out_ls[["mod_choice"]]),
-                                   param=out_ls[["par_tab"]][,])}
-  
+  out_ls[["par_tab"]]=data.frame(
+    param=unlist(sapply(ls_nms,function(x){failCompare:::fc_mod_ls[[x]]})),
+    model=rep(x = ls_nms,times=sapply(ls_nms,function(x){length(failCompare:::fc_mod_ls[[x]])})),
+    out_ls[["par_tab"]])
+
   # making rownames comparable
   rownames(out_ls[["par_tab"]])=NULL
   rownames(out_ls[["fit_vals"]])=1:nrow(out_ls[["fit_vals"]]) # renumbering
