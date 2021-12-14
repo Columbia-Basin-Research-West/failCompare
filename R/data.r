@@ -1,4 +1,4 @@
-#' Lifespans of microacoustictags uses as part of a juvenile salmon survival studies conducted during two seasons
+#' Lifespans of microacoustic tags used as part of a juvenile salmon survival study conducted during two seasons.
 #'
 #' @format A data frame with 50 rows and 1 variable:
 #' \describe{
@@ -7,7 +7,7 @@
 #' }
 "sockeye"
 
-#' Lifespans of microacoustic tags uses as part of a juvenile salmon survival studies conducted during two seasons
+#' Lifespans of microacoustic tags used as part of a juvenile salmon survival study conducted during two seasons.
 #'
 #' @format A data frame with 150 rows and 2 variables:
 #' \describe{
@@ -17,7 +17,7 @@
 #' }
 "chinook"
 
-#' Lifespans of microacoustic tags uses as part of a juvenile steelhead survival study with premature tag failures that require censoring at 79 days
+#' Lifespans of microacoustic tags used as part of a juvenile steelhead survival study with premature tag failures that require censoring at 79 days.
 #'
 #' @format A data frame with 82 rows and 1 variables:
 #' \describe{
@@ -50,8 +50,8 @@
 "pike"
 
 
-
-##' @format 
-##' \describe{named list of default failCompare models}
-##' 
+#' List of supported models and parameter names.
+#' @format 
+#' \describe{named list of default failCompare models}
+#' 
 "fc_mod_ls"

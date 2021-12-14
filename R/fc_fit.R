@@ -1,18 +1,19 @@
 #' @title Fitting one or a set of failure time models
-#' @description Routines for fitting a  common failure time model or models 
+#'
+#' @description Routines for fitting a common failure time model or models 
 #'
 #' @param time numeric vector of failure times
-#' @param model character object or string specififying the model(s) to be fit
-#' @param rc.value right-censoring cutoff value (i.e.,only observations with times > rc.value are censored due to termination of the experiment or study).
+#' @param model character  string specififying the model(s) to be fit
+#' @param rc.value rc.value right-censoring cutoff value (i.e.,only observations with times > rc.value are censored due to termination of the experiment or study)
 #' @param censorID binary or logical variable indicating censored observations
 #' @param SEs logical for whether standard errors should be estimated
-#' @param ... additional arguments passed
+#' @param ... additional arguments passed to optimizer
 #'
 #' @return Returns failure model object of class \code{"fc_obj"} if one model specified OR 
 #' a failure model list object of class \code{"fc_list"} if multiple models are specified.
 #'
 #' @details
-#' Model fitting routine used to fit one or a set of failure time models.
+#' This is a model fitting routine used to fit one or a set of failure time models:
 #' 
 #'  \itemize{
 #'     \item   "weibull"  = 2-parameter Weibull
@@ -27,12 +28,12 @@
 #'     \item  'kaplan-meier' = Kaplan-Meier nonparametric estimate (NOTE: this model cannot be specified in a list with any other model
 #'  }
 #'
-#' If a single model is specified a \code{"fc_obj"} is created, which can be
+#' If a single model is specified, a \code{"fc_obj"} is created, which can be
 #' used to adjust a CJS model in the "cbrATLAS" package.
 #'
-#' If multiple models are specified a \code{"fc_list"} is created containing
+#' If multiple models are specified, a \code{"fc_list"} is created containing
 #' output from all models that could be fit with default optimizer settings. 
-#' A warning will appear if any of the models could not be fit, in which case, 
+#' A warning will appear if any of the models could not be fit, in which case 
 #' the user should either remove the model from consideration or specifiy initial parameter values.
 #' 
 #' Objects of class \code{fc_list} may serve as an input in the
@@ -40,29 +41,29 @@
 #' the \href{http://animalbiotelemetry.biomedcentral.com/articles/10.1186/s40317-020-00213-z}{Skalski and Whitlock (2020)} GOF measure.
 #'
 #' Printing a \code{fc_obJ} will display 
-#' parameter estimates and accompanying standard errors(if available).
+#' parameter estimates and accompanying standard errors, if available.
 #'
 #'   Each \code{fc_obJ} is a list of the following extractable objects:
 #'  \itemize{
 #'     \item"mod_choice"  = model name
-#'     \item     "times"  = dataframe of failure time, survival fraction, and censoring binary var.
+#'     \item     "times"  = dataframe of failure time, survival fraction, and censoring binary var
 #'     \item  "fit_vals"  = failure times and predicted survival under the model, 95% LCL an UCL if available
 #'     \item  "mod_objs"  = actual model object created by "flexsurvdist" or "vitality package"-- much more to extract from "flexsurvdist
 #'     \item   "par_tab"  = table of parameter estimates and SE in failCompare recognized order
 #'     \item     "KM_DF"  = table of product limit (Kaplan-Meier)  estimates for plotting (Kaplan and Meier 1954)
 #'     \item    "KM_mod"  = survival package K-M model estimates
-#'     \item  'censored'  = binary/logical variable the length of the data describing individual observations that are censored.
+#'     \item  'censored'  = binary/logical variable the length of the data describing individual observations that are censored
 #'  }
 #'
 #' @references 
 #'
-#' Kaplan, E.L., and Meier, P. 1958. Nonparametric estimation from incomplete observations. Journal of the American statistical association 53(282): 457–481.
+#' Kaplan, E.L., and Meier, P. 1958. Nonparametric estimation from incomplete observations. Journal of the American Statistical Association 53(282):457–481.
 #'
-#' Li, T., and Anderson, J.J. 2009. The vitality model: A way to understand population survival and demographic heterogeneity. Theoretical Population Biology 76(2): 118–131.
+#' Li, T., and Anderson, J.J. 2009. The vitality model: a way to understand population survival and demographic heterogeneity. Theoretical Population Biology 76(2):118–131.
 #'
-#' Li, T., and Anderson, J.J. 2013. Shaping human mortality patterns through intrinsic and extrinsic vitality processes. Demographic research 28: 341–372.
+#' Li, T., and Anderson, J.J. 2013. Shaping human mortality patterns through intrinsic and extrinsic vitality processes. Demographic Research 28:341–372.
 #'
-#' Skalski, J. R., and S. L. Whitlock. 2020. Vitality models found useful in modeling tag-failure times in acoustic-tag survival studies. Animal Biotelemetry 8(1):1–10.DOI:10.1186/s40317-020-00213-z
+#' Skalski, J. R., and S. L. Whitlock. 2020. Vitality models found useful in modeling tag-failure times in acoustic-tag survival studies. Animal Biotelemetry 8(1):1–10.DOI:10.1186/s40317-020-00213-z.
 #'
 #'
 #' @importFrom survival Surv
@@ -175,8 +176,7 @@ fc_fit=function(time,model,SEs=TRUE,censorID=NULL,rc.value=NULL,...){
                       message(paste(c(model[i]," model could not be fit\n"),collapse = ""))
                     },finally = NULL)
     }
-    out_ls=fit
-  out_ls=failCompare::fc_combine(fit[!sapply(fit,is.null)]) # combining models that could be fit (i.e., not returnning an NA)
+  out_ls=fc_combine(fit[!sapply(fit,is.null)]) # combining models that could be fit (i.e., not returnning an NA)
   }
 
 return(out_ls)

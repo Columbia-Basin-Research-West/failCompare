@@ -1,17 +1,17 @@
 #' @title Compute sample survival function
 #' 
-#' @details Calculates sample survival function accounting for right censoring. In the absence of censoring, uses the basic survival function estimator, otherwise uses the Kaplan-Meier product limit estimate.
+#' @description This computes a sample survival function.
+#' 
+#' @details This calculates a sample survival function accounting for right censoring. In the absence of censoring, it uses the basic survival function estimator, or otherwise uses the Kaplan-Meier product limit estimate.
 #'
 #' @param time failure or censoring time
 #' @param censorID logical vector the same length as `time`, with TRUE indicating censoring time
 #' @param rc.value time after which all values are censored
 #'
-#' @return Numeric vector of survival fraction etimates sample survival function
+#' @return This returns a numeric vector of survival fraction estimates sample survival function.
 #' 
 #' 
 #' @export
-#'
-#'
 #'
 fc_surv <- function(time,censorID=NULL,rc.value=NULL){
   if(is.unsorted(time)){message("times are not sorted")}

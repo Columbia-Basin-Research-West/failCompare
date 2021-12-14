@@ -11,17 +11,17 @@ fc_boot(mod_obj, nrep, type = "pred", times = NULL, tol = 0.9, ...)
 
 \item{nrep}{number of resampling replicates}
 
-\item{type}{number of resamples}
+\item{type}{character describing whether bootstrap samples of predicted survivals ("pred") or parameters ("par") should be returned.}
 
-\item{times}{times at which survival fraction will be estimated}
+\item{times}{times at which survival fraction will be estimated, if type="pred".}
 
 \item{tol}{optional tolerance setting for the estimated proportion of bootstrap data sets that cannot be fit default = 0.9}
 
-\item{...}{aruments passed to the optimizer}
+\item{...}{arguments passed to the optimizer}
 }
 \value{
 if \code{type="pred"} survival fraction or proportion of failed subjects (nrep x times) is returned, and
-if \code{type="par"} a matrix of bootstrap parameter estimates  dimensions (nrep x number of parameters)
+if \code{type="par"} a matrix of bootstrap parameter estimates  dimensions (nrep x number of parameters).
 }
 \description{
 Nonparametric bootstrap of failure time model object

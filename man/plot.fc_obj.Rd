@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot.fc_obj.R
 \name{plot.fc_obj}
 \alias{plot.fc_obj}
-\title{Title}
+\title{generic function that plots fitted values when a object of class "fc_obj" is called}
 \usage{
 \method{plot}{fc_obj}(x, km = FALSE, km.ci = FALSE, res = 100, type = "data", ...)
 }
@@ -19,6 +19,9 @@
 
 \item{...}{arguements passed to plot \code{\link{plot}}}
 }
+\value{
+Plot and a message.
+}
 \description{
-Title
+generic function that plots fitted values when a object of class "fc_obj" is called
 }

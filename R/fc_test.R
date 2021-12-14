@@ -1,14 +1,16 @@
 #' @title Simulated Kolmogorov-Smirnov Test
-#'
+#' 
+#' @description A simulated Kolmogorov-Smirnov test.
+#' 
 #' @param times numeric vector of failure times
 #' @param iters replicates for bootstrap (default to 50k)
 #' @param model distribution
 #' @param label optional argument for labeling plots
 #' @param plot optional argument for creating histogram
 #'
-#' @details Performsa a simulation-based Kolmogorov Smirnov Test
+#' @details Performs a a simulation-based Kolmogorov-Smirnov test.
 #'
-#' @return P-value and histogram of sample distribution of D statistic.
+#' @return Returns a P-value and histogram of sample distribution of D statistic.
 #'
 #'
 #' @seealso \code{\link[stats]{ks.test}}.
@@ -31,8 +33,7 @@
 #' @import graphics
 #'
 #' @export
-#' 
-
+#'  
 fc_test <- function(
   times, # vectors of values
   iters=50000,

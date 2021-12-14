@@ -2,20 +2,20 @@
 % Please edit documentation in R/taglife.fn_weib3.R
 \name{taglife.fn_weib3}
 \alias{taglife.fn_weib3}
-\title{Fitting 3-parameter Weibull model to failure time data (adapted from Rich's code)}
+\title{Fitting 3-parameter Weibull model to failure time data (adapted from R. Townsend's code)}
 \usage{
 taglife.fn_weib3(tags.in, model.in = "weibull", tag.se = T)
 }
 \arguments{
 \item{tags.in}{vector of observed time to failure (days)}
 
-\item{model.in}{name of model to use.  Current option is "weibull" for 3-parameter weibull}
+\item{model.in}{name of model to use.  Current option is "Weibull" for 3-parameter Weibull}
 
 \item{tag.se}{logical for whether to compute SEs}
 }
 \value{
-list with model objects (mod_obj), fitted values (fit_vals) and table of parameter estimates (par_tab)
+Returns a list with model objects (mod_obj), fitted values (fit_vals) and table of parameter estimates (par_tab).
 }
 \description{
-Fitting 3-parameter Weibull model to failure time data (adapted from Rich's code)
+Fitting 3-parameter Weibull model to failure time data (adapted from R. Townsend's code)
 }

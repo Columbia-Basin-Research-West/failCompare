@@ -5,13 +5,11 @@ data(sockeye)
 taglife=sockeye[,1]
 
 # model name vectors
-flex_mods=names(failCompare:::fc_mod_ls)[names(failCompare:::fc_mod_ls) %in% names(flexsurv::flexsurv.dists)]
-vit_mods=names(failCompare:::fc_mod_ls)[grep(names(failCompare:::fc_mod_ls),pattern="vitality")]
+flex_mods=names(fc_mod_ls)[names(fc_mod_ls) %in% names(flexsurv::flexsurv.dists)]
+vit_mods=names(fc_mod_ls)[grep(names(fc_mod_ls),pattern="vitality")]
 all_mods=c(flex_mods,vit_mods,"weibull3")
 
 my_km=fc_fit(taglife,model = "kaplan-meier")
-# my_km$KM_DF
-# my_km$KM_mod
 
 
 fmod=fc_fit(time = taglife,model=c("weibull","vitality.ku"),non_cen = rep(TRUE,length(taglife)))
@@ -223,3 +221,9 @@ test_that("get_param_nm errors when duplicate models or improper names are enter
 
 test_that("fc_boot will not provide predictions without 'times'",
           {expect_error(fc_boot(weib_mod,nrep = 50))})
+
+
+
+bad_time_dat=c(rep(5,3),rep(10,3))
+my_e=quote(taglife.fn_weib3(tags.in = bad_time_dat,model.in = "weibull",tag.se = T))
+my_e2=quote(taglife.fn_weib3(tags.in = bad_time_dat,model.in = "weibull",tag.se = F))

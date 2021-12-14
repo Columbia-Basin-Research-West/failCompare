@@ -3,7 +3,7 @@
 \docType{data}
 \name{chinook}
 \alias{chinook}
-\title{Lifespans of microacoustic tags uses as part of a juvenile salmon survival studies conducted during two seasons}
+\title{Lifespans of microacoustic tags used as part of a juvenile salmon survival study conducted during two seasons.}
 \format{
 A data frame with 150 rows and 2 variables:
 \describe{
@@ -16,6 +16,6 @@ A data frame with 150 rows and 2 variables:
 chinook
 }
 \description{
-Lifespans of microacoustic tags uses as part of a juvenile salmon survival studies conducted during two seasons
+Lifespans of microacoustic tags used as part of a juvenile salmon survival study conducted during two seasons.
 }
 \keyword{datasets}

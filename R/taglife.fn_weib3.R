@@ -1,11 +1,10 @@
-
-#' Fitting 3-parameter Weibull model to failure time data (adapted from Rich's code)
+#' @title Fitting 3-parameter Weibull model to failure time data (adapted from R. Townsend's code)
 #'
 #' @param tags.in vector of observed time to failure (days)
-#' @param model.in name of model to use.  Current option is "weibull" for 3-parameter weibull
+#' @param model.in name of model to use.  Current option is "Weibull" for 3-parameter Weibull
 #' @param tag.se logical for whether to compute SEs
 #'
-#' @return list with model objects (mod_obj), fitted values (fit_vals) and table of parameter estimates (par_tab)
+#' @return Returns a list with model objects (mod_obj), fitted values (fit_vals) and table of parameter estimates (par_tab).
 #' @export
 #'
 taglife.fn_weib3=function(tags.in,model.in="weibull",tag.se=T){

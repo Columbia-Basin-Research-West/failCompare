@@ -1,5 +1,4 @@
-# function that plots fitted values when a failmod_obj is called
-#' Title
+#' @title generic function that plots fitted values when a object of class "fc_obj" is called
 #'
 #' @param x of class "fc_obj", created using 
 #' @param type Plotting survival curve of data ("data") versus difference between Kaplan-Meier estimates and predictions from a parametric model ("resid")
@@ -8,6 +7,7 @@
 #' @param res Number of evenly space points within the range of the data for plotting
 #' @param ... arguements passed to plot \code{\link{plot}}
 #'
+#' @return Plot and a message.
 #'
 #' @importFrom survival Surv
 #' @importFrom graphics plot lines legend points
