@@ -60,13 +60,13 @@ vit13_mod
 
 ### Creating alternate model sets
 
-```{r mod sets,warning=FALSE,fig.width=5, fig.height=5}
+```{r mod sets,warning=FALSE,fig.width=5, fig.height=5,echo=F}
 
 fmods=fc_fit(taglife,c("weibull","gompertz","gamma","lognormal"))
 fmods
 par(mfrow=c(1,1))
-plot(fmods)
-fc_rank(fmods)
+# plot(fmods)
+# fc_rank(fmods)
 ```
 
 ### Ranking models
@@ -76,13 +76,14 @@ taglife=sockeye[,1]
 
 aa=fc_fit(taglife,"weibull")
 fc_fit(taglife,"weibull3")
-fc_fit(taglife,"weibull3",SEs = F)
+# fc_fit(taglife,"weibull3",SEs = F)
+
+# fc_fit(taglife,model=c("vitality.4p"))
+
+# fc_fit(taglife,model=c("gompertz","weibull3"))
 
 
-fc_fit(taglife,model=c("gompertz","weibull3"))
-
-
-fc_fit(rnorm(14,10,3),"weibull3",SEs = F)
+# fc_fit(rnorm(14,10,3),"weibull3",SEs = F)
 
 
 # fc_tryfit()

@@ -4,10 +4,12 @@
 \alias{fc_fit_single}
 \title{Fitting a single failure time model}
 \usage{
-fc_fit_single(y, y_sfrac, model, Hess, non_cen, KM_DF, KM_mod, ...)
+fc_fit_single(y, y_sfrac, model, Hess, non_cen, KM_DF, KM_mod)
 }
 \arguments{
 \item{y}{failure time}
+
+\item{y_sfrac}{survival fraction}
 
 \item{model}{failure time model}
 
@@ -15,10 +17,12 @@ fc_fit_single(y, y_sfrac, model, Hess, non_cen, KM_DF, KM_mod, ...)
 
 \item{non_cen}{logical of length(y)}
 
-\item{...}{additional arguments passed to fc_tryfit()}
+\item{KM_DF}{K-M model predictions}
+
+\item{KM_mod}{K-M model object}
 }
 \value{
-
+"fc_obj" is successful
 }
 \description{
 Fitting a single failure time model

@@ -1,6 +1,5 @@
 #' @title Error handling for fitting failCompare models
 #' 
-#' @details Prevents errors from interupting single- and multi-model runs using fc_fit
 #'
 #' @param fit_call call to dependent model fitting functions.
 #' @param model model argument passed from fc_fit()
@@ -10,6 +9,8 @@
 #' @param Hess logical arguement to fc_fit() carried through
 #'
 #' @return model fitting output for internal use by fc_fit
+#'
+#' @details Prevents errors from interupting single- and multi-model runs using fc_fit
 #' 
 #'
 fc_tryfit=function(y=y,y_sfrac=NULL,fit_call,model="weibull3",non_cen=NULL,Hess=NULL){
