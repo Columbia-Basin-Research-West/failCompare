@@ -30,24 +30,11 @@ aa=fc_fit(time = taglife,
           non_cen = rep(TRUE,length(taglife)))
 
 
-aa=fc_fit(time = taglife,
-          model="weibull",
-          non_cen = rep(TRUE,length(taglife)),control=list(maxit=1))
-
-aa=fc_fit(time = taglife,
-          model="weibull",
-          Hess=T,
-          non_cen = rep(TRUE,length(taglife)),control=list(trace=1))
-
-
 bb=fc_fit(time = taglife,
           model="weibull3",
           Hess=T,
           non_cen = rep(TRUE,length(taglife)))
-bb=fc_fit(time = taglife,
-          model="weibull3",
-          Hess=T,
-          non_cen = rep(TRUE,length(taglife)),control=list(trace=1))
+
 
 cc=fc_combine(list(aa,bb))
 cc$par_tab
@@ -61,13 +48,6 @@ fc_fit_single(y = taglife,
               KM_DF=my_km$KM_DF,
               KM_mod=my_km$KM_mod)
 
-
-bb=fc_fit(time = taglife,
-          model="weibull3",
-          Hess=T,
-          non_cen = rep(TRUE,length(taglife)))
-
-fc_combine(mod_ls = list(aa,bb))
 
 
 test_that("<2 model obj in fc_combine cause an error",
@@ -200,13 +180,20 @@ lapply(1:9,function(x){fc_tryfit(fit_call = eval(test_e[[x]]),model = all_mods[x
 ### Testing fc_fit() expresssions
 ##################################### #
 
+# Testing that optimizer setting pass through
+aa=fc_fit(time = taglife,
+          model="weibull",
+          non_cen = rep(TRUE,length(taglife)),control=list(maxit=1))
+
+aa=fc_fit(time = taglife,
+          model="weibull",
+          non_cen = rep(TRUE,length(taglife)),control=list(trace=1))
 
 
-
-
-
-
-
+bb=fc_fit(time = taglife,
+          model="weibull3",
+          Hess=T,
+          non_cen = rep(TRUE,length(taglife)),control=list(trace=1))
 
 
 # library(testthat)
