@@ -10,9 +10,86 @@ vit_mods=names(failCompare:::fc_mod_ls)[grep(names(failCompare:::fc_mod_ls),patt
 all_mods=c(flex_mods,vit_mods,"weibull3")
 
 my_km=fc_fit(taglife,model = "kaplan-meier")
-my_km$KM_DF
-my_km$KM_mod
+# my_km$KM_DF
+# my_km$KM_mod
 
+
+fmod=fc_fit(time = taglife,model=c("weibull","vitality.ku"),non_cen = rep(TRUE,length(taglife)))
+
+nn=NULL
+fc_combine(list(aa,bb,nn))
+
+is.null(list(aa,bb,nn))
+list(aa,bb,nn)[!sapply(list(aa,bb,nn),is.null)]
+
+############################################# #
+### Testing fc_combine() warning
+############################################# #
+
+aa=fc_fit(time = taglife,
+          model="weibull",
+          SEs=T,
+          non_cen = rep(TRUE,length(taglife)))
+
+
+aa1
+aa=fc_fit(time = taglife,
+          model="weibull",
+          Hess=T,
+          non_cen = rep(TRUE,length(taglife)),control=list(maxit=1))
+
+aa=fc_fit(time = taglife,
+          model="weibull",
+          Hess=T,
+          non_cen = rep(TRUE,length(taglife)),control=list(trace=1))
+
+
+bb=fc_fit(time = taglife,
+          model="weibull3",
+          Hess=T,
+          non_cen = rep(TRUE,length(taglife)))
+bb=fc_fit(time = taglife,
+          model="weibull3",
+          Hess=T,
+          non_cen = rep(TRUE,length(taglife)),control=list(trace=1))
+
+
+
+
+
+cc=fc_combine(list(aa,bb))
+cc$par_tab
+
+fc_fit_single(y = aa[[1]],
+              y_sfrac=aa[[2]],
+              model=aa[[7]],
+              Hess=aa[[4]],
+              non_cen = aa[[3]],
+              KM_DF=aa[[6]],
+              KM_mod=aa[[7]])
+
+fc_fit_single(y = taglife,
+              y_sfrac=fc_surv(taglife),
+              model="weibull",
+              Hess=T,
+              non_cen = rep(TRUE,length(taglife)),
+              KM_DF=my_km$KM_DF,
+              KM_mod=my_km$KM_mod)
+
+
+bb=fc_fit(time = taglife,
+          model="weibull3",
+          Hess=T,
+          non_cen = rep(TRUE,length(taglife)))
+
+fc_combine(mod_ls = list(aa,bb))
+
+
+test_that("<2 model obj in fc_combine cause an error",
+          {expect_error(fc_combine(mod_ls = list(aa)))})
+
+test_that("duplicate model names cause an error",
+          {expect_error(fc_combine(mod_ls = list(aa,aa)))})
 
 ############################################# #
 ### Testing individual fc_fit() expresssions
