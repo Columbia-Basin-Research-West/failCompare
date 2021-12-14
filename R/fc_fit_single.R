@@ -13,6 +13,7 @@
 #' @return "fc_obj" is successful
 #'
 fc_fit_single=function(y,y_sfrac,model,Hess,non_cen,KM_DF,KM_mod){
+  KM_mod=get("KM_mod",inherits = T)
   rc=ifelse(all(non_cen),FALSE,TRUE)
     # FITTING DISTRIBUTIONS IN THE FLEXSURV PACKAGE
     if(model %in% names(fc_mod_ls)[names(fc_mod_ls) %in% names(flexsurv::flexsurv.dists)]){
@@ -33,12 +34,9 @@ fc_fit_single=function(y,y_sfrac,model,Hess,non_cen,KM_DF,KM_mod){
           q_e=quote(vitality::vitality.ku(time=sort(y),sdata = y_sfrac,rc.data = T,pplot =F,silent=T,se=Hess))
         }
         else{
-          # y_sfrac=failCompare::fc_surv(y)
-          # q_e=vitality::vitality.ku(time = sort(y),sdata = y_sfrac,pplot =F,silent = T,se=Hess)
           q_e=quote(vitality::vitality.ku(time = sort(y),sdata = y_sfrac,pplot =F,silent = T,se=Hess,rc.data=F))
         }
         fit = fc_tryfit(fit_call = q_e,y = y,y_sfrac=y_sfrac,model="vitality.ku",Hess=Hess)
-        # fit = fc_tryfit(fit_call = q_e,y = y,model="vitality.ku")
         pars_tmp=fit
         fit_vals=data.frame(model="vitality.ku",
                                   time=c(0,y),
@@ -46,16 +44,12 @@ fc_fit_single=function(y,y_sfrac,model,Hess,non_cen,KM_DF,KM_mod){
                                   lcl=0,ucl=0)
       }
       
-      
       if(model=="vitality.4p"){
         # Defines function call depending on right censoring or not
         if(rc){
-          # dTmp=vitality::dataPrep(c(0,y_cen),(n_cen:(n_cen-length(y_cen)))/n_cen,datatype="CUM",rc.data=(n_cen>length(y_cen)))
-          # y_sfrac=dTmp[,"sfract"]
           q_e=quote(vitality::vitality.4p(time = y,sdata = y_sfrac,pplot =F,silent = T,se = Hess))
         }
         else{
-          # y_sfrac=failCompare::fc_surv(y)
           q_e=quote(vitality::vitality.4p(time = y,sdata = y_sfrac,pplot =F,silent = T,se = Hess))
           }
         fit = fc_tryfit(fit_call = q_e,y = y,y_sfrac=y_sfrac,model="vitality.4p",Hess=Hess)
@@ -66,7 +60,7 @@ fc_fit_single=function(y,y_sfrac,model,Hess,non_cen,KM_DF,KM_mod){
                                   lcl=0,ucl=0)
       }
       if(model=="weibull3"){
-        # y_sfrac=failCompare::fc_surv(y)
+
         q_e=quote(taglife.fn_weib3(y,model.in = "weibull",tag.se=eval(Hess)))
         tmp=fc_tryfit(y=y,fit_call=q_e,model="weibull3",Hess = Hess)
         if(is.vector(tmp$par_tab)){Hess=F} # switch to FALSE if hessian caused error
@@ -75,7 +69,6 @@ fc_fit_single=function(y,y_sfrac,model,Hess,non_cen,KM_DF,KM_mod){
         fit_vals=tmp$fit_vals
       }
     }
-  # }
   
   # if a non-flexsurv model
   if(model=="vitality.ku" | model=="vitality.4p" | model =="weibull3"){

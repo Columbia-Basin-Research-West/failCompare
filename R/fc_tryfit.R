@@ -14,18 +14,6 @@
 #' 
 #'
 fc_tryfit=function(y=y,y_sfrac=NULL,fit_call,model="weibull3",non_cen=NULL,Hess=NULL){
-  # seeing if an error in generated
-  # withCallingHandlers({ 
-  #   # warning("A"); 1+2 
-  #   disp=paste(c("Warnings(s) in ",model," model fitting:\n"),collapse = "")
-  #   # msg=conditionMessage(w)
-  #   # message(paste(disp,unique(msg)))
-  #   message(paste(disp))
-  #   }, warning = function(w) {
-  #   # disp=paste(c("Warnings(s) in ",model," model fitting:\n"),collapse = "")
-  #   # msg=conditionMessage(w)
-  #   # message(paste(disp,unique(msg)))
-  # })
   frst_ft=tryCatch(eval(fit_call),
                    error = function(e) {
                      disp=paste(c("Error(s) in ",model," model fitting:\n"),collapse = "")
@@ -62,7 +50,6 @@ fc_tryfit=function(y=y,y_sfrac=NULL,fit_call,model="weibull3",non_cen=NULL,Hess=
                       message(paste(disp,unique(msg)))
                       }
                    )
-    
     lst_ft=sec_ft}
   else{lst_ft=frst_ft}
   return(lst_ft)

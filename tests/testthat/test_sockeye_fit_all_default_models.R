@@ -17,10 +17,8 @@ my_km=fc_fit(taglife,model = "kaplan-meier")
 fmod=fc_fit(time = taglife,model=c("weibull","vitality.ku"),non_cen = rep(TRUE,length(taglife)))
 
 nn=NULL
-fc_combine(list(aa,bb,nn))
+# fc_combine(list(aa,bb,nn))
 
-is.null(list(aa,bb,nn))
-list(aa,bb,nn)[!sapply(list(aa,bb,nn),is.null)]
 
 ############################################# #
 ### Testing fc_combine() warning
@@ -32,10 +30,8 @@ aa=fc_fit(time = taglife,
           non_cen = rep(TRUE,length(taglife)))
 
 
-aa1
 aa=fc_fit(time = taglife,
           model="weibull",
-          Hess=T,
           non_cen = rep(TRUE,length(taglife)),control=list(maxit=1))
 
 aa=fc_fit(time = taglife,
@@ -53,20 +49,9 @@ bb=fc_fit(time = taglife,
           Hess=T,
           non_cen = rep(TRUE,length(taglife)),control=list(trace=1))
 
-
-
-
-
 cc=fc_combine(list(aa,bb))
 cc$par_tab
 
-fc_fit_single(y = aa[[1]],
-              y_sfrac=aa[[2]],
-              model=aa[[7]],
-              Hess=aa[[4]],
-              non_cen = aa[[3]],
-              KM_DF=aa[[6]],
-              KM_mod=aa[[7]])
 
 fc_fit_single(y = taglife,
               y_sfrac=fc_surv(taglife),

@@ -69,8 +69,10 @@ plot.fc_list <- function(x,model=NULL,type="data",km=F,res=100,xlim,...){
   spred=list()
   for(i in 1:length(mod_plts)){
     # survival preds.
-    tmp=x$par_tab[x$par_tab$model==mod_plts[i],"est"]
-    spred[[i]]=fc_pred(times=ts,model=mod_plts[i],pars = tmp)
+    tmp=x$par_tab[x$par_tab$model==mod_plts[i],3] # param.est
+    # print(tmp)
+    # print(mod_plts)
+    spred[[i]]=fc_pred(times=x$times$time,model=mod_plts[i],pars = tmp)
     lines(ts,spred[[i]],col=i+1,lwd=3,lty=i)
   }
 
