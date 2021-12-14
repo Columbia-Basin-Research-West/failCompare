@@ -1,4 +1,6 @@
-#' @title Ploting failure time and sample survival function
+#' @title Plotting failure time and sample survival function
+#'
+#' @details This shows plot type "data" by default. For "residual" type plot showing (Kaplan-Meier estimates - parametric model fit), plot a singular model of class=fc_obj.
 #'
 #' @param time failure time (x axis)
 #' @param surv survival function (y axis)
@@ -11,10 +13,9 @@
 #' @param main title for scatterplot
 #' @param xlab x axis limits for survival plot
 #' @param ylab y axis limits for survival plot, used to override default of c(0,1)
-#' 
-#' @param ... additional argument passed to plot
+#' @param ... additional argument passed to plot()
 #'
-#' @return histogram of failure times and/or scatter plot of sample survival function
+#' @return This returns a histogram of failure times and/or scatter plot of sample survival function.
 #' @export
 fc_plot=function(time,surv,censorID,group=NULL,hist=T,surv_curv=T,main,ylim,xlim,ylab,xlab,...){
   if(all(!surv_curv,!hist)){stop("At least 'surv_curv' or 'hist' must be TRUE")}

@@ -10,14 +10,14 @@ fc_combine(mod_ls)
 \item{mod_ls}{list of fc_mods}
 }
 \value{
-fc_list object that may be used by
+fc_list object
 }
 \description{
-Combination of multiple failure time model objects into a list of models
+A combination of multiple failure time model objects into a list of models.
 }
 \details{
-A convenience function for combining model failure time model objects into a failure model
-list object \code{fc_list}. Lists that include the "kaplan-meier" model or duplicates are not allowed.
+A convenience function for combining model failure time model objecs \code{fc_obj} into a failure model
+list object \code{fc_list}. Lists that include the "Kaplan-Meier" model or duplicates are not allowed.
 }
 \examples{
 
@@ -36,10 +36,10 @@ fc_combine(mod_ls = list(weib_mod,vit_mod))
 
 }
 \references{
-Li, T., and Anderson, J.J. 2009. The vitality model: A way to understand population survival and demographic heterogeneity. Theoretical Population Biology 76(2): 118–131.
+Li, T., and Anderson, J.J. 2009. The vitality model: a way to understand population survival and demographic heterogeneity. Theoretical Population Biology 76(2):118–131.
 
-Li, T., and Anderson, J.J. 2013. Shaping human mortality patterns through intrinsic and extrinsic vitality processes. Demographic research 28: 341–372.
+Li, T., and Anderson, J.J. 2013. Shaping human mortality patterns through intrinsic and extrinsic vitality processes. Demographic Research 28:341–372.
 }
 \seealso{
-\code{\link{fc_select}} \code{\link{fc_fit}}
+\code{fc_select} and \code{fc_fit}
 }

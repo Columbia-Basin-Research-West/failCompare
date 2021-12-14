@@ -18,13 +18,13 @@ fc_test(times, iters = 50000, model = "gompertz", label = "", plot = FALSE)
 \item{plot}{optional argument for creating histogram}
 }
 \value{
-P-value and histogram of sample distribution of D statistic.
+Returns a P-value and histogram of sample distribution of D statistic.
 }
 \description{
-Simulated Kolmogorov-Smirnov Test
+A simulated Kolmogorov-Smirnov test.
 }
 \details{
-Performsa a simulation-based Kolmogorov Smirnov Test
+Performs a a simulation-based Kolmogorov-Smirnov test.
 }
 \seealso{
 \code{\link[stats]{ks.test}}.

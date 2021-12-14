@@ -3,7 +3,7 @@
 \docType{data}
 \name{steelhead}
 \alias{steelhead}
-\title{Lifespans of microacoustic tags uses as part of a juvenile steelhead survival study with premature tag failures that require censoring at 79 days}
+\title{Lifespans of microacoustic tags used as part of a juvenile steelhead survival study with premature tag failures that require censoring at 79 days.}
 \format{
 A data frame with 82 rows and 1 variables:
 \describe{
@@ -16,6 +16,6 @@ A data frame with 82 rows and 1 variables:
 steelhead
 }
 \description{
-Lifespans of microacoustic tags uses as part of a juvenile steelhead survival study with premature tag failures that require censoring at 79 days
+Lifespans of microacoustic tags used as part of a juvenile steelhead survival study with premature tag failures that require censoring at 79 days.
 }
 \keyword{datasets}

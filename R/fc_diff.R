@@ -1,12 +1,13 @@
-
 #' @title Log-rank test of two data sets
 #'
-#' @param data dataframe containing all variables
-#' @param time failure times
-#' @param group grouping variable
-#' @param censorID censored observation vector (T/F)
+#' @description A log-rank test of two data sets using the "survival" package
 #'
-#' @return Results of a log-rank test for comparing two survival distributions
+#' @param data dataframe containing all variables
+#' @param time numeric failure times
+#' @param group character or factor grouping variable
+#' @param censorID logical vector the same length as "time" indicating censored observations 
+#'
+#' @return Returns the results of a log-rank test for comparing two survival distributions.
 #' @export
 fc_diff <- function(data,time,group,censorID=NULL){
   if(is.null(censorID)){non_cen=rep(1,length(time))

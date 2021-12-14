@@ -2,7 +2,7 @@
 % Please edit documentation in R/fc_plot.R
 \name{fc_plot}
 \alias{fc_plot}
-\title{Ploting failure time and sample survival function}
+\title{Plotting failure time and sample survival function}
 \usage{
 fc_plot(
   time,
@@ -42,11 +42,14 @@ fc_plot(
 
 \item{xlab}{x axis limits for survival plot}
 
-\item{...}{additional argument passed to plot}
+\item{...}{additional argument passed to plot()}
 }
 \value{
-histogram of failure times and/or scatter plot of sample survival function
+This returns a histogram of failure times and/or scatter plot of sample survival function.
 }
 \description{
-Ploting failure time and sample survival function
+Plotting failure time and sample survival function
+}
+\details{
+This shows plot type "data" by default. For "residual" type plot showing (Kaplan-Meier estimates - parametric model fit), plot a singular model of class=fc_obj.
 }

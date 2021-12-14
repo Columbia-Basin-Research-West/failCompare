@@ -11,20 +11,20 @@ fc_select(mod_ls, model)
 
 \item{model}{model selected from list of those available. Possible options include:
 \itemize{
-\item   "weibull"  = 2-parameter Weibull
-\item   "weibull3" = 3-parameter Weibull
+\item  "weibull"  = 2-parameter Weibull
+\item  "weibull3" = 3-parameter Weibull
 \item  "gompertz"  = Gompertz Model
-\item     "gamma"  = Gamma distribution (2-parameter)
+\item  "gamma"  = Gamma distribution (2-parameter)
 \item "lognormal"  = Log-Normal distribution
-\item     "llogis" = Log-Logistic distribution
+\item  "llogis" = Log-Logistic distribution
 \item  "gengamma"  = Generalized Gamma Distribution (3-parameter; Prentice 1974 parameterization)
 \item  'vitality.ku'  = 4-parameter vitality model from Li and Anderson (2009)
 \item  'vitality.4p'  = 4-parameter vitality model from Li and Anderson (2013)
 }}
 }
 \value{
-Failure time model object of class \code{fc_obj}
+Returns a failure time model object of class \code{fc_obj} .
 }
 \description{
-Select a failure time model from predefined list of candidate models produced by the function \code{fc_fit()}
+This selects a failure time model from predefined list of candidate models produced by the function \code{fc_fit()}
 }

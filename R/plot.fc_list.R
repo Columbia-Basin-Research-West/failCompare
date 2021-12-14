@@ -1,19 +1,21 @@
-# function that plots fitted values when a failmod_list is called
-#' Title
+#' @title Plotting fitted values when object of class "fc_list" is called
 #'
-#' @param x failmod_list objects (ranked or not)
-#' @param model survival model
-#' @param type "data" or "residual" plot. 
-#' @param res fineness of survival function preds
-#' @param km show kaplan-meier estimates
-#' @param xlim x axis limits, used to override default
-#' @param ... ignore
+#' @param x fc_list object (ranked or not). See \code{fc_rank} for information on ranking.
+#' @param model vector of up 1-3 models contained within the "fc_list" object
+#' @param res fineness of survival function preds (i.e., increments between which the line of the function is drawn). 
+#' @param km logical for showing step function of kaplan-meier estimates alongside model
+#' @param xlim numeric vector of length 2 describing x axis limits, used to override default of +/- 5% of min and max
+#' @param ... additional arguments passed to plot()
+#' 
+#' @seealso \code{plot.fc_obj}
 #' 
 #' @details Plot type "data" shown by default. For "residual" type plot showing (kaplan-meier estimates - parametric model fit) plot a singual model of class=fc_obj.
+#'          Consider decreasing res if failure time range <10 and increasing if above 100.  
 #'
 #' @return plot and a message
 #' @export
-plot.fc_list <- function(x,model=NULL,type="data",km=F,res=100,xlim,...){
+plot.fc_list <- function(x,model=NULL,km=F,res=100,xlim,...){
+  type="data"
   # validation
   if(type!="data"){stop("Only 'data' type plot allowed for model lists")}
   stopifnot(all(model %in% c("weibull", "gompertz", "gamma", "lognormal", "llogis", "gengamma","vitality.ku","vitality.4p","weibull3")))

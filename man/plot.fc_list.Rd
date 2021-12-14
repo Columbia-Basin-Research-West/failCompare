@@ -2,31 +2,33 @@
 % Please edit documentation in R/plot.fc_list.R
 \name{plot.fc_list}
 \alias{plot.fc_list}
-\title{Title}
+\title{Plotting fitted values when object of class "fc_list" is called}
 \usage{
-\method{plot}{fc_list}(x, model = NULL, type = "data", km = F, res = 100, xlim, ...)
+\method{plot}{fc_list}(x, model = NULL, km = F, res = 100, xlim, ...)
 }
 \arguments{
-\item{x}{failmod_list objects (ranked or not)}
+\item{x}{fc_list object (ranked or not). See \code{fc_rank} for information on ranking.}
 
-\item{model}{survival model}
+\item{model}{vector of up 1-3 models contained within the "fc_list" object}
 
-\item{type}{"data" or "residual" plot.}
+\item{km}{logical for showing step function of kaplan-meier estimates alongside model}
 
-\item{km}{show kaplan-meier estimates}
+\item{res}{fineness of survival function preds (i.e., increments between which the line of the function is drawn).}
 
-\item{res}{fineness of survival function preds}
+\item{xlim}{numeric vector of length 2 describing x axis limits, used to override default of +/- 5\% of min and max}
 
-\item{xlim}{x axis limits, used to override default}
-
-\item{...}{ignore}
+\item{...}{additional arguments passed to plot()}
 }
 \value{
 plot and a message
 }
 \description{
-Title
+Plotting fitted values when object of class "fc_list" is called
 }
 \details{
 Plot type "data" shown by default. For "residual" type plot showing (kaplan-meier estimates - parametric model fit) plot a singual model of class=fc_obj.
+Consider decreasing res if failure time range <10 and increasing if above 100.
+}
+\seealso{
+\code{plot.fc_obj}
 }

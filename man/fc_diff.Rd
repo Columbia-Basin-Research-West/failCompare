@@ -9,15 +9,15 @@ fc_diff(data, time, group, censorID = NULL)
 \arguments{
 \item{data}{dataframe containing all variables}
 
-\item{time}{failure times}
+\item{time}{numeric failure times}
 
-\item{group}{grouping variable}
+\item{group}{character or factor grouping variable}
 
-\item{censorID}{censored observation vector (T/F)}
+\item{censorID}{logical vector the same length as "time" indicating censored observations}
 }
 \value{
-Results of a log-rank test for comparing two survival distributions
+Returns the results of a log-rank test for comparing two survival distributions.
 }
 \description{
-Log-rank test of two data sets
+A log-rank test of two data sets using the "survival" package
 }

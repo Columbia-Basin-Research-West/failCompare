@@ -10,18 +10,18 @@ fc_rank(x)
 \item{x}{an object of class \code{"fc_list"}}
 }
 \value{
-Table of models ranked in ascending order according to GOF measure.
+Creates a table of models ranked in ascending order according to a goodness-of-fit measure.
 }
 \description{
-Ranking failure time models
+This provides a ranking of failure time models.
 }
 \details{
-Uses the Skalski and Whitlock (2020) goodness-of-fit measure to rank parametric failure time models.
-The statistic is based on the squared differnec between a given parametric model and the product-limit estimate
-of the survival estimate described by Kaplan and Meier (1954)
+This uses the Skalski and Whitlock (2020) goodness-of-fit measure to rank parametric failure time models.
+The statistic is based on the squared difference between a given parametric model and the product-limit estimate
+of the survival estimate described by Kaplan and Meier (1954).
 }
 \references{
-Kaplan, E.L., and Meier, P. 1958. Nonparametric estimation from incomplete observations. Journal of the American statistical association 53(282): 457–481.
+Kaplan, E.L., and Meier, P. 1958. Nonparametric estimation from incomplete observations. Journal of the American Statistical Association 53(282):457–481.
 
-Skalski, J. R., and S. L. Whitlock. 2020. Vitality models found useful in modeling tag-failure times in acoustic-tag survival studies. Animal Biotelemetry 8(1):1–10.DOI:10.1186/s40317-020-00213-z
+Skalski, J. R., and S. L. Whitlock. 2020. Vitality models found useful in modeling tag-failure times in acoustic-tag survival studies. Animal Biotelemetry 8(1):1–10. doi:10.1186/s40317-020-00213-z#'
 }

@@ -16,8 +16,8 @@ fc_pred(mod_obj = NULL, times, pars = NULL, model = NULL)
 \item{model}{survival model name, if mod_obj absent}
 }
 \value{
-failure probability
+numeric vector failure/survival probability
 }
 \description{
-Geneates predictions from failure time model objects
+This generates predictions from failure time model objects.
 }
