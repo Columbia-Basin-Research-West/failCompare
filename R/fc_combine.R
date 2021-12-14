@@ -56,7 +56,7 @@ fc_combine <- function(mod_ls){
               "KM_DF"=mod_ls[[1]]$KM_DF,
               "KM_mod"=mod_ls[[1]]$KM_mod) # advisable to check that all km_mods are the same
   out_ls[["par_tab"]]=data.frame(
-    param=unlist(sapply(ls_nms,function(x){failCompare:::fc_mod_ls[[x]]})),
+    param=unlist(sapply(ls_nms,function(x){fc_mod_ls[[x]]})),
     model=rep(x = ls_nms,times=sapply(ls_nms,function(x){length(failCompare:::fc_mod_ls[[x]])})),
     out_ls[["par_tab"]])
 
