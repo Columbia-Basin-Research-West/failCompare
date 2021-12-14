@@ -7,24 +7,18 @@
 #' @param Hess calculating standard errors
 #' @param non_cen logical of length(y)
 #' @param y_sfrac survival fraction
-#' @param  KM_DF kaplan-meier predictions
-#' @param  KM_mod kaplan-meier model object
-#' @param ... additional arguments passed to fc_tryfit()
+#' @param KM_DF K-M model predictions
+#' @param KM_mod K-M model object
 #'
-#' @return 
+#' @return "fc_obj" is successful
 #'
-fc_fit_single=function(y,y_sfrac,model,Hess,non_cen,KM_DF,KM_mod,...){
-  
+fc_fit_single=function(y,y_sfrac,model,Hess,non_cen,KM_DF,KM_mod){
   rc=ifelse(all(non_cen),FALSE,TRUE)
-  # y_cen=non_cen
-  
-  for (i in 1:length(model)){
     # FITTING DISTRIBUTIONS IN THE FLEXSURV PACKAGE
     if(model %in% names(fc_mod_ls)[names(fc_mod_ls) %in% names(flexsurv::flexsurv.dists)]){
       flex_mod=quote(model)
-      # y_sfrac=failCompare::fc_surv(time = y,censorID = non_cen)
       q_e=quote(flexsurv::flexsurvreg(survival::Surv(time=y,event=non_cen) ~ 1,
-                                      dist = model,hessian = Hess))
+                                      dist = model,hessian = eval(Hess)))
       fit <- fc_tryfit(y = y,non_cen = non_cen,fit_call = q_e,model = model,Hess=Hess)
       preds=summary(fit)[[1]]
       # fit_vals=rbind(fit_vals,
@@ -36,9 +30,6 @@ fc_fit_single=function(y,y_sfrac,model,Hess,non_cen,KM_DF,KM_mod,...){
       if(model=="vitality.ku"){
         # Defines function call depending on right censoring or not
         if(rc){
-          # dTmp=vitality::dataPrep(c(0,y_cen),(n_cen:(n_cen-length(y_cen)))/n_cen,datatype="CUM",rc.data=(n_cen>length(y_cen)))
-          # y_sfrac=dTmp[,"sfract"]
-          # q_e=vitality::vitality.ku(time=sort(y),sdata = y_sfrac,rc.data = T,pplot =F,silent=T,se=Hess)
           q_e=quote(vitality::vitality.ku(time=sort(y),sdata = y_sfrac,rc.data = T,pplot =F,silent=T,se=Hess))
         }
         else{
@@ -84,7 +75,7 @@ fc_fit_single=function(y,y_sfrac,model,Hess,non_cen,KM_DF,KM_mod,...){
         fit_vals=tmp$fit_vals
       }
     }
-  }
+  # }
   
   # if a non-flexsurv model
   if(model=="vitality.ku" | model=="vitality.4p" | model =="weibull3"){
@@ -95,7 +86,7 @@ fc_fit_single=function(y,y_sfrac,model,Hess,non_cen,KM_DF,KM_mod,...){
     else{
       par_tab=fit$res[,c("est","se")]
     }
-  out_ls=list("mod_choice"=model,
+  mod=list("mod_choice"=model,
               "times"=data.frame(time=y,surv_frac=y_sfrac,non_cen=non_cen),
               "fit_vals"=fit_vals,
               "mod_objs"=fit,
@@ -103,8 +94,7 @@ fc_fit_single=function(y,y_sfrac,model,Hess,non_cen,KM_DF,KM_mod,...){
               "KM_DF"=KM_DF,
               "KM_mod"=KM_mod,
               "censored"=rc)
-  rownames(out_ls[["par_tab"]])=NULL
-  out=structure(out_ls,class="fc_obj")
+  out=structure(mod,class="fc_obj")
   
   return(out)
 }
