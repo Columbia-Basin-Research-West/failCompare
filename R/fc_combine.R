@@ -33,6 +33,7 @@
 #' 
 fc_combine <- function(mod_ls){
   #checking for too many models in the list
+  if(length(mod_ls)<2){stop("expects more than 1 model object in a list object")}
   if(length(mod_ls)>9){
     stop("list of models exceeds the total number of default failCompare models 
     (combining and rank models with different sample sizes/censoring schemes is not advised)")}
