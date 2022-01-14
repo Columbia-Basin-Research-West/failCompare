@@ -1,0 +1,184 @@
+---
+title: "user_manual_code"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{user_manual_code}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Example 1
+
+```{r e1a,fig.height=5,fig.width=8}
+library(failCompare)
+
+data(sockeye)
+taglife=sockeye$days   # vector of tag failure times
+S=fc_surv(taglife)
+par(mfrow=c(1,1))
+fc_plot(time=taglife,surv=S)
+
+weib_mod=fc_fit(time=taglife,model="weibull")
+weib_mod
+```
+
+```{r e1b,fig.height=4,fig.width=9}
+plot(weib_mod)
+
+par(mfrow=c(1,2))
+plot(weib_mod,km = TRUE,km.ci = TRUE)
+plot(weib_mod,type = "resid",km = TRUE,km.ci = TRUE)
+```
+
+```{r e1c,fig.height=4,fig.width=9}
+vit09_mod=fc_fit(time=taglife,model="vitality.ku")
+vit09_mod
+
+par(mfrow=c(1,2))
+plot(vit09_mod,km = T,km.ci = T)
+plot(vit09_mod,type = "resid",km = T,km.ci = T)
+
+pred_times=c(6,12,15,18) # days whose survival we wish to predict
+
+# Weibull model predictions
+pred_s_weib=fc_pred(mod_obj=weib_mod,times=pred_times)
+pred_s_weib
+
+# Vitality model predictions
+pred_s_vit=fc_pred(mod_obj=vit09_mod,times=pred_times)
+pred_s_vit
+
+
+fmods=fc_combine(list(weib_mod,vit09_mod)) # option 1
+# OR
+fmods=fc_fit(taglife,c("weibull","vitality.ku")) # option 2
+fmods
+```
+
+```{r e1d,fig.height=4,fig.width=5}
+par(mfrow=c(1,1))
+plot(fmods)
+
+fmods_R=fc_rank(fmods)
+
+fmods_all=fc_fit(taglife,model="all")
+fmods_all_R=fc_rank(fmods_all)
+```
+
+
+## Example 2
+
+```{r e2a,fig.height=4,fig.width=9}
+
+data(chinook)
+str(chinook)
+
+table(chinook$season)
+
+surv=fc_surv(chinook$days)
+
+par(mfrow=c(1,2))
+fc_plot(chinook$days,surv,group = chinook$season)
+```
+
+```{r e2b,fig.height=4,fig.width=9}
+fc_diff(data=chinook,time="days",group="season")
+
+chn_SPR=subset(chinook,season=="spring")
+chn_SUM=subset(chinook,season=="summer")
+
+chnSPR_mods=fc_fit(time=c(chn_SPR$days,42,42.4),model="all")
+chnSPR_mods_R=fc_rank(chnSPR_mods)
+
+chnSUM_mods=fc_fit(time=chn_SUM$days,model="all")
+
+chnSUM_mods_R=fc_rank(chnSUM_mods)
+par(mfrow=c(1,2))
+plot(chnSPR_mods_R,main="spring")
+plot(chnSUM_mods_R,main="summer")
+```
+
+```{r e2c,fig.height=4,fig.width=5}
+chnSUM_vit09=fc_select(mod_ls = chnSUM_mods_R,model = "vitality.ku")
+chnSUM_vit09
+
+fc_test(times = chn_SPR$days,model = "llogis",iters = 1000,plot=TRUE)
+
+fc_test(times = chn_SPR$days,model = "gompertz",iters = 1000,plot=TRUE)
+
+
+chnSPR_KM=fc_select(mod_ls = chnSPR_mods_R,model = "kaplan-meier")
+
+chnSPR_KM
+
+par(mfrow=c(1,1))
+plot(chnSPR_KM,main="spring")
+```
+
+## Example 3 
+
+```{r e3a,fig.height=4,fig.width=12}
+
+data(trout)
+
+#printing the dataframe
+trout
+
+mort_day=trout$days
+
+par(mfrow=c(1,3))
+unadj_S=fc_surv(time = mort_day)
+fc_plot(time = mort_day,
+          surv = unadj_S,
+          hist=F,
+          main="Ignore")
+
+mort_day_sub30=mort_day[mort_day<30] # subsetting
+omit_S=fc_surv(time = mort_day_sub30)
+fc_plot(time = mort_day_sub30,
+          surv = omit_S,
+          hist=F,
+          main="Omit")
+
+cens_S=fc_surv(time = mort_day,
+               rc.value = 30)
+fc_plot(time = mort_day,
+        surv = cens_S,
+        hist=F,
+        main="Properly Censored")
+
+trout_mods=fc_fit(mort_day,rc.value = 30,model="all")
+
+# Ranking models
+trout_mods_R=fc_rank(trout_mods)
+
+data(pike)
+pike	
+mort=pike$days  # represents observed mortality or censoring
+death=pike$death # zeroes indicate censoring
+
+pike_mods=fc_fit(time=mort,censorID=death,model=c("lognormal", "weibull","gompertz"))
+
+
+pike_mods_ranked=fc_rank(pike_mods)
+```
+
+
+
+```{r e3b,fig.height=4,fig.width=5}
+
+pike_mods=fc_fit(time=mort,censorID=rep(1,length(mort)),model=c("lognormal", "weibull","gompertz","vitality.ku"))
+
+pike_mods_R=fc_rank(pike_mods)
+
+plot(pike_mods_R)
+
+```
+
