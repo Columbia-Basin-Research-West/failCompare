@@ -30,7 +30,7 @@ install.packages(c("survival", "flexsurv", "vitality"))
 
 #### From binary 
 Download (.zip) file here: 
-[failCompare (Version 1.0)](http://www.cbr.washington.edu/analysis/apps/failcompare/version/failcompare-10)
+[failCompare (Version 1.0)](http://www.cbr.washington.edu/sites/default/files/manuals/failCompare%20User%20Manual_0.pdf)
 
 Select the option for "installing package(s) from local files..." or enter:
 ```
