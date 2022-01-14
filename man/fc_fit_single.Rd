@@ -22,11 +22,11 @@ fc_fit_single(y, y_sfrac, model, Hess, non_cen, KM_DF, KM_mod)
 \item{KM_mod}{K-M model object}
 }
 \value{
-"fc_obj" is successful
+"fc_obj" if successful NULL if otherwise
 }
 \description{
 Fitting a single failure time model
 }
 \details{
-function for fitting an indiviudal failure time model assuming inputs have been vetted by primary function fc_fit().
+function for fitting an indiviudal failure time model assuming inputs have been vetted by user-facing function fc_fit().
 }

@@ -1,6 +1,5 @@
 #' @title Simulated Kolmogorov-Smirnov Test
 #' 
-#' @description A simulated Kolmogorov-Smirnov test.
 #' 
 #' @param times numeric vector of failure times
 #' @param iters replicates for bootstrap (default to 50k)
@@ -8,9 +7,9 @@
 #' @param label optional argument for labeling plots
 #' @param plot optional argument for creating histogram
 #'
-#' @details Performs a a simulation-based Kolmogorov-Smirnov test.
+#' @details performs a a simulation-based Kolmogorov-Smirnov test.
 #'
-#' @return Returns a P-value and histogram of based on a Monte Carlo estimate of the sampling distribution of the D statistic.
+#' @return p-value and optionallyhistogram of based on a Monte Carlo estimate of the sampling distribution of the D statistic.
 #'
 #'
 #' @seealso \code{\link[stats]{ks.test}}.

@@ -1,8 +1,8 @@
 #' @title Failure time predictions
-#' @description This generates predictions from failure time model objects.
+#' @description  generates predictions from failure time model objects.
 #'
 #' @param times time vector 
-#' @param mod_obj model object (class = fc_obj)
+#' @param mod_obj model object (class = \code{fc_obj})
 #' @param pars parameter estimates, if mod_obj absent
 #' @param model survival model name, if mod_obj absent
 #'

@@ -7,7 +7,7 @@
 fc_pred(mod_obj = NULL, times, pars = NULL, model = NULL)
 }
 \arguments{
-\item{mod_obj}{model object (class = fc_obj)}
+\item{mod_obj}{model object (class = \code{fc_obj})}
 
 \item{times}{time vector}
 
@@ -19,5 +19,5 @@ fc_pred(mod_obj = NULL, times, pars = NULL, model = NULL)
 numeric vector failure/survival probability
 }
 \description{
-This generates predictions from failure time model objects.
+generates predictions from failure time model objects.
 }

@@ -18,13 +18,13 @@ fc_test(times, iters = 50000, model = "gompertz", label = "", plot = FALSE)
 \item{plot}{optional argument for creating histogram}
 }
 \value{
-Returns a P-value and histogram of based on a Monte Carlo estimate of the sampling distribution of the D statistic.
+p-value and optionallyhistogram of based on a Monte Carlo estimate of the sampling distribution of the D statistic.
 }
 \description{
-A simulated Kolmogorov-Smirnov test.
+Simulated Kolmogorov-Smirnov Test
 }
 \details{
-Performs a a simulation-based Kolmogorov-Smirnov test.
+performs a a simulation-based Kolmogorov-Smirnov test.
 }
 \seealso{
 \code{\link[stats]{ks.test}}.

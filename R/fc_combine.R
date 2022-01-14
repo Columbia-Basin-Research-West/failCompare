@@ -3,13 +3,13 @@
 #' @description A combination of multiple failure time model objects into a list of models.
 #'
 #' @details A convenience function for combining model failure time model objecs \code{fc_obj} into a failure model
-#' list object \code{fc_list}. Lists that include the "Kaplan-Meier" model or duplicates are not allowed.
+#' list object \code{fc_list}. Lists that include the "Kaplan-Meier" model or duplicates are not allowed. Model lists with different censoring selections are also not allowed.
 #'
 #' @param mod_ls list of fc_mods
 #'
 #' @return fc_list object
 #' 
-#' @seealso \code{fc_select} and \code{fc_fit}
+#' @seealso \code{\link{fc_select}} and \code{\link{fc_fit}}
 #' 
 #' @references 
 #' Li, T., and Anderson, J.J. 2009. The vitality model: a way to understand population survival and demographic heterogeneity. Theoretical Population Biology 76(2):118-131.

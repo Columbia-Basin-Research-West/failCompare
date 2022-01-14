@@ -7,7 +7,7 @@
 #' @param res Number of evenly space points within the range of the data for plotting
 #' @param ... arguements passed to plot \code{\link{plot}}
 #'
-#' @return Plot and a message.
+#' @return plot and potentially a message about unplotted models in the set
 #'
 #' @importFrom survival Surv
 #' @importFrom graphics plot lines legend points

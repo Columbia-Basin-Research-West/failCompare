@@ -1,15 +1,14 @@
 #' @title Compute sample survival function
 #' 
-#' @description This computes a sample survival function.
+#' @description Computes a sample survival function.
 #' 
-#' @details This calculates a sample survival function accounting for right censoring. In the absence of censoring, it uses the basic survival function estimator, or otherwise uses the Kaplan-Meier product limit estimate.
+#' @details Calculates a sample survival function accounting for right censoring. In the absence of censoring, it uses the basic survival function estimator, or otherwise uses the Kaplan-Meier product limit estimate.
 #'
 #' @param time failure or censoring time
-#' @param censorID logical vector the same length as `time`, with TRUE indicating censoring time
+#' @param censorID binary or logical variable the same length as \code{time} indicating censored observations, with zeros or FALSE indicating a cenosored observation
 #' @param rc.value time after which all values are censored
 #'
-#' @return This returns a numeric vector of survival fraction estimates sample survival function.
-#' 
+#' @return a numeric vector of survival fraction estimates sample survival function
 #' 
 #' @export
 #'

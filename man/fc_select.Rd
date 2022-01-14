@@ -9,22 +9,26 @@ fc_select(mod_ls, model)
 \arguments{
 \item{mod_ls}{failure model list object (i.e., class \code{fc_list})}
 
-\item{model}{model selected from list of those available. Possible options include:
+\item{model}{model selected from list of those available. Options include:
 \itemize{
-\item  "weibull"  = 2-parameter Weibull
-\item  "weibull3" = 3-parameter Weibull
-\item  "gompertz"  = Gompertz Model
-\item  "gamma"  = Gamma distribution (2-parameter)
-\item "lognormal"  = Log-Normal distribution
-\item  "llogis" = Log-Logistic distribution
-\item  "gengamma"  = Generalized Gamma Distribution (3-parameter; Prentice 1974 parameterization)
-\item  'vitality.ku'  = 4-parameter vitality model from Li and Anderson (2009)
-\item  'vitality.4p'  = 4-parameter vitality model from Li and Anderson (2013)
+\item  \code{"weibull"}  = 2-parameter Weibull
+\item  \code{"weibull3"} = 3-parameter Weibull
+\item  \code{"gompertz"}  = Gompertz Model
+\item  \code{"gamma"}  = Gamma distribution (2-parameter)
+\item  \code{"lognormal"}  = Log-Normal distribution
+\item  \code{"llogis"} = Log-Logistic distribution
+\item  \code{"gengamma"}  = Generalized Gamma Distribution
+\item  \code{"vitality.ku"}  = 4-parameter vitality model
+\item  \code{"vitality.4p"}  = 4-parameter vitality model
+\item  \code{"kaplan-meier"} = Kaplan-Meier nonparametric estimate (always selectable)
 }}
 }
 \value{
 Returns a failure time model object of class \code{fc_obj} .
 }
 \description{
-This selects a failure time model from predefined list of candidate models produced by the function \code{fc_fit()}
+select failure time model from predefined list of candidate models produced by the function \code{fc_fit()}. Kaplan-Meier nonparametric model is selectable from any list.
+}
+\seealso{
+\code{\link{fc_fit}}
 }

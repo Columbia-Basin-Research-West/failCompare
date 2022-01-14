@@ -9,16 +9,16 @@ fc_surv(time, censorID = NULL, rc.value = NULL)
 \arguments{
 \item{time}{failure or censoring time}
 
-\item{censorID}{logical vector the same length as \code{time}, with TRUE indicating censoring time}
+\item{censorID}{binary or logical variable the same length as \code{time} indicating censored observations, with zeros or FALSE indicating a cenosored observation}
 
 \item{rc.value}{time after which all values are censored}
 }
 \value{
-This returns a numeric vector of survival fraction estimates sample survival function.
+a numeric vector of survival fraction estimates sample survival function
 }
 \description{
-This computes a sample survival function.
+Computes a sample survival function.
 }
 \details{
-This calculates a sample survival function accounting for right censoring. In the absence of censoring, it uses the basic survival function estimator, or otherwise uses the Kaplan-Meier product limit estimate.
+Calculates a sample survival function accounting for right censoring. In the absence of censoring, it uses the basic survival function estimator, or otherwise uses the Kaplan-Meier product limit estimate.
 }

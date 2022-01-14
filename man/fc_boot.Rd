@@ -15,7 +15,7 @@ fc_boot(mod_obj, nrep, type = "pred", times = NULL, tol = 0.9, ...)
 
 \item{times}{times at which survival fraction will be estimated, if type="pred".}
 
-\item{tol}{optional tolerance setting for the estimated proportion of bootstrap data sets that cannot be fit default = 0.9}
+\item{tol}{optional tolerance setting for the estimated proportion of bootstrap data sets that cannot be fit, default = 0.9}
 
 \item{...}{arguments passed to the optimizer}
 }

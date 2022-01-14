@@ -1,6 +1,6 @@
 #' @title Fitting a single failure time model 
 #'
-#' @details function for fitting an indiviudal failure time model assuming inputs have been vetted by primary function fc_fit().
+#' @details function for fitting an indiviudal failure time model assuming inputs have been vetted by user-facing function fc_fit().
 #'
 #' @param y failure time
 #' @param model failure time model
@@ -10,7 +10,7 @@
 #' @param KM_DF K-M model predictions
 #' @param KM_mod K-M model object
 #'
-#' @return "fc_obj" is successful
+#' @return "fc_obj" if successful NULL if otherwise
 #'
 fc_fit_single=function(y,y_sfrac,model,Hess,non_cen,KM_DF,KM_mod){
   KM_mod=get("KM_mod",inherits = T)

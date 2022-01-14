@@ -20,7 +20,7 @@
 \item{...}{arguements passed to plot \code{\link{plot}}}
 }
 \value{
-Plot and a message.
+plot and potentially a message about unplotted models in the set
 }
 \description{
 generic function that plots fitted values when a object of class "fc_obj" is called

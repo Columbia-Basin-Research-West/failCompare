@@ -6,7 +6,7 @@
 #' @param nrep number of resampling replicates
 #' @param type  character describing whether bootstrap samples of predicted survivals ("pred") or parameters ("par") should be returned.
 #' @param times times at which survival fraction will be estimated, if type="pred".
-#' @param tol optional tolerance setting for the estimated proportion of bootstrap data sets that cannot be fit default = 0.9
+#' @param tol optional tolerance setting for the estimated proportion of bootstrap data sets that cannot be fit, default = 0.9
 #' @param ... arguments passed to the optimizer
 #'
 #' @return if \code{type="pred"} survival fraction or proportion of failed subjects (nrep x times) is returned, and

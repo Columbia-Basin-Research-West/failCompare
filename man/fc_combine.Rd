@@ -17,7 +17,7 @@ A combination of multiple failure time model objects into a list of models.
 }
 \details{
 A convenience function for combining model failure time model objecs \code{fc_obj} into a failure model
-list object \code{fc_list}. Lists that include the "Kaplan-Meier" model or duplicates are not allowed.
+list object \code{fc_list}. Lists that include the "Kaplan-Meier" model or duplicates are not allowed. Model lists with different censoring selections are also not allowed.
 }
 \examples{
 
@@ -41,5 +41,5 @@ Li, T., and Anderson, J.J. 2009. The vitality model: a way to understand populat
 Li, T., and Anderson, J.J. 2013. Shaping human mortality patterns through intrinsic and extrinsic vitality processes. Demographic Research 28:341-372.
 }
 \seealso{
-\code{fc_select} and \code{fc_fit}
+\code{\link{fc_select}} and \code{\link{fc_fit}}
 }

@@ -24,13 +24,13 @@ fc_plot(
 
 \item{surv}{survival function (y axis)}
 
-\item{censorID}{indicates censored observations (T/F)}
+\item{censorID}{binary or logical variable the same length as \code{time} indicating censored observations, with zeros or FALSE indicating a cenosored observation}
 
 \item{group}{grouping variable, limit of 3}
 
-\item{hist}{show histogram of failure times (T/F)}
+\item{hist}{logical show histogram of failure times}
 
-\item{surv_curv}{show histogram of failure times (T/F)}
+\item{surv_curv}{logical show histogram of failure times}
 
 \item{main}{title for scatterplot}
 
@@ -45,11 +45,11 @@ fc_plot(
 \item{...}{additional argument passed to plot()}
 }
 \value{
-This returns a histogram of failure times and/or scatter plot of sample survival function.
+histogram of failure times and/or scatter plot of sample survival function.
 }
 \description{
 Plotting failure time and sample survival function
 }
 \details{
-This shows plot type "data" by default. For "residual" type plot showing (Kaplan-Meier estimates - parametric model fit), plot a singular model of class=fc_obj.
+plot of type "data" shown by default. For "residual" type plot showing (Kaplan-Meier estimates - parametric model fit), plot a singular model of class=fc_obj.
 }

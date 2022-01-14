@@ -5,7 +5,7 @@
 #' @param time numeric vector of failure times
 #' @param model character  string specififying the model(s) to be fit
 #' @param rc.value rc.value right-censoring cutoff value (i.e.,only observations with times > rc.value are censored due to termination of the experiment or study)
-#' @param censorID binary or logical variable indicating censored observations
+#' @param censorID binary or logical variable the same length as \code{time} indicating censored observations, with zeros or FALSE indicating a cenosored observation
 #' @param SEs logical for whether standard errors should be estimated
 #' @param ... additional arguments passed to optimizer
 #'
@@ -16,20 +16,20 @@
 #' This is a model fitting routine used to fit one or a set of failure time models:
 #' 
 #'  \itemize{
-#'     \item   "weibull"  = 2-parameter Weibull
-#'     \item   "weibull3" = 3-parameter Weibull
-#'     \item  "gompertz"  = Gompertz Model
-#'     \item     "gamma"  = Gamma distribution (2-parameter)
-#'     \item "lognormal"  = Log-Normal distribution
-#'     \item     "llogis" = Log-Logistic distribution
-#'     \item  "gengamma"  = Generalized Gamma Distribution (3-parameter; Prentice 1974 parameterization)
-#'     \item  'vitality.ku'  = 4-parameter vitality model from Li and Anderson (2009)
-#'     \item  'vitality.4p'  = 4-parameter vitality model from Li and Anderson (2013)
-#'     \item  'kaplan-meier' = Kaplan-Meier nonparametric estimate (NOTE: this model cannot be specified in a list with any other model
+#'     \item  \code{"weibull"}  = 2-parameter Weibull
+#'     \item  \code{"weibull3"} = 3-parameter Weibull
+#'     \item  \code{"gompertz"}  = Gompertz Model
+#'     \item  \code{"gamma"}  = Gamma distribution (2-parameter)
+#'     \item  \code{"lognormal"}  = Log-Normal distribution
+#'     \item  \code{"llogis"} = Log-Logistic distribution
+#'     \item  \code{"gengamma"}  = Generalized Gamma Distribution (3-parameter; Prentice 1974 parameterization)
+#'     \item  \code{"vitality.ku"}  = 4-parameter vitality model from Li and Anderson (2009)
+#'     \item  \code{"vitality.4p"}  = 4-parameter vitality model from Li and Anderson (2013)
+#'     \item  \code{"kaplan-meier"} = Kaplan-Meier nonparametric estimate (NOTE: this model cannot be specified in a list with any other model
 #'  }
 #'
 #' Details on the parameterization of these distributions can be found in the appendix of the 
-#' \href{http://www.cbr.washington.edu/sites/default/files/manuals/failCompare%20User%20Manual.pdf}{failCompare user manual} .
+#' \href{http://www.cbr.washington.edu/analysis/apps/failcompare}{failCompare user manual} .
 #' If a single model is specified, a \code{"fc_obj"} is created, which can be
 #' used to adjust a CJS model in the "cbrATLAS" package.
 #'

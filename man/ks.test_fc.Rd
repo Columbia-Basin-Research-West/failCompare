@@ -7,10 +7,10 @@
 ks.test_fc(...)
 }
 \arguments{
-\item{...}{Inputs to stats::ks.test() function}
+\item{...}{inputs to stats::ks.test() function}
 }
 \value{
-
+expected output from ks.test
 }
 \description{
 ks.test with suppressed warnings
