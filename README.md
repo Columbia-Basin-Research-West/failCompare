@@ -4,7 +4,7 @@
 *failCompare* is a package for fitting and comparing failure-time/survival models from among the F distribution and [vitality](http://www.cbr.washington.edu/analysis/vitality) families. The package facilitates the visualization and ranks the performance of the various models using the [Skalski and Whitlock (2020)]((http://animalbiotelemetry.biomedcentral.com/articles/10.1186/s40317-020-00213-z)) goodness-of-fit measure. Dependencies include the [survival](https://cran.r-project.org/web/packages/survival/index.html), [flexsurv](https://cran.r-project.org/web/packages/flexsurv/index.html), and [Vitality](https://cran.r-project.org/web/packages/vitality/index.html) R packages. Additional features include: (1) handling of Type I and Type II right-censored data, (2) specialized plotting for examining model fit, and (3) generalized one-sample Kolmogorov-Smirnov tests of lack-of-fit ([Lilliefors 1967](https://www.tandfonline.com/doi/abs/10.1080/01621459.1967.10482916)).
 
 **User manual:**
-[failCompare (Version 1.0)](http://www.cbr.washington.edu/sites/default/files/manuals/failCompare%20User%20Manual.pdf)
+[failCompare (Version 1.0)](http://www.cbr.washington.edu/sites/default/files/manuals/failCompare%20User%20Manual_0.pdf)
 
 The package was developed by Columbia Basin Research (CBR), an interdisciplinary research center in the [School of Aquatic and Fishery Sciences](http://www.fish.washington.edu/index.html) at the [University of Washington](http://www.washington.edu/) whose mission is to develop quantitative approaches and provide user-friendly tools to aid in the study of endangered salmonid stocks in the western North America.
 
@@ -30,7 +30,7 @@ install.packages(c("survival", "flexsurv", "vitality"))
 
 #### From binary 
 Download (.zip) file here: 
-[failCompare (Version 1.0)](http://www.cbr.washington.edu/analysis/apps/failcompare/version/failcompare-10)
+[failCompare (Version 1.0)](http://www.cbr.washington.edu/sites/default/files/manuals/failCompare%20User%20Manual_0.pdf)
 
 Select the option for "installing package(s) from local files..." or enter:
 ```
