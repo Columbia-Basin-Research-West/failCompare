@@ -18,7 +18,7 @@ fc_test(times, iters = 50000, model = "gompertz", label = "", plot = FALSE)
 \item{plot}{optional argument for creating histogram}
 }
 \value{
-Returns a P-value and histogram of sample distribution of D statistic.
+Returns a P-value and histogram of based on a Monte Carlo estimate of the sampling distribution of the D statistic.
 }
 \description{
 A simulated Kolmogorov-Smirnov test.

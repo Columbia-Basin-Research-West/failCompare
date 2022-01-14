@@ -10,7 +10,7 @@
 #'
 #' @details Performs a a simulation-based Kolmogorov-Smirnov test.
 #'
-#' @return Returns a P-value and histogram of sample distribution of D statistic.
+#' @return Returns a P-value and histogram of based on a Monte Carlo estimate of the sampling distribution of the D statistic.
 #'
 #'
 #' @seealso \code{\link[stats]{ks.test}}.
@@ -41,60 +41,65 @@ fc_test <- function(
   label="",
   plot=FALSE
 ){
+  test=!model %in% c("weibull",'weibull3', "gompertz", "gamma", "lognormal", "llogis", "gengamma","vitality.ku","vitality.4p","kaplan-meier")
+  if(any(test)){
+    message(paste("Model names not recognized:",paste(model[which(test)],collapse=";")," \n Default model names = {'weibull','weibull3','gompertz','gamma','lognormal','llogis','gengamma','vitality.ku','vitality.4p','kaplan-meier'}",sep=""))
+    model=model[!test]
+    if(length(model)==0){stop("No valid names in the 'model' argument")}}
   n=length(times)
   
   # TWO-PARAMETER MODELS
   if(model=="gompertz"){
     fit=flexsurvreg(survival::Surv(times)~1,dist = model)
     est_pars=fit$res[,1]
-    D0=ks.test(times,"pgompertz",est_pars[1],est_pars[2])$statistic
+    D0=ks.test_fc(times,"pgompertz",est_pars[1],est_pars[2])$statistic
     MAT=replicate(iters,rgompertz(n,est_pars[1],est_pars[2]))
-    Dsim=apply(MAT,2,function(x){ks.test(x,"pgompertz",shape=est_pars[1],rate=est_pars[2])$statistic})}
+    Dsim=apply(MAT,2,function(x){ks.test_fc(x,"pgompertz",shape=est_pars[1],rate=est_pars[2])$statistic})}
   
   if(model=="llogis"){
     fit=flexsurvreg(survival::Surv(times)~1,dist = model)
     est_pars=fit$res[,1]
-    D0=ks.test(times,"pllogis",est_pars[1],est_pars[2])$statistic
+    D0=ks.test_fc(times,"pllogis",est_pars[1],est_pars[2])$statistic
     MAT=replicate(iters,rllogis(n,est_pars[1],est_pars[2]))
-    Dsim=apply(MAT,2,function(x){ks.test(x,"pllogis",est_pars[1],est_pars[2])$statistic})}
+    Dsim=apply(MAT,2,function(x){ks.test_fc(x,"pllogis",est_pars[1],est_pars[2])$statistic})}
   
   if(model=="lnorm"){
     fit=flexsurvreg(survival::Surv(times)~1,dist = model)
     est_pars=fit$res[,1]
-    D0=ks.test(times,"plnorm",est_pars[1],est_pars[2])$statistic
+    D0=ks.test_fc(times,"plnorm",est_pars[1],est_pars[2])$statistic
     MAT=replicate(iters,rlnorm(n,est_pars[1],est_pars[2]))
-    Dsim=apply(MAT,2,function(x){ks.test(x,"plnorm",est_pars[1],est_pars[2])$statistic})}
+    Dsim=apply(MAT,2,function(x){ks.test_fc(x,"plnorm",est_pars[1],est_pars[2])$statistic})}
   
   if(model=="gamma"){
     fit=flexsurvreg(survival::Surv(times)~1,dist = model)
     est_pars=fit$res[,1]
-    D0=ks.test(times,"pgamma",est_pars[1],est_pars[2])$statistic
+    D0=ks.test_fc(times,"pgamma",est_pars[1],est_pars[2])$statistic
     MAT=replicate(iters,rgamma(n,est_pars[1],est_pars[2]))
-    Dsim=apply(MAT,2,function(x){ks.test(x,"pgamma",est_pars[1],est_pars[2])$statistic})}
+    Dsim=apply(MAT,2,function(x){ks.test_fc(x,"pgamma",est_pars[1],est_pars[2])$statistic})}
   
   if(model=="weibull"){
     fit=flexsurvreg(survival::Surv(times)~1,dist = "weibull")
     est_pars=fit$res[,1]
-    D0=ks.test(times,"pweibull",est_pars[1],est_pars[2])$statistic
+    D0=ks.test_fc(times,"pweibull",est_pars[1],est_pars[2])$statistic
     MAT=replicate(iters,rweibull(n,est_pars[1],est_pars[2]))
-    Dsim=apply(MAT,2,function(x){ks.test(x,"pweibull",est_pars[1],est_pars[2])$statistic})}
+    Dsim=apply(MAT,2,function(x){ks.test_fc(x,"pweibull",est_pars[1],est_pars[2])$statistic})}
   
   # THREE-PARAMETER MODELS
   
   if(model=="gengamma"){
     fit=flexsurvreg(survival::Surv(times)~1,dist = model)
     est_pars=fit$res[,1]
-    D0=ks.test(times,"pgengamma",est_pars[1],est_pars[2],est_pars[3])$statistic
+    D0=ks.test_fc(times,"pgengamma",est_pars[1],est_pars[2],est_pars[3])$statistic
     MAT=replicate(iters,rgengamma(n,est_pars[1],est_pars[2],est_pars[3]))
-    Dsim=apply(MAT,2,function(x){ks.test(x,"pgengamma",est_pars[1],est_pars[2],est_pars[3])$statistic})}
+    Dsim=apply(MAT,2,function(x){ks.test_fc(x,"pgengamma",est_pars[1],est_pars[2],est_pars[3])$statistic})}
   
   if(model=="weibull3"){
     # weib3_res=weibull3_NOSE(times,plots=F)
     weib3_res=taglife.fn_weib3(tags.in = times)
     est_pars=weib3_res[[1]][,2]
-    D0=ks.test(times,"pweibull3",est_pars[1],est_pars[2],est_pars[3])$statistic
+    D0=ks.test_fc(times,"pweibull3",est_pars[1],est_pars[2],est_pars[3])$statistic
     MAT=replicate(iters,rweibull3(n,est_pars[1],est_pars[2],est_pars[3]))
-    Dsim=apply(MAT,2,function(x){ks.test(x,"pweibull3",est_pars[1],est_pars[2],est_pars[3])$statistic})
+    Dsim=apply(MAT,2,function(x){ks.test_fc(x,"pweibull3",est_pars[1],est_pars[2],est_pars[3])$statistic})
   }
   
   # FOUR-PARAMETER MODELS
@@ -102,14 +107,14 @@ fc_test <- function(
     s_y=sort(times) #sorting taglife values
     y_sfrac=sapply(s_y,function(x){1-length(which(s_y<=x))/length(s_y)})
     est_pars=vitality::vitality.ku(time = sort(s_y),sdata = y_sfrac,se=F,pplot =F,lplot = T, silent = T)
-    D0=ks.test(times,"pvit09",est_pars[1],est_pars[2],est_pars[3],est_pars[4])$statistic
+    D0=ks.test_fc(times,"pvit09",est_pars[1],est_pars[2],est_pars[3],est_pars[4])$statistic
     MAT=replicate(iters,rvitality(
       parms=est_pars, # four vitality parameters
       times_dat=times,  # survival times used for determining # samples to generate and range of slices
       t_seq_fineness=0.001, # time increments to with which to slice up the survival curve
       quant_seq=seq(0,1,0.005),
       model="Vitality09"))
-    Dsim=apply(MAT,2,function(x){ks.test(x,"pvit09",est_pars[1],est_pars[2],est_pars[3],est_pars[4])$statistic})
+    Dsim=apply(MAT,2,function(x){ks.test_fc(x,"pvit09",est_pars[1],est_pars[2],est_pars[3],est_pars[4])$statistic})
     # print(str(Dsim))
   }
   
@@ -122,15 +127,14 @@ fc_test <- function(
                                    lower = c(0, 0, 0, 0), upper = c(100,50,1,50),rc.data = F,
                                    datatype = "CUM",ttol = 1e-06,silent = T,pplot = F,Iplot = F,Mplot = F)
     
-    # print(ks.test(times,"pvit13",est_pars[1],est_pars[2],est_pars[3],est_pars[4]))
-    D0=ks.test(times,"pvit13",exact=T,est_pars[1],est_pars[2],est_pars[3],est_pars[4])$statistic
+    D0=ks.test_fc(times,"pvit13",exact=T,est_pars[1],est_pars[2],est_pars[3],est_pars[4])$statistic
     MAT=replicate(iters,rvitality(
       parms=est_pars, # four vitality parameters
       times_dat=times,  # survival times used for determining # samples to generate and range of slices
       t_seq_fineness=0.001, # time increments to with which to slice up the survival curve
       quant_seq=seq(0,1,0.005),
       model="Vitality13"))
-    Dsim=apply(MAT,2,function(x){ks.test(x,"pvit13",exact=T,est_pars[1],est_pars[2],est_pars[3],est_pars[4])$statistic})
+    Dsim=apply(MAT,2,function(x){ks.test_fc(x,"pvit13",exact=T,est_pars[1],est_pars[2],est_pars[3],est_pars[4])$statistic})
     # print(str(MAT))
   }
   
@@ -235,4 +239,16 @@ pvit13=function(x,par1,par2,par3,par4){1-vitality::SurvFn.4p(x,par1,par2,par3,pa
 rweibull3=function(n, shape, scale = 1, thres = 0){
   thres + rweibull(n, shape, scale)
 }
+
+#' @title ks.test with suppressed warnings
+#'
+#' @param ... inputs to stats::ks.test() function
+#'
+#' @return expected output from ks.test
+#'
+ks.test_fc=function(...){
+  suppressWarnings(ks.test(...))
+}
+
+
   
