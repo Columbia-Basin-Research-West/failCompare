@@ -48,8 +48,8 @@ Rtools must also be installed to build a package from the source code. Instructi
 
 ## Usage
 
-For detailed descriptions and examples, please refer to the user manual PDF: <br>
-[failCompare Manual (Version 1.0)](http://www.cbr.washington.edu/sites/default/files/manuals/failCompare%20User%20Manual.pdf)
+For detailed descriptions and examples, please refer to the user manual PDF on the CBR website: <br>
+[failCompare Manual (Version 1.0)](http://www.cbr.washington.edu/analysis/apps/failcompare)
 
 
 ### Main Functions
