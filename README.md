@@ -42,7 +42,7 @@ Navigate to and select the downloaded .zip folder.
 
 If package `devtools` is installed:
 ```r
-devtools::install_github("swhitCBR/failCompare")
+devtools::install_github("Columbia-Basin-Research-West/failCompare")
 ```
 Rtools must also be installed to build a package from the source code. Instructions for installing Rtools (on [Windows](https://cran.r-project.org/bin/windows/Rtools/) and [Mac OS X](https://cran.r-project.org/bin/macosx/tools/)) may be found on the CRAN main site.
 
