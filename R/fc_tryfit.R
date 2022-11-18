@@ -6,11 +6,11 @@
 #' @param non_cen logical indicating censored variables for use by flexsurv and vitality models
 #' @param y numeric time argument of failure times carried through
 #' @param y_sfrac survival fraction
-#' @param Hess logical arguement to fc_fit() carried through
+#' @param Hess logical argument to fc_fit() carried through
 #'
 #' @return model fitting output for internal use by fc_fit
 #'
-#' @details Prevents errors from interupting single- and multi-model runs using fc_fit
+#' @details Prevents errors from interrupting single- and multi-model runs using fc_fit
 #' 
 #'
 fc_tryfit=function(y=y,y_sfrac=NULL,fit_call,model="weibull3",non_cen=NULL,Hess=NULL){
@@ -22,7 +22,7 @@ fc_tryfit=function(y=y,y_sfrac=NULL,fit_call,model="weibull3",non_cen=NULL,Hess=
                      err=invisible(structure(msg, class = "try-error"))
                      return(err)},
                    warning = function(w) {
-                     disp=paste(c("Warnings(s) in ",model," model fitting:\n"),collapse = "")
+                     disp=paste(c("Warning(s) in ",model," model fitting:\n"),collapse = "")
                      msg=conditionMessage(w)
                      message(paste(disp,unique(msg)))
                      suppressWarnings(eval(fit_call))
@@ -45,7 +45,7 @@ fc_tryfit=function(y=y,y_sfrac=NULL,fit_call,model="weibull3",non_cen=NULL,Hess=
                      err=invisible(structure(msg, class = "try-error"))
                      return(err)},
                     warning = function(w) {
-                      disp=paste(c("Warnings(s) in ",model," model fitting:\n"),collapse = "")
+                      disp=paste(c("Warning(s) in ",model," model fitting:\n"),collapse = "")
                       msg=conditionMessage(w)
                       message(paste(disp,unique(msg)))
                       }

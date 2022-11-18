@@ -1,11 +1,11 @@
 #' @title Plotting failure time and sample survival function
 #'
-#' @details plot of type "data" shown by default. For "residual" type plot showing (Kaplan-Meier estimates - parametric model fit), plot a singular model of class=fc_obj.
+#' @details plot of type "data" shown by default. For "residual" type plot showing (Kaplan-Meier estimates - parametric model fit), plot a singular model of class = fc_obj.
 #'
 #' @param time failure time (x axis)
 #' @param surv survival function (y axis)
 #' @param group grouping variable, limit of 3
-#' @param censorID binary or logical variable the same length as \code{time} indicating censored observations, with zeros or FALSE indicating a cenosored observation
+#' @param censorID binary or logical variable the same length as \code{time} indicating censored observations, with zeros or FALSE indicating a censored observation
 #' @param hist logical show histogram of failure times 
 #' @param surv_curv logical show histogram of failure times 
 #' @param xlim x axis limits for survival plot

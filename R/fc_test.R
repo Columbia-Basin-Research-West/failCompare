@@ -9,7 +9,7 @@
 #'
 #' @details performs a a simulation-based Kolmogorov-Smirnov test.
 #'
-#' @return p-value and optionallyhistogram of based on a Monte Carlo estimate of the sampling distribution of the D statistic.
+#' @return p-value and optionally histogram based on a Monte Carlo estimate of the sampling distribution of the D statistic.
 #'
 #'
 #' @seealso \code{\link[stats]{ks.test}}.
@@ -114,14 +114,11 @@ fc_test <- function(
       quant_seq=seq(0,1,0.005),
       model="Vitality09"))
     Dsim=apply(MAT,2,function(x){ks.test_fc(x,"pvit09",est_pars[1],est_pars[2],est_pars[3],est_pars[4])$statistic})
-    # print(str(Dsim))
   }
   
   if(model=="Vitality13"){
     s_y=sort(times) #sorting taglife values
     y_sfrac=sapply(s_y,function(x){1-length(which(s_y<=x))/length(s_y)})
-    # est_pars=vitality.4p(time = sort(s_y),sdata = y_sfrac,se=F,pplot =F, silent = T)
-    
     est_pars=vitality::vitality.4p(time = s_y,sdata =  y_sfrac,se=F,init.params=c(0.012, 0.01, 0.1, 0.1),
                                    lower = c(0, 0, 0, 0), upper = c(100,50,1,50),rc.data = F,
                                    datatype = "CUM",ttol = 1e-06,silent = T,pplot = F,Iplot = F,Mplot = F)
@@ -134,10 +131,9 @@ fc_test <- function(
       quant_seq=seq(0,1,0.005),
       model="Vitality13"))
     Dsim=apply(MAT,2,function(x){ks.test_fc(x,"pvit13",exact=T,est_pars[1],est_pars[2],est_pars[3],est_pars[4])$statistic})
-    # print(str(MAT))
   }
   
-  # P-VAL CALCULATION
+  # P-VALUE CALCULATION
   pval=length(which(Dsim>D0))/iters
   
   if(plot){

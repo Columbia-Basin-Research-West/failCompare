@@ -2,14 +2,14 @@
 #'
 #' @param x fc_list object (ranked or not). See \code{fc_rank} for information on ranking.
 #' @param model vector of up 1-3 models contained within the "fc_list" object
-#' @param res fineness of survival function preds (i.e., increments between which the line of the function is drawn). 
+#' @param res fineness of survival function predictions (i.e., increments between which the line of the function is drawn). 
 #' @param km logical for showing step function of kaplan-meier estimates alongside model
 #' @param xlim numeric vector of length 2 describing x axis limits, used to override default of +/- 5% of min and max
 #' @param ... additional arguments passed to plot()
 #' 
 #' @seealso \code{plot.fc_obj}
 #' 
-#' @details Plot type "data" shown by default. For "residual" type plot showing (kaplan-meier estimates - parametric model fit) plot a singual model of class=fc_obj.
+#' @details Plot type "data" shown by default. For "residual" type plot showing (kaplan-meier estimates - parametric model fit) plot a single model of class  = fc_obj.
 #'          Consider decreasing res if failure time range <10 and increasing if above 100.  
 #'
 #' @return plot and a message
@@ -70,11 +70,7 @@ plot.fc_list <- function(x,model=NULL,km=F,res=100,xlim,...){
 
   spred=list()
   for(i in 1:length(mod_plts)){
-    # print(mod_plts)
-    # print(x$par_tab)
     tmp=x$par_tab[x$par_tab$model==mod_plts[i],3]
-    # print(match(mod_plts,x$modchoice))
-    # tmp=x$mod_objs[[i]]
     print(tmp)
     spred[[i]]=fc_pred(mod_obj=NULL,times=ts,model=mod_plts[i],pars = tmp)
     lines(ts,spred[[i]],col=i+1,lwd=3,lty=i)

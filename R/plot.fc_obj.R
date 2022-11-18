@@ -5,7 +5,7 @@
 #' @param km Show kaplan-meier estimates
 #' @param km.ci Show 95% confidence limits surrounding kaplan-meier estimates
 #' @param res Number of evenly space points within the range of the data for plotting
-#' @param ... arguements passed to plot \code{\link{plot}}
+#' @param ... arguments passed to plot \code{\link{plot}}
 #'
 #' @return plot and potentially a message about unplotted models in the set
 #'
