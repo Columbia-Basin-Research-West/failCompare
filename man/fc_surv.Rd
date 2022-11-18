@@ -9,7 +9,7 @@ fc_surv(time, censorID = NULL, rc.value = NULL)
 \arguments{
 \item{time}{failure or censoring time}
 
-\item{censorID}{binary or logical variable the same length as \code{time} indicating censored observations, with zeros or FALSE indicating a cenosored observation}
+\item{censorID}{binary or logical variable the same length as \code{time} indicating censored observations, with zeros or FALSE indicating a censored observation}
 
 \item{rc.value}{time after which all values are censored}
 }

@@ -24,7 +24,7 @@ fc_tryfit(
 
 \item{non_cen}{logical indicating censored variables for use by flexsurv and vitality models}
 
-\item{Hess}{logical arguement to fc_fit() carried through}
+\item{Hess}{logical argument to fc_fit() carried through}
 }
 \value{
 model fitting output for internal use by fc_fit
@@ -33,5 +33,5 @@ model fitting output for internal use by fc_fit
 Error handling for fitting failCompare models
 }
 \details{
-Prevents errors from interupting single- and multi-model runs using fc_fit
+Prevents errors from interrupting single- and multi-model runs using fc_fit
 }

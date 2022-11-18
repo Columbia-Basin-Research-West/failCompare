@@ -13,7 +13,7 @@
 
 \item{km}{logical for showing step function of kaplan-meier estimates alongside model}
 
-\item{res}{fineness of survival function preds (i.e., increments between which the line of the function is drawn).}
+\item{res}{fineness of survival function predictions (i.e., increments between which the line of the function is drawn).}
 
 \item{xlim}{numeric vector of length 2 describing x axis limits, used to override default of +/- 5\% of min and max}
 
@@ -26,7 +26,7 @@ plot and a message
 Plotting fitted values when object of class "fc_list" is called
 }
 \details{
-Plot type "data" shown by default. For "residual" type plot showing (kaplan-meier estimates - parametric model fit) plot a singual model of class=fc_obj.
+Plot type "data" shown by default. For "residual" type plot showing (kaplan-meier estimates - parametric model fit) plot a single model of class  = fc_obj.
 Consider decreasing res if failure time range <10 and increasing if above 100.
 }
 \seealso{

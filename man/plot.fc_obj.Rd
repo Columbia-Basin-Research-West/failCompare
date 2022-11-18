@@ -17,7 +17,7 @@
 
 \item{type}{Plotting survival curve of data ("data") versus difference between Kaplan-Meier estimates and predictions from a parametric model ("resid")}
 
-\item{...}{arguements passed to plot \code{\link{plot}}}
+\item{...}{arguments passed to plot \code{\link{plot}}}
 }
 \value{
 plot and potentially a message about unplotted models in the set
