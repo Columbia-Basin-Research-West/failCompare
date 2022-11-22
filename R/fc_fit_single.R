@@ -9,18 +9,27 @@
 #' @param y_sfrac survival fraction
 #' @param KM_DF K-M model predictions
 #' @param KM_mod K-M model object
+#' @param inits initial value arguments
+#' @param ... additional arguments passed to optimizer
 #'
 #' @return "fc_obj" if successful NULL if otherwise
 #'
-fc_fit_single=function(y,y_sfrac,model,Hess,non_cen,KM_DF,KM_mod){
+fc_fit_single=function(y,y_sfrac,model,Hess,non_cen,KM_DF,KM_mod,inits,...){
   KM_mod=get("KM_mod",inherits = T)
   rc=ifelse(all(non_cen),FALSE,TRUE)
-    # FITTING DISTRIBUTIONS IN THE FLEXSURV PACKAGE
+  
+  print(hasArg(inits))
+  
+  if(missing(inits)){pass_inits=rep(NA,length(fc_mod_ls[[model]]))}
+  else{pass_inits=inits}
+  print(pass_inits)
+
+      # FITTING DISTRIBUTIONS IN THE FLEXSURV PACKAGE
     if(model %in% names(fc_mod_ls)[names(fc_mod_ls) %in% names(flexsurv::flexsurv.dists)]){
       flex_mod=quote(model)
       q_e=quote(flexsurv::flexsurvreg(survival::Surv(time=y,event=non_cen) ~ 1,
-                                      dist = model,hessian = eval(Hess)))
-      fit <- fc_tryfit(y = y,non_cen = non_cen,fit_call = q_e,model = model,Hess=Hess)
+                                      dist = model,hessian = eval(Hess),inits = eval(inits),...))
+      fit <- fc_tryfit(y = y,non_cen = non_cen,fit_call = q_e,model = model,Hess=Hess,inits=pass_inits,...)
       preds=summary(fit)[[1]]
       # fit_vals=rbind(fit_vals,
       fit_vals=rbind(data.frame(model=model,time=0,est=1,lcl=1,ucl=1),
@@ -31,33 +40,51 @@ fc_fit_single=function(y,y_sfrac,model,Hess,non_cen,KM_DF,KM_mod){
       if(model=="vitality.ku"){
         # Defines function call depending on right censoring or not
         if(rc){
-          q_e=quote(vitality::vitality.ku(time=sort(y),sdata = y_sfrac,rc.data = T,pplot =F,silent=T,se=Hess))
+          if(hasArg(inits)){
+            q_e=quote(vitality::vitality.ku(time=sort(y),sdata = y_sfrac,rc.data = T,pplot =F,silent=T,se=Hess,init.params=eval(inits)))}
+          else{
+            q_e=quote(vitality::vitality.ku(time=sort(y),sdata = y_sfrac,rc.data = T,pplot =F,silent=T,se=Hess))
+          }
         }
         else{
-          q_e=quote(vitality::vitality.ku(time = sort(y),sdata = y_sfrac,pplot =F,silent = T,se=Hess,rc.data=F))
+          if(hasArg(inits)){
+            q_e=quote(vitality::vitality.ku(time = sort(y),sdata = y_sfrac,pplot =F,silent = T,se=Hess,rc.data=F,init.params=eval(inits)))}
+          else{
+            q_e=quote(vitality::vitality.ku(time = sort(y),sdata = y_sfrac,pplot =F,silent = T,se=Hess,rc.data=F))
+          }
+        
         }
-        fit = fc_tryfit(fit_call = q_e,y = y,y_sfrac=y_sfrac,model="vitality.ku",Hess=Hess)
+        fit = fc_tryfit(fit_call = q_e,y = y,y_sfrac=y_sfrac,model="vitality.ku",Hess=Hess,inits = pass_inits)
         pars_tmp=fit
         fit_vals=data.frame(model="vitality.ku",
-                                  time=c(0,y),
-                                  est=c(1,vitality::SurvFn.ku(y,pars_tmp[1],pars_tmp[2],pars_tmp[3],pars_tmp[4])),
-                                  lcl=0,ucl=0)
+                            time=c(0,y),
+                            est=c(1,vitality::SurvFn.ku(y,pars_tmp[1],pars_tmp[2],pars_tmp[3],pars_tmp[4])),
+                            lcl=0,ucl=0)
       }
       
       if(model=="vitality.4p"){
         # Defines function call depending on right censoring or not
         if(rc){
-          q_e=quote(vitality::vitality.4p(time = y,sdata = y_sfrac,pplot =F,silent = T,se = Hess))
+          if(hasArg(inits)){
+            q_e=quote(vitality::vitality.4p(time=sort(y),sdata = y_sfrac,rc.data = T,pplot =F,silent=T,se=Hess,init.params=eval(inits)))}
+          else{
+            q_e=quote(vitality::vitality.4p(time=sort(y),sdata = y_sfrac,rc.data = T,pplot =F,silent=T,se=Hess))
+          }
         }
         else{
-          q_e=quote(vitality::vitality.4p(time = y,sdata = y_sfrac,pplot =F,silent = T,se = Hess))
+          if(hasArg(inits)){
+            q_e=quote(vitality::vitality.4p(time = sort(y),sdata = y_sfrac,pplot =F,silent = T,se=Hess,rc.data=F,init.params=eval(inits)))}
+          else{
+            q_e=quote(vitality::vitality.4p(time = sort(y),sdata = y_sfrac,pplot =F,silent = T,se=Hess,rc.data=F))
           }
-        fit = fc_tryfit(fit_call = q_e,y = y,y_sfrac=y_sfrac,model="vitality.4p",Hess=Hess)
+          
+        }
+        fit = fc_tryfit(fit_call = q_e,y = y,y_sfrac=y_sfrac,model="vitality.4p",Hess=Hess,inits = pass_inits)
         pars_tmp=fit
         fit_vals=data.frame(model="vitality.4p",
-                                  time=c(0,y),
-                                  est=c(1,vitality::SurvFn.4p(y,pars_tmp[1],pars_tmp[2],pars_tmp[3],pars_tmp[4])),
-                                  lcl=0,ucl=0)
+                            time=c(0,y),
+                            est=c(1,vitality::SurvFn.4p(y,pars_tmp[1],pars_tmp[2],pars_tmp[3],pars_tmp[4])),
+                            lcl=0,ucl=0)
       }
       if(model=="weibull3"){
 
