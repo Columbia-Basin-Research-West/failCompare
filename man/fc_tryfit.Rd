@@ -10,7 +10,9 @@ fc_tryfit(
   fit_call,
   model = "weibull3",
   non_cen = NULL,
-  Hess = NULL
+  Hess = NULL,
+  inits = NULL,
+  ...
 )
 }
 \arguments{
@@ -25,6 +27,8 @@ fc_tryfit(
 \item{non_cen}{logical indicating censored variables for use by flexsurv and vitality models}
 
 \item{Hess}{logical argument to fc_fit() carried through}
+
+\item{...}{additional arguments passed to dependent functions}
 }
 \value{
 model fitting output for internal use by fc_fit

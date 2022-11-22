@@ -4,7 +4,7 @@
 \alias{fc_fit_single}
 \title{Fitting a single failure time model}
 \usage{
-fc_fit_single(y, y_sfrac, model, Hess, non_cen, KM_DF, KM_mod)
+fc_fit_single(y, y_sfrac, model, Hess, non_cen, KM_DF, KM_mod, inits, ...)
 }
 \arguments{
 \item{y}{failure time}
@@ -20,6 +20,10 @@ fc_fit_single(y, y_sfrac, model, Hess, non_cen, KM_DF, KM_mod)
 \item{KM_DF}{K-M model predictions}
 
 \item{KM_mod}{K-M model object}
+
+\item{inits}{initial value arguments}
+
+\item{...}{additional arguments passed to optimizer}
 }
 \value{
 "fc_obj" if successful NULL if otherwise
