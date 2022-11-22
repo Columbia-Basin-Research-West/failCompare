@@ -139,7 +139,8 @@ fc_fit=function(time,model,SEs=TRUE,censorID=NULL,rc.value=NULL,...){
   }
   
   ### WEIBULL3 censoring not supported message
-  if(rc & "weibull3" %in% model){
+  # if(rc & "weibull3" %in% model ){
+  if(suppressWarnings(!all(censorID))){
     model=model[model!="weibull3"]
     message("The right-censored 3-parameter Weibull model ('weibull3') is not available ")
     if(length(model)==0){stop("Cannot fit right-censored 3-parameter Weibull model")}
@@ -167,7 +168,7 @@ fc_fit=function(time,model,SEs=TRUE,censorID=NULL,rc.value=NULL,...){
     }
     mc=names(match.call(expand.dots = T))
 
-    out=fc_fit_single(y,y_sfrac,model,Hess,non_cen,KM_DF,KM_mod) 
+    out=fc_fit_single(y,y_sfrac,model,Hess,non_cen,KM_DF,KM_mod,...) 
     return(out) # stops execution here if only one parametric modle specified
   }
   else{
@@ -175,7 +176,7 @@ fc_fit=function(time,model,SEs=TRUE,censorID=NULL,rc.value=NULL,...){
     for (i in 1:length(model)){
       fit[[i]] <- tryCatch(fc_fit_single(y=y,y_sfrac = y_sfrac,non_cen = non_cen,
                     Hess = Hess,KM_DF = KM_DF,KM_mod = KM_mod,
-                    model = model[i]),
+                    model = model[i],...),
                     error = function(e){
                       message(paste(c(model[i]," model could not be fit\n"),collapse = ""))
                     },finally = NULL)
@@ -200,10 +201,14 @@ return(out_ls)
 #' @export
 #'
 print.fc_list <- function(x,...){
-  cat("Failure model list object\n\n")
-  cat("Contains the following",length(x[["mod_choice"]]),"models: \n",paste(x[["mod_choice"]],collapse = " ; "))
-  if(is.null(x$"GOF_tab")){ cat("\n\n*use this object to compare models using the function: fc_rank()\n")}
-  if(!is.null(x$"GOF_tab")){cat("\n\nRanked list\n")
+  if(is.null(x$"GOF_tab")){
+    cat("Failure model list object\n\n")
+    cat("Contains the following",length(x[["mod_choice"]]),"models: \n",paste(x[["mod_choice"]],collapse = " ; "))
+    cat("\n\n*use this object to compare models using the function: fc_rank()\n")
+  }
+  if(!is.null(x$"GOF_tab")){
+    cat("Failure model list object (Ranked by GOF)\n")
+    cat("\nRanked list\n\n")
     print(x$"GOF_tab")} # and comment too!
   invisible(x)
 }

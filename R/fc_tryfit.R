@@ -7,13 +7,15 @@
 #' @param y numeric time argument of failure times carried through
 #' @param y_sfrac survival fraction
 #' @param Hess logical argument to fc_fit() carried through
+#' @param ... additional arguments passed to dependent functions
 #'
 #' @return model fitting output for internal use by fc_fit
 #'
 #' @details Prevents errors from interrupting single- and multi-model runs using fc_fit
 #' 
 #'
-fc_tryfit=function(y=y,y_sfrac=NULL,fit_call,model="weibull3",non_cen=NULL,Hess=NULL){
+fc_tryfit=function(y=y,y_sfrac=NULL,fit_call,model="weibull3",non_cen=NULL,Hess=NULL,inits=NULL,...){
+  print(fit_call)
   frst_ft=tryCatch(eval(fit_call),
                    error = function(e) {
                      disp=paste(c("Error(s) in ",model," model fitting:\n"),collapse = "")
@@ -29,7 +31,7 @@ fc_tryfit=function(y=y,y_sfrac=NULL,fit_call,model="weibull3",non_cen=NULL,Hess=
                      # return()
                    }
                    )
-  # If theres a optim error replacing call and reporting warnings
+  # If there's an optim error replacing call and reporting warnings
   if(any(class(frst_ft)=="try-error")){
     # if(Hess){message("Switching 'SEs' argument to FALSE to avoid error")}
     if(model=="weibull3"){fit_call$tag.se=F}
