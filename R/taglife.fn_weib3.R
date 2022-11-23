@@ -1,50 +1,60 @@
 #' @title Fitting 3-parameter Weibull model to failure time data (adapted from R. Townsend's code)
 #'
 #' @param tags.in vector of observed time to failure (days)
-#' @param model.in name of model to use.  Current option is "Weibull" for 3-parameter Weibull
 #' @param tag.se logical for whether to compute SEs
+#' @param ... additional arguments passed to optim()
 #'
 #' @return Returns a list with model objects (mod_obj), fitted values (fit_vals) and table of parameter estimates (par_tab).
 #' @export
 #'
-taglife.fn_weib3=function(tags.in,model.in="weibull",tag.se=T){
+taglife.fn_weib3=function(tags.in,tag.se=T,inits=NULL,...){ #model.in="weibull",
   par_out_simp=NULL # added by SLW
   lik.in=NULL
 
   ######################### start loop for fitting tag-life curve after changing model or censoring tags from tail-end of tag-life study
 
   #### currently set to default to weibull, need to add prompt to choose model here
-  if(model.in=="weibull"){lik.in=logweib3.lik; par.in=c(min(tags.in),.1,max(tags.in)) }
+  # if(model.in=="weibull"){
+                          lik.in=logweib3.lik;
+ # if(!hasArg(inits)){par.in=c(min(tags.in),.1,max(tags.in))}
+ # else{par.in=inits}
+  if(is.null(inits)){par.in=c(min(tags.in),.1,max(tags.in))}
+  else{par.in=inits}
+                          # }
   stopifnot('Tag life model name not valid' =!is.null(lik.in)) #if no model picked
 
   # likelihood
-  answer <- stats::optim(par=par.in,fn=lik.in,hessian=F,tags.in=tags.in,control = list(reltol = 1e-10,maxit=500,ndeps=rep(.01,3)))
+  answer <- stats::optim(par=par.in,fn=lik.in,hessian=F,tags.in=tags.in,method="Nelder-Mead",...#,
+                         # control = list(reltol = 1e-10,maxit=500,ndeps=rep(.01,3))
+                         )
   if(tag.se){
-    answer <- stats::optim(par=answer$par,fn=lik.in,method="BFGS",hessian=T,tags.in=tags.in,control = list(parscale = abs(1/answer$par), reltol = 1e-20,maxit=500,ndeps=abs(1/answer$par)^2)) # estimate Hessian if se(tag life params wanted)
+    answer <- stats::optim(par=answer$par,fn=lik.in,method="BFGS",hessian=T,tags.in=tags.in,...#,
+                           # control = list(parscale = abs(1/answer$par), reltol = 1e-20,maxit=500,ndeps=abs(1/answer$par)^2)
+                           ) # estimate Hessian if se(tag life params wanted)
   }
-  if(model.in=="weibull"){
+  # if(model.in=="weibull"){
     params.out=data.frame(matrix(NA,nrow=3,ncol=3))
 
     params.out[,1]=c("Beta","Gamma","Eta")
     params.out[,2]=round(abs(answer$par),4)
     names(params.out)=c("Parameter","Estimate","s.e.")
 
-  }
+  # }
 
-  if(tag.se){
-    # calculate standard errors on parameter estimates, based on Hessian
-    temp = answer$hessian
-    singular = colSums(temp) == 0
-    var.vec = rep(0, 3)
-    var.vec[!singular] = diag(solve(temp[!singular, !singular]))
-    params.out[,3]=apply(cbind("(",round(sqrt(var.vec),4),")"),1,paste,collapse="")
-
-    par_out_simp=cbind(params.out[,2],sqrt(var.vec))
-    dimnames(par_out_simp)=list(c("shape","thrsh","scale"),c("params","std")) # needs to be c("params","std") to match with vitality output in fail_fit()
-
-  }
-  else{
-    par_out_simp=as.vector(params.out[,2])
+    if(tag.se){
+      # calculate standard errors on parameter estimates, based on Hessian
+      temp = answer$hessian
+      singular = colSums(temp) == 0
+      var.vec = rep(0, 3)
+      var.vec[!singular] = diag(solve(temp[!singular, !singular]))
+      params.out[,3]=apply(cbind("(",round(sqrt(var.vec),4),")"),1,paste,collapse="")
+      
+      par_out_simp=cbind(params.out[,2],sqrt(var.vec))
+      dimnames(par_out_simp)=list(c("shape","thrsh","scale"),c("params","std")) # needs to be c("params","std") to match with vitality output in fail_fit()
+      
+    }
+    else{
+      par_out_simp=as.vector(params.out[,2])
     }
 
   ##### end of fitting loop.  need to add prompt that fit is accepted.  If not, go back to model choice

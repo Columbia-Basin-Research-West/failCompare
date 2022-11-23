@@ -18,11 +18,8 @@ fc_fit_single=function(y,y_sfrac,model,Hess,non_cen,KM_DF,KM_mod,inits,...){
   KM_mod=get("KM_mod",inherits = T)
   rc=ifelse(all(non_cen),FALSE,TRUE)
   
-  print(hasArg(inits))
-  
   if(missing(inits)){pass_inits=rep(NA,length(fc_mod_ls[[model]]))}
   else{pass_inits=inits}
-  print(pass_inits)
 
       # FITTING DISTRIBUTIONS IN THE FLEXSURV PACKAGE
     if(model %in% names(fc_mod_ls)[names(fc_mod_ls) %in% names(flexsurv::flexsurv.dists)]){
@@ -88,12 +85,17 @@ fc_fit_single=function(y,y_sfrac,model,Hess,non_cen,KM_DF,KM_mod,inits,...){
       }
       if(model=="weibull3"){
 
-        q_e=quote(taglife.fn_weib3(y,model.in = "weibull",tag.se=eval(Hess)))
-        tmp=fc_tryfit(y=y,fit_call=q_e,model="weibull3",Hess = Hess)
+        if(hasArg(inits)){
+          q_e=quote(taglife.fn_weib3(y,tag.se=eval(Hess),inits=eval(inits),...))}
+        else{
+          q_e=quote(taglife.fn_weib3(y,tag.se=eval(Hess),...))}
+        
+        tmp=fc_tryfit(y=y,fit_call=q_e,model="weibull3",Hess = Hess,inits = pass_inits,...)#
         if(is.vector(tmp$par_tab)){Hess=F} # switch to FALSE if hessian caused error
         fit = tmp$mod_obj
         pars_tmp=tmp$par_tab
         fit_vals=tmp$fit_vals
+        
       }
     }
   

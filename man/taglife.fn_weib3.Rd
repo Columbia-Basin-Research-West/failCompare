@@ -4,14 +4,14 @@
 \alias{taglife.fn_weib3}
 \title{Fitting 3-parameter Weibull model to failure time data (adapted from R. Townsend's code)}
 \usage{
-taglife.fn_weib3(tags.in, model.in = "weibull", tag.se = T)
+taglife.fn_weib3(tags.in, tag.se = T, inits = NULL, ...)
 }
 \arguments{
 \item{tags.in}{vector of observed time to failure (days)}
 
-\item{model.in}{name of model to use.  Current option is "Weibull" for 3-parameter Weibull}
-
 \item{tag.se}{logical for whether to compute SEs}
+
+\item{...}{additional arguments passed to optim()}
 }
 \value{
 Returns a list with model objects (mod_obj), fitted values (fit_vals) and table of parameter estimates (par_tab).
