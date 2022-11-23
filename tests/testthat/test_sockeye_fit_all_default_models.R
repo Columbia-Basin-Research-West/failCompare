@@ -170,7 +170,7 @@ test_e=c(
   flx_mds,
   quote(vitality::vitality.ku(taglife,sdata = fc_surv(taglife),rc.data = F,pplot =F,silent=T,se=T)),
   quote(vitality::vitality.4p(taglife,sdata = fc_surv(taglife),rc.data = F,pplot =F,silent=T,se=T)),
-  quote(taglife.fn_weib3(taglife,model.in = "weibull",tag.se=T))
+  quote(taglife.fn_weib3(taglife,tag.se=T))
 )
 
 # evaluating function calls

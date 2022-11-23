@@ -28,6 +28,8 @@ fc_tryfit(
 
 \item{Hess}{logical argument to fc_fit() carried through}
 
+\item{inits}{initial parameter values for optimization of a single model}
+
 \item{...}{additional arguments passed to dependent functions}
 }
 \value{

@@ -37,14 +37,14 @@ fc_fit_single=function(y,y_sfrac,model,Hess,non_cen,KM_DF,KM_mod,inits,...){
       if(model=="vitality.ku"){
         # Defines function call depending on right censoring or not
         if(rc){
-          if(hasArg(inits)){
+          if(methods::hasArg(inits)){
             q_e=quote(vitality::vitality.ku(time=sort(y),sdata = y_sfrac,rc.data = T,pplot =F,silent=T,se=Hess,init.params=eval(inits)))}
           else{
             q_e=quote(vitality::vitality.ku(time=sort(y),sdata = y_sfrac,rc.data = T,pplot =F,silent=T,se=Hess))
           }
         }
         else{
-          if(hasArg(inits)){
+          if(methods::hasArg(inits)){
             q_e=quote(vitality::vitality.ku(time = sort(y),sdata = y_sfrac,pplot =F,silent = T,se=Hess,rc.data=F,init.params=eval(inits)))}
           else{
             q_e=quote(vitality::vitality.ku(time = sort(y),sdata = y_sfrac,pplot =F,silent = T,se=Hess,rc.data=F))
@@ -62,14 +62,14 @@ fc_fit_single=function(y,y_sfrac,model,Hess,non_cen,KM_DF,KM_mod,inits,...){
       if(model=="vitality.4p"){
         # Defines function call depending on right censoring or not
         if(rc){
-          if(hasArg(inits)){
+          if(methods::hasArg(inits)){
             q_e=quote(vitality::vitality.4p(time=sort(y),sdata = y_sfrac,rc.data = T,pplot =F,silent=T,se=Hess,init.params=eval(inits)))}
           else{
             q_e=quote(vitality::vitality.4p(time=sort(y),sdata = y_sfrac,rc.data = T,pplot =F,silent=T,se=Hess))
           }
         }
         else{
-          if(hasArg(inits)){
+          if(methods::hasArg(inits)){
             q_e=quote(vitality::vitality.4p(time = sort(y),sdata = y_sfrac,pplot =F,silent = T,se=Hess,rc.data=F,init.params=eval(inits)))}
           else{
             q_e=quote(vitality::vitality.4p(time = sort(y),sdata = y_sfrac,pplot =F,silent = T,se=Hess,rc.data=F))
@@ -85,7 +85,7 @@ fc_fit_single=function(y,y_sfrac,model,Hess,non_cen,KM_DF,KM_mod,inits,...){
       }
       if(model=="weibull3"){
 
-        if(hasArg(inits)){
+        if(methods::hasArg(inits)){
           q_e=quote(taglife.fn_weib3(y,tag.se=eval(Hess),inits=eval(inits),...))}
         else{
           q_e=quote(taglife.fn_weib3(y,tag.se=eval(Hess),...))}

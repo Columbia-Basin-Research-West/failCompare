@@ -2,6 +2,7 @@
 #'
 #' @param tags.in vector of observed time to failure (days)
 #' @param tag.se logical for whether to compute SEs
+#' @param inits initial parameter values for optimization of a single model
 #' @param ... additional arguments passed to optim()
 #'
 #' @return Returns a list with model objects (mod_obj), fitted values (fit_vals) and table of parameter estimates (par_tab).
