@@ -7,6 +7,7 @@
 #' @param y numeric time argument of failure times carried through
 #' @param y_sfrac survival fraction
 #' @param Hess logical argument to fc_fit() carried through
+#' @param inits initial parameter values for optimization of a single model
 #' @param ... additional arguments passed to dependent functions
 #'
 #' @return model fitting output for internal use by fc_fit

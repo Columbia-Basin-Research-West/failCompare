@@ -11,6 +11,8 @@ taglife.fn_weib3(tags.in, tag.se = T, inits = NULL, ...)
 
 \item{tag.se}{logical for whether to compute SEs}
 
+\item{inits}{initial parameter values for optimization of a single model}
+
 \item{...}{additional arguments passed to optim()}
 }
 \value{
