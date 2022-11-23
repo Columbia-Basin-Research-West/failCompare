@@ -15,7 +15,6 @@
 #' 
 #'
 fc_tryfit=function(y=y,y_sfrac=NULL,fit_call,model="weibull3",non_cen=NULL,Hess=NULL,inits=NULL,...){
-  print(fit_call)
   frst_ft=tryCatch(eval(fit_call),
                    error = function(e) {
                      disp=paste(c("Error(s) in ",model," model fitting:\n"),collapse = "")
