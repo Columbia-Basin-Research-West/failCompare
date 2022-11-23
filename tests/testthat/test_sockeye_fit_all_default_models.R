@@ -11,27 +11,31 @@ all_mods=c(flex_mods,vit_mods,"weibull3")
 
 my_km=fc_fit(taglife,model = "kaplan-meier")
 
+# for loading all funcionts
+# devtools::load_all(".")
 
-fmod=fc_fit(time = taglife,model=c("weibull","vitality.ku"),non_cen = rep(TRUE,length(taglife)))
 
-nn=NULL
-# fc_combine(list(aa,bb,nn))
+fc_fit(time = taglife,model=c("vitality.ku"),censorID  = rep(TRUE,length(taglife)))
+fc_fit(time = taglife,model=c("weibull"),censorID  = rep(TRUE,length(taglife)))
+
+fmod=fc_fit(time = taglife,model=c("weibull","vitality.ku"),censorID  = rep(TRUE,length(taglife)))
+fmod=fc_fit(time = taglife,model=c("weibull","vitality.ku"))
+
 
 
 ############################################# #
 ### Testing fc_combine() warning
 ############################################# #
 
-aa=fc_fit(time = taglife,
-          model="weibull",
-          SEs=T,
-          non_cen = rep(TRUE,length(taglife)))
+aa=fc_fit(time = taglife,censorID = rep(TRUE,length(taglife)),
+          model="weibull")
 
 
 bb=fc_fit(time = taglife,
           model="weibull3",
-          Hess=T,
-          non_cen = rep(TRUE,length(taglife)))
+          SEs=T#,
+          # censorID = rep(TRUE,length(taglife))
+          )
 
 
 cc=fc_combine(list(aa,bb))
@@ -55,7 +59,7 @@ test_that("duplicate model names cause an error",
           {expect_error(fc_combine(mod_ls = list(aa,aa)))})
 
 ############################################# #
-### Testing individual fc_fit() expresssions
+### Testing individual fc_fit() expressions
 ############################################# #
 
 # checking flexsurv mods
@@ -63,28 +67,28 @@ lapply(flex_mods,function(modnms){
   fc_fit(time = taglife,
                 # y_sfrac=fc_surv(taglife),
                 model=modnms,
-                Hess=T,
-                non_cen = rep(TRUE,length(taglife)))})
+                SEs=T,
+                censorID = rep(TRUE,length(taglife)))})
 
 lapply(flex_mods,function(modnms){
   fc_fit(time = taglife,
          # y_sfrac=fc_surv(taglife),
          model=modnms,
-         Hess=F,
-         non_cen = rep(TRUE,length(taglife)))})
+         SEs=F,
+         censorID = rep(TRUE,length(taglife)))})
 
 # checking weibull3 model
 fc_fit(time = taglife,
               # y_sfrac=fc_surv(taglife),
               model="weibull3",
-              Hess=T,
-              non_cen = rep(TRUE,length(taglife)))
+              SEs=T,
+              censorID = rep(TRUE,length(taglife)))
 
 fc_fit(time = taglife,
               # y_sfrac=fc_surv(taglife),
               model="weibull3",
-              Hess=F,
-              non_cen = rep(TRUE,length(taglife)))
+              SEs=F,
+              censorID = rep(TRUE,length(taglife)))
 
 ### vitality mods
 lapply(vit_mods,function(modnms){
@@ -175,23 +179,22 @@ lapply(1:9,function(x){fc_tryfit(fit_call = eval(test_e[[x]]),model = all_mods[x
 
 
 ##################################### #
-### Testing fc_fit() expresssions
+### Testing fc_fit() expressions
 ##################################### #
 
 # Testing that optimizer setting pass through
 aa=fc_fit(time = taglife,
           model="weibull",
-          non_cen = rep(TRUE,length(taglife)),control=list(maxit=1))
+          censorID = rep(TRUE,length(taglife)),control=list(maxit=1))
 
 aa=fc_fit(time = taglife,
           model="weibull",
-          non_cen = rep(TRUE,length(taglife)),control=list(trace=1))
-
+          censorID = rep(TRUE,length(taglife)),control=list(trace=1))
 
 bb=fc_fit(time = taglife,
           model="weibull3",
-          Hess=T,
-          non_cen = rep(TRUE,length(taglife)),control=list(trace=1))
+          SEs=T,
+          censorID = rep(TRUE,length(taglife)),control=list(trace=1))
 
 
 # library(testthat)
@@ -216,3 +219,4 @@ test_that("fc_boot will not provide predictions without 'times'",
 bad_time_dat=c(rep(5,3),rep(10,3))
 my_e=quote(taglife.fn_weib3(tags.in = bad_time_dat,model.in = "weibull",tag.se = T))
 my_e2=quote(taglife.fn_weib3(tags.in = bad_time_dat,model.in = "weibull",tag.se = F))
+
