@@ -1,6 +1,5 @@
 #' @title Error handling for fitting failCompare models
 #' 
-#'
 #' @param fit_call call to dependent model fitting functions.
 #' @param model model argument passed from fc_fit()
 #' @param non_cen logical indicating censored variables for use by flexsurv and vitality models

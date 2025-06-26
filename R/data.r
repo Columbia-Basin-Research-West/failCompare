@@ -49,9 +49,3 @@
 #' }
 "pike"
 
-
-#' List of supported models and parameter names.
-#' @format 
-#' \describe{named list of default failCompare models}
-#' 
-"fc_mod_ls"

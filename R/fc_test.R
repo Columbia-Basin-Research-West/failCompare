@@ -1,6 +1,5 @@
 #' @title Simulated Kolmogorov-Smirnov Test
 #' 
-#' 
 #' @param times numeric vector of failure times
 #' @param iters replicates for bootstrap (default to 50k)
 #' @param model distribution
