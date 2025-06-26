@@ -17,13 +17,13 @@
 fc_tryfit=function(y=y,y_sfrac=NULL,fit_call,model="weibull3",non_cen=NULL,Hess=NULL,inits=NULL,...){
   frst_ft=tryCatch(eval(fit_call),
                    error = function(e) {
-                     disp=paste(c("Error(s) in ",model," model fitting:\n"),collapse = "")
+                     disp=paste(c("Encountered error(s) when trying to fit ",model," model:\n"),collapse = "")
                      msg=conditionMessage(e)
                      message(paste(disp,unique(msg)))
                      err=invisible(structure(msg, class = "try-error"))
                      return(err)},
                    warning = function(w) {
-                     disp=paste(c("Warning(s) in ",model," model fitting:\n"),collapse = "")
+                     disp=paste(c("Encountered warning(s) when trying to fit ",model," model:\n"),collapse = "")
                      msg=conditionMessage(w)
                      message(paste(disp,unique(msg)))
                      suppressWarnings(eval(fit_call))
@@ -40,9 +40,10 @@ fc_tryfit=function(y=y,y_sfrac=NULL,fit_call,model="weibull3",non_cen=NULL,Hess=
   # Second try at optimizing
     sec_ft=tryCatch(eval(fit_call),
                    error = function(e) {
-                     disp=paste(c("Error(s) in ",model," model fitting:\n"),collapse = "")
-                     msg=conditionMessage(e)
-                     message(paste(disp,unique(msg),"\nTry changing initial values or optimizer settings"))
+                     # disp=paste(c("Error(s) in ",model," model fitting:\n"),collapse = "")
+                     # msg=conditionMessage(e)
+                     # message(paste(disp,unique(msg),"\nTry changing initial values or optimizer settings"))
+                     message("consider setting initial values or altering optimizer settings")
                      err=invisible(structure(msg, class = "try-error"))
                      return(err)},
                     warning = function(w) {

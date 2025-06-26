@@ -99,7 +99,7 @@ fc_fit_single=function(y,y_sfrac,model,Hess,non_cen,KM_DF,KM_mod,inits,...){
       }
     }
   
-  # if a non-flexsurv model
+  # if a non-flexsurv or vitality model
   if(model=="vitality.ku" | model=="vitality.4p" | model =="weibull3"){
       if(Hess){par_tab=fit[,c("params","std")]}
       else{par_tab=matrix(c(fit,rep(NA,length(fc_mod_ls[[model]]))),ncol=2)}

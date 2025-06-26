@@ -168,7 +168,10 @@ fc_fit=function(time,model,SEs=TRUE,censorID=NULL,rc.value=NULL,...){
     }
     mc=names(match.call(expand.dots = T))
 
-    out=fc_fit_single(y,y_sfrac,model,Hess,non_cen,KM_DF,KM_mod,...) 
+    out=tryCatch(fc_fit_single(y,y_sfrac,model,Hess,non_cen,KM_DF,KM_mod,...),
+                 error = function(x){
+                   stop(paste(c(model," model could not be fit\n"),collapse = ""))
+                 })
     return(out) # stops execution here if only one parametric modle specified
   }
   else{
@@ -181,10 +184,20 @@ fc_fit=function(time,model,SEs=TRUE,censorID=NULL,rc.value=NULL,...){
                       message(paste(c(model[i]," model could not be fit\n"),collapse = ""))
                     },finally = NULL)
     }
-  out_ls=fc_combine(fit[!sapply(fit,is.null)]) # combining models that could be fit (i.e., not returnning an NA)
   }
+  nonnull_mod_ind <- which(!sapply(fit,is.null))
 
-return(out_ls)
+  # combining models that could be fit (i.e., not returnning an NA)
+  if(length(nonnull_mod_ind)>1) {
+    out_ls <- fc_combine(fit[!sapply(fit,is.null)]) 
+    return(out_ls)}
+  
+  if(length(nonnull_mod_ind)==1) {
+    out_mod <- fit[[nonnull_mod_ind]] 
+    return(out_mod)}
+  
+  stop("no model(s) could be fitted")
+
 }
 
 
@@ -227,7 +240,7 @@ print.fc_obj <- function(x,...){
     print(x[["KM_DF"]][,-c(1)])
   }
   else{
-  cat(paste(x[["mod_choice"]],"failure model object \n\n"))
+  cat(paste("Failure model object \n\nType:",x[["mod_choice"]],"\n\n"))
   cat("Parameter estimates:\n")
   print(x[["par_tab"]])
   }
