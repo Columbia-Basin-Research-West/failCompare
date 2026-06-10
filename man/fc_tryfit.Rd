@@ -33,11 +33,14 @@ fc_tryfit(
 \item{...}{additional arguments passed to dependent functions}
 }
 \value{
-model fitting output for internal use by fc_fit
+model fitting output for internal use by \code{fc_fit()}
 }
 \description{
 Error handling for fitting failCompare models
 }
 \details{
 Prevents errors from interrupting single- and multi-model runs using fc_fit
+}
+\seealso{
+\code{\link[=fc_fit]{fc_fit()}}
 }

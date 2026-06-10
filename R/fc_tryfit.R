@@ -9,12 +9,15 @@
 #' @param inits initial parameter values for optimization of a single model
 #' @param ... additional arguments passed to dependent functions
 #'
-#' @return model fitting output for internal use by fc_fit
+#' @return model fitting output for internal use by `fc_fit()`
 #'
 #' @details Prevents errors from interrupting single- and multi-model runs using fc_fit
 #' 
+#' @seealso [fc_fit()]
+#' 
 #'
 fc_tryfit=function(y=y,y_sfrac=NULL,fit_call,model="weibull3",non_cen=NULL,Hess=NULL,inits=NULL,...){
+  msg <- NULL
   frst_ft=tryCatch(eval(fit_call),
                    error = function(e) {
                      disp=paste(c("Encountered error(s) when trying to fit ",model," model:\n"),collapse = "")
