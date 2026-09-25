@@ -22,7 +22,7 @@ library(failCompare)
 data(sockeye)
 taglife=sockeye$days   # vector of tag failure times
 S=fc_surv(taglife)
-par(mfrow=c(1,1))
+par(mfrow=c(1,2))
 fc_plot(time=taglife,surv=S)
 
 weib_mod=fc_fit(time=taglife,model="weibull")
@@ -70,6 +70,13 @@ fmods_R=fc_rank(fmods)
 
 fmods_all=fc_fit(taglife,model="all")
 fmods_all_R=fc_rank(fmods_all)
+
+
+par(mfrow=c(2,2))
+plot(fmods_all_R,main="top ranked")
+plot(fmods_all_R,model=c("weibull","weibull3","gengamma"), main="middle ranked")
+plot(fmods_all_R,model=c("llogis","lognormal","gamma"), main="bottom ranked")
+
 ```
 
 
@@ -156,8 +163,26 @@ fc_plot(time = mort_day,
 
 trout_mods=fc_fit(mort_day,rc.value = 30,model="all")
 
+
+vit09_trout <- fc_fit(mort_day,rc.value = 30,model="vitality.ku")
+vit13_trout <- fc_fit(mort_day,rc.value = 30,model="vitality.4p")
+plot(vit13_trout)
+
+fc_select(trout_mods,model="vitality.ku")
+
 # Ranking models
 trout_mods_R=fc_rank(trout_mods)
+
+trout_mods_R
+vit09_trout$fun_call
+
+plot(vit09_trout)
+
+```
+
+## Pike example -->
+
+```{r pike_examp,fig.height=4,fig.width=12}
 
 data(pike)
 pike	

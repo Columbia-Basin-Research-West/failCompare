@@ -4,7 +4,19 @@
 \alias{fc_fit_single}
 \title{Fitting a single failure time model}
 \usage{
-fc_fit_single(y, y_sfrac, model, Hess, non_cen, KM_DF, KM_mod, inits, ...)
+fc_fit_single(
+  y,
+  y_sfrac,
+  model,
+  Hess,
+  non_cen,
+  KM_DF,
+  KM_mod,
+  y_cen = y,
+  y_cen_sfrac = y_sfrac,
+  inits,
+  ...
+)
 }
 \arguments{
 \item{y}{failure time}
@@ -20,6 +32,10 @@ fc_fit_single(y, y_sfrac, model, Hess, non_cen, KM_DF, KM_mod, inits, ...)
 \item{KM_DF}{K-M model predictions}
 
 \item{KM_mod}{K-M model object}
+
+\item{y_cen}{failure-only times (censored records removed), passed to vitality models}
+
+\item{y_cen_sfrac}{failure-only survival fraction corresponding to \code{y_cen}}
 
 \item{inits}{initial value arguments}
 

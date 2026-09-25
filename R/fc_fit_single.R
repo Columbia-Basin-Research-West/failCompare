@@ -9,12 +9,14 @@
 #' @param y_sfrac survival fraction
 #' @param KM_DF K-M model predictions
 #' @param KM_mod K-M model object
+#' @param y_cen failure-only times (censored records removed), passed to vitality models
+#' @param y_cen_sfrac failure-only survival fraction corresponding to \code{y_cen}
 #' @param inits initial value arguments
 #' @param ... additional arguments passed to optimizer
 #'
 #' @return "fc_obj" if successful NULL if otherwise
 #'
-fc_fit_single=function(y,y_sfrac,model,Hess,non_cen,KM_DF,KM_mod,inits,...){
+fc_fit_single=function(y,y_sfrac,model,Hess,non_cen,KM_DF,KM_mod,y_cen=y,y_cen_sfrac=y_sfrac,inits,...){
   KM_mod=get("KM_mod",inherits = T)
   rc=ifelse(all(non_cen),FALSE,TRUE)
   
@@ -35,7 +37,8 @@ fc_fit_single=function(y,y_sfrac,model,Hess,non_cen,KM_DF,KM_mod,inits,...){
     }
     else{
       if(model=="vitality.ku"){
-        # Defines function call depending on right censoring or not
+        # Defines function call depending on right censoring or not; uses
+        # y_cen/y_sfrac (censored records excluded) 
         if(rc){
           if(methods::hasArg(inits)){
             q_e=quote(vitality::vitality.ku(time=sort(y),sdata = y_sfrac,rc.data = T,pplot =F,silent=T,se=Hess,init.params=eval(inits)))}
@@ -51,7 +54,7 @@ fc_fit_single=function(y,y_sfrac,model,Hess,non_cen,KM_DF,KM_mod,inits,...){
           }
         
         }
-        fit = fc_tryfit(fit_call = q_e,y = y,y_sfrac=y_sfrac,model="vitality.ku",Hess=Hess,inits = pass_inits)
+        fit = fc_tryfit(fit_call = q_e,y = y_cen,y_sfrac=y_cen_sfrac,model="vitality.ku",Hess=Hess,inits = pass_inits)
         pars_tmp=fit
         fit_vals=data.frame(model="vitality.ku",
                             time=c(0,y),
@@ -60,7 +63,8 @@ fc_fit_single=function(y,y_sfrac,model,Hess,non_cen,KM_DF,KM_mod,inits,...){
       }
       
       if(model=="vitality.4p"){
-        # Defines function call depending on right censoring or not
+        # Defines function call depending on right censoring or not; uses
+        # y_cen/y_sfrac (censored records excluded) 
         if(rc){
           if(methods::hasArg(inits)){
             q_e=quote(vitality::vitality.4p(time=sort(y),sdata = y_sfrac,rc.data = T,pplot =F,silent=T,se=Hess,init.params=eval(inits)))}
@@ -76,7 +80,7 @@ fc_fit_single=function(y,y_sfrac,model,Hess,non_cen,KM_DF,KM_mod,inits,...){
           }
           
         }
-        fit = fc_tryfit(fit_call = q_e,y = y,y_sfrac=y_sfrac,model="vitality.4p",Hess=Hess,inits = pass_inits)
+        fit = fc_tryfit(fit_call = q_e,y = y_cen,y_sfrac=y_cen_sfrac,model="vitality.4p",Hess=Hess,inits = pass_inits)
         pars_tmp=fit
         fit_vals=data.frame(model="vitality.4p",
                             time=c(0,y),
@@ -115,7 +119,8 @@ fc_fit_single=function(y,y_sfrac,model,Hess,non_cen,KM_DF,KM_mod,inits,...){
               "par_tab"=par_tab,
               "KM_DF"=KM_DF,
               "KM_mod"=KM_mod,
-              "censored"=rc)
+              "censored"=rc,
+            "fun_call"=q_e)
   out=structure(mod,class="fc_obj")
   
   return(out)

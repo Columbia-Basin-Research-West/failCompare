@@ -109,22 +109,22 @@ fc_fit=function(time,model,SEs=TRUE,censorID=NULL,rc.value=NULL,...){
     y=sort(y)  # sorted data necessary for Vitality package functions
     non_cen=ifelse(y<rc.value,TRUE,FALSE) # vector used by "flexsurv"
     y_sfrac=sapply(y,function(x){1-length(which(y<=x))/length(y)}) # survival fraction calc
-
-    # For vitality model
-    y_cen=y[y<rc.value]
-    y_cen_sfrac=y_sfrac[y<rc.value]
   }
   
   # censorID
   if(!is.null(censorID)){
     rc=TRUE # change this value for later if statement
     censorID=censorID[ord]
-    y_cen=y[censorID]
     stopifnot(length(time)==length(censorID)) # censorID length should match
     if(any(sapply(censorID,function(x){!(x %in% c(0,1) | is.logical(x))}))){stop("1/0 or TRUE/FALSE expected for censorID")}
     if(!is.null(rc.value)){warning("censorID overrides rc.value argument")}
     non_cen=as.logical(censorID)
   }
+
+  # Vitality models were droping censored records by mistake
+  # compute the failure-only survival fraction over the full sample size.
+  y_cen=y[non_cen]
+  y_cen_sfrac=1-sapply(y_cen,function(x){length(which(y[non_cen]<=x))})/length(y)
   
   # kaplan-meier estimates
   KM_mod=survival::survfit(survival::Surv(time=y,event=non_cen)~1)
@@ -168,7 +168,7 @@ fc_fit=function(time,model,SEs=TRUE,censorID=NULL,rc.value=NULL,...){
     }
     mc=names(match.call(expand.dots = T))
 
-    out=tryCatch(fc_fit_single(y,y_sfrac,model,Hess,non_cen,KM_DF,KM_mod,...),
+    out=tryCatch(fc_fit_single(y,y_sfrac,model,Hess,non_cen,KM_DF,KM_mod,y_cen=y_cen,y_cen_sfrac=y_cen_sfrac,...),
                  error = function(x){
                    stop(paste(c(model," model could not be fit\n"),collapse = ""))
                  })
@@ -179,6 +179,7 @@ fc_fit=function(time,model,SEs=TRUE,censorID=NULL,rc.value=NULL,...){
     for (i in 1:length(model)){
       fit[[i]] <- tryCatch(fc_fit_single(y=y,y_sfrac = y_sfrac,non_cen = non_cen,
                     Hess = Hess,KM_DF = KM_DF,KM_mod = KM_mod,
+                    y_cen=y_cen,y_cen_sfrac=y_cen_sfrac,
                     model = model[i],...),
                     error = function(e){
                       message(paste(c(model[i]," model could not be fit\n"),collapse = ""))
@@ -259,7 +260,7 @@ print.fc_obj <- function(x,...){
 summary.fc_obj <- function(object,...){
   cat("Summary of",paste(object[["mod_choice"]],"failure model object \n\n"))
   print(object$"mod_obj")
-  cat("\n*This object can be used to adjust survival estimates using the 'ATLAS' package\n")
+  # cat("\n*This object can be used to adjust survival estimates using the 'ATLAS' package\n")
   invisible(object)
 }
 
