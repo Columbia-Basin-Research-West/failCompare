@@ -60,6 +60,8 @@ fc_fit_single=function(y,y_sfrac,model,Hess,non_cen,KM_DF,KM_mod,y_cen=y,y_cen_s
                             time=c(0,y),
                             est=c(1,vitality::SurvFn.ku(y,pars_tmp[1],pars_tmp[2],pars_tmp[3],pars_tmp[4])),
                             lcl=0,ucl=0)
+        params_vec=if(is.matrix(pars_tmp)){pars_tmp[,"params"]}else{as.numeric(pars_tmp)}
+        nll=get_vitality_nll(model="vitality.ku",time=sort(y_cen),sdata=y_cen_sfrac,rc.data=rc,params=params_vec)
       }
       
       if(model=="vitality.4p"){
@@ -86,6 +88,8 @@ fc_fit_single=function(y,y_sfrac,model,Hess,non_cen,KM_DF,KM_mod,y_cen=y,y_cen_s
                             time=c(0,y),
                             est=c(1,vitality::SurvFn.4p(y,pars_tmp[1],pars_tmp[2],pars_tmp[3],pars_tmp[4])),
                             lcl=0,ucl=0)
+        params_vec=if(is.matrix(pars_tmp)){pars_tmp[,"params"]}else{as.numeric(pars_tmp)}
+        nll=get_vitality_nll(model="vitality.4p",time=sort(y_cen),sdata=y_cen_sfrac,rc.data=rc,params=params_vec)
       }
       if(model=="weibull3"){
 
@@ -112,6 +116,7 @@ fc_fit_single=function(y,y_sfrac,model,Hess,non_cen,KM_DF,KM_mod,y_cen=y,y_cen_s
     else{
       par_tab=fit$res[,c("est","se")]
     }
+  if(!exists("nll",inherits = FALSE)){nll=NA_real_} # only computed for vitality models
   mod=list("mod_choice"=model,
               "times"=data.frame(time=y,surv_frac=y_sfrac,non_cen=non_cen),
               "fit_vals"=fit_vals,
@@ -120,6 +125,7 @@ fc_fit_single=function(y,y_sfrac,model,Hess,non_cen,KM_DF,KM_mod,y_cen=y,y_cen_s
               "KM_DF"=KM_DF,
               "KM_mod"=KM_mod,
               "censored"=rc,
+              "nll"=nll,
             "fun_call"=q_e)
   out=structure(mod,class="fc_obj")
   

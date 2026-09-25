@@ -48,11 +48,22 @@ weib_mod
 vit13_mod=fc_fit(time=taglife,model="vitality.4p")
 vit13_mod
 
+
+vit09_mod=fc_fit(time=taglife,model="vitality.ku")
+vit09_mod
+
+pred_times=c(6,12,15,18) 
+# days whose survival we wish to predict 
+# # Weibull model predictions > pred_s_weib=fc_pred(mod_obj=weib_mod,times=pred_times) > pred_s_weib [1] 0.99999455 0.97653702 0.70293295 0.04097672 # Vitality model predictions > pred_s_vit=fc_pred(mod_obj=vit09_mod,times=pred_times) > pred_s_vit [1] 0.96637473 0.93383827 0.77416444 0.02585396
+
 ```
 ### Plotting separate model objects
 
 ```{r fig, fig.width=11, fig.height=5,echo=TRUE,warning=FALSE,fig.width=5, fig.height=5}
-
+  par(mfrow=c(1,2))
+  plot(vit09_mod,km = T,km.ci = T) > 
+  plot(vit09_mod,type = "resid",km = T,km.ci = T)
+  
   par(mfrow=c(1,2))
   plot(weib_mod)
   plot(vit13_mod)
@@ -85,7 +96,14 @@ fc_pred(times = 1:20,model = "gengamma", pars = fmods$par_tab[7:9,3])
 fmods_r=fc_rank(fmods)
 plot(fmods_r)
 
-# fc_rank(fmods)
+fmods_r
+
+
+fmods_all=fc_fit(taglife,model="all")
+fmods_all_R=fc_rank(fmods_all)
+
+fmods_all_R
+
 ```
 
 ### Ranking models
