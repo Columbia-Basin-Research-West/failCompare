@@ -158,21 +158,20 @@ fc_test <- function(
 #' @param times_dat  survival times used for determining # samples to generate and range of slices
 #' @param t_seq_fineness time increments to with which to slice up the survival curve
 #' @param quant_seq bins in which to place simulated times
-#' @param model either "Vitality09" ot "Vitality13"
+#' @param model either "Vitality09" or "Vitality13"
 #'
 #' @return random values
 #' @export
 rvitality=function(
   parms, # four vitality parameters
   times_dat,  # survival times used for determining # samples to generate and range of slices
-  t_seq_fineness=0.005, # time increments to with which to slice up the survival curve
+  t_seq_fineness=0.005, # time increments for slicing up the survival curve
   quant_seq=seq(0,1,0.005), # bins in which to place simulated times
   model="Vitality09"
 ){
   out=list()
   stopifnot(any(model %in% c("Vitality09","Vitality13")))
   # fineness of slices accross x axis (time)
-  # vit_pred_seq=seq(ifelse(min(times_dat)*.8>0,min(times_dat)*.8,0),max(times_dat)*1.2,t_seq_fineness) # span of slices across the x axis
   vit_pred_seq=seq(min(times_dat)*0.8,max(times_dat)*1.2,t_seq_fineness) # span of slices across the x axis
   # evaluates survival curve at slice
   ts=seq(min(times_dat),min(times_dat),.5)
@@ -183,7 +182,7 @@ rvitality=function(
   if(model=="Vitality13"){
     pred_survs=vitality::SurvFn.4p(vit_pred_seq,parms[1],parms[2],parms[3],parms[4])}
   
-  # place sequence of times and predicted survival in a dataframe
+  # place sequence of times and predicted survival in a data.frame
   vit_sliceDF=data.frame(vit_pred_seq,pred_survs)
   # identify the survival increment that each time interval is in
   vit_sliceDF$bin=cut(vit_sliceDF$pred_survs,breaks=quant_seq)
@@ -194,9 +193,6 @@ rvitality=function(
   bin_samp=sample(unique(vit_sliceDF$binID),nsamp,replace = T)
   bin_samp
   vit_sliceDF
-  # sample(subset(vit_sliceDF,binID==bin_samp[1])$vit_pred_seq,1,replace = T)
-  # ind_t_samp=sapply(bin_samp,function(x){sample(subset(vit_sliceDF,binID==x)$vit_pred_seq,1,replace = T)})
-  # ind_t_samp
 }
 
 
