@@ -21,7 +21,7 @@ rvitality(
 
 \item{quant_seq}{bins in which to place simulated times}
 
-\item{model}{either "Vitality09" ot "Vitality13"}
+\item{model}{either "Vitality09" or "Vitality13"}
 }
 \value{
 random values

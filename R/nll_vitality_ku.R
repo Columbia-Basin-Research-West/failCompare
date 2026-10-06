@@ -1,5 +1,4 @@
-
-#' Title
+#' @title Obtain negative log-likelihood from a vitality model fit
 #'
 #' @param params vitality parameters (r,s,k,u)
 #' @param data_time failure times
@@ -14,14 +13,36 @@
 #' data("sockeye")
 #' vit_mod=failCompare::fc_fit(time=sockeye$days,model="vitality.ku")
 #' 
+#' # extract negative-log likelihood value from model object
+#' vit_mod$nll
+#' 
 #' nll_vitality_ku(params = vit_mod$par_tab[, "params"],
 #'                 data_time = vit_mod$times$time,
 #'                 non_cen = vit_mod$times$non_cen)
 #' 
+#' # table showing likelihood contributions
 #' nll_vitality_ku(params = vit_mod$par_tab[, "params"],
 #'                 data_time = vit_mod$times$time,
 #'                 non_cen = vit_mod$times$non_cen,
 #'                 indiv_nll=TRUE)
+#'                 
+#' # with censoring
+#'                 
+#' vit_mod_w_censor=failCompare::fc_fit(time=sockeye$days,model="vitality.ku",rc.value=17)
+#' 
+#' vit_mod_w_censor$nll
+#' 
+#' nll_vitality_ku(params = vit_mod$par_tab[, "params"],
+#'                 data_time = vit_mod$times$time,
+#'                 non_cen = vit_mod$times$non_cen)
+#' 
+#' # table showing individual likelihood contributions and censoring status
+#' nll_vitality_ku(params = vit_mod$par_tab[, "params"],
+#'                 data_time = vit_mod$times$time,
+#'                 non_cen = vit_mod$times$non_cen,
+#'                 indiv_nll=TRUE)
+#' 
+#'                 
 #' 
 #' 
 nll_vitality_ku <- function(params, data_time, non_cen,indiv_nll=FALSE) {
@@ -32,12 +53,12 @@ nll_vitality_ku <- function(params, data_time, non_cen,indiv_nll=FALSE) {
   
   # Calculate continuous survival probability S(t)
   # St <- s_vitality_ku(data_time, r, s, u, k)
-  St <- failCompare:::fc_pred(times = data_time,pars =params,model="vitality.ku")
+  St <- fc_pred(times = data_time,pars =params,model="vitality.ku")
   
   # Fast numerical derivative to find PDF f(t)
   dt <- 1e-5
   # St_dt <- s_vitality_ku(data_time + dt, r, s, u, k)
-  St_dt <- failCompare:::fc_pred(times = data_time + dt,pars =params,model="vitality.ku")
+  St_dt <- fc_pred(times = data_time + dt,pars =params,model="vitality.ku")
   ft <- -(St_dt - St) / dt
   
   # Safety floors to avoid log(0) numeric failures

@@ -61,7 +61,8 @@ fc_fit_single=function(y,y_sfrac,model,Hess,non_cen,KM_DF,KM_mod,y_cen=y,y_cen_s
                             est=c(1,vitality::SurvFn.ku(y,pars_tmp[1],pars_tmp[2],pars_tmp[3],pars_tmp[4])),
                             lcl=0,ucl=0)
         params_vec=if(is.matrix(pars_tmp)){pars_tmp[,"params"]}else{as.numeric(pars_tmp)}
-        nll=get_vitality_nll(model="vitality.ku",time=sort(y_cen),sdata=y_cen_sfrac,rc.data=rc,params=params_vec)
+        # adding negative log likelihood extraction for this model by default
+        nll=nll_vitality_ku(params=params_vec,data_time=sort(y_cen),non_cen=rep(1,length(y_cen)))
       }
       
       if(model=="vitality.4p"){
@@ -89,7 +90,7 @@ fc_fit_single=function(y,y_sfrac,model,Hess,non_cen,KM_DF,KM_mod,y_cen=y,y_cen_s
                             est=c(1,vitality::SurvFn.4p(y,pars_tmp[1],pars_tmp[2],pars_tmp[3],pars_tmp[4])),
                             lcl=0,ucl=0)
         params_vec=if(is.matrix(pars_tmp)){pars_tmp[,"params"]}else{as.numeric(pars_tmp)}
-        nll=get_vitality_nll(model="vitality.4p",time=sort(y_cen),sdata=y_cen_sfrac,rc.data=rc,params=params_vec)
+        nll=NULL
       }
       if(model=="weibull3"){
 

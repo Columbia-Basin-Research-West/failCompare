@@ -2,7 +2,7 @@
 % Please edit documentation in R/nll_vitality_ku.R
 \name{nll_vitality_ku}
 \alias{nll_vitality_ku}
-\title{Title}
+\title{Obtain negative log-likelihood from a vitality model fit}
 \usage{
 nll_vitality_ku(params, data_time, non_cen, indiv_nll = FALSE)
 }
@@ -19,21 +19,43 @@ nll_vitality_ku(params, data_time, non_cen, indiv_nll = FALSE)
 negative log likelihood based on individual time
 }
 \description{
-Title
+Obtain negative log-likelihood from a vitality model fit
 }
 \examples{
 
 data("sockeye")
 vit_mod=failCompare::fc_fit(time=sockeye$days,model="vitality.ku")
 
+# extract negative-log likelihood value from model object
+vit_mod$nll
+
 nll_vitality_ku(params = vit_mod$par_tab[, "params"],
                 data_time = vit_mod$times$time,
                 non_cen = vit_mod$times$non_cen)
 
+# table showing likelihood contributions
 nll_vitality_ku(params = vit_mod$par_tab[, "params"],
                 data_time = vit_mod$times$time,
                 non_cen = vit_mod$times$non_cen,
                 indiv_nll=TRUE)
+                
+# with censoring
+                
+vit_mod_w_censor=failCompare::fc_fit(time=sockeye$days,model="vitality.ku",rc.value=17)
+
+vit_mod_w_censor$nll
+
+nll_vitality_ku(params = vit_mod$par_tab[, "params"],
+                data_time = vit_mod$times$time,
+                non_cen = vit_mod$times$non_cen)
+
+# table showing individual likelihood contributions and censoring status
+nll_vitality_ku(params = vit_mod$par_tab[, "params"],
+                data_time = vit_mod$times$time,
+                non_cen = vit_mod$times$non_cen,
+                indiv_nll=TRUE)
+
+                
 
 
 }
